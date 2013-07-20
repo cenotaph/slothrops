@@ -1,0 +1,52 @@
+= content_for :left_column do
+  .column-3
+    %h2 A bit about us
+    = render :partial => 'shared/static_about_us'
+  
+= content_for :right_column do
+  .column-3
+    %h2 Right column
+
+.column-6    
+  %h1 Listing books
+
+  = form_tag('/books', :method => :get)  do
+    Filter by author or title:
+    = text_field_tag :book_title,  @searchterm, :size => 30
+  
+  %table#books
+    %tr
+      %th Author
+      %th Title
+      %th
+      %th
+
+    - @books.each do |book|
+      - cycle = cycle('odd', 'even')
+      %tr{:class => cycle}
+        %td= book.creator.displayname
+        %td= book.title
+        %td= pluralize(book.editions.size, 'edition') + " in stock"
+        %td
+      
+      - book.editions.each do |edition|
+        %tr{:class => cycle}
+          %td &nbsp;
+          %td
+            = image_tag edition.image.thumbnail.url if edition.image.thumbnail.url
+            - if edition.amazoncode
+              %p= link_to '[amazon]', "http://www.amazon.com/dp/#{edition.amazoncode}"
+            %p= "Format: #{edition.format}"
+          %td{:colspan => 2}
+            %table
+              - edition.inventories.each do |stock|
+                %tr{:class => cycle}
+                  %td
+                    = link_to book.title, stock
+                    = stock.condition
+                    = number_to_currency(stock.price, :unit => "&euro;")
+                    .notes= stock.notes
+            
+  %br
+
+  = paginate @books

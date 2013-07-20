@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @paymenttype.name
+
+= link_to 'Edit', edit_admin_paymenttype_path(@paymenttype)
+\|
+= link_to 'Back', admin_paymenttypes_path

@@ -1,0 +1,27 @@
+%h1 Listing gift certificates
+
+%table#sales
+  %tr
+    %th Sold at
+    %th Number
+    %th Amount
+    %th Redeemed
+    %th Remaining
+    %th
+    %th
+    %th
+
+  - @vouchers.each do |voucher|
+    %tr
+      %td= voucher.sold_at
+      %td= voucher.number
+      %td= number_to_currency(voucher.amount, :unit => "&euro;", :format => "%n%u")
+      %td= voucher.used == 0 ? '' : number_to_currency(voucher.used)
+      %td= number_to_currency voucher.left
+      %td= link_to 'Show', [:admin, voucher]
+      %td= link_to 'Edit', edit_admin_voucher_path(voucher)
+      %td= link_to 'Destroy', [:admin, voucher], :confirm => 'Are you sure?', :method => :delete
+
+To create a new voucher, go 
+= link_to 'here', '/admin/sales/new'
+an click "Sell a gift voucher"

@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Book:
+  = @review.book.full_title if @review.book
+%p
+  %b User:
+  = @review.user.username
+%p
+  %b Reviewer name:
+  = @review.reviewer_name
+%p
+  %b Body:
+  =raw  @review.body
+%p
+  %b Published:
+  = @review.published
+%p
+  %b Featured:
+  = @review.featured
+
+= link_to 'Edit', edit_admin_review_path(@review)
+\|
+= link_to 'Back', admin_reviews_path

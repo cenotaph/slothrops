@@ -1,0 +1,37 @@
+All records for 
+= @creator.displayname
+= link_to '[edit]', edit_admin_creator_path(@creator)
+
+%table#books
+  %thead
+    %th Title
+    %th Editions
+  - @creator.books.each do |book|
+    - cycle = cycle('odd','even')
+    %tr{:class => cycle}
+      %td
+        = book.title
+        .table_options
+          = link_to '[edit book title/author]', edit_admin_book_path(book)
+          = link_to '[write review]', new_admin_book_review_path(:book_id => book.id)
+          - if book.collection_list.blank?
+            %p Doesn't belong to any collections.
+          - else
+            %p Tagged to collections:
+          %div{:id => "book_#{book.id.to_s}"}= raw book.collection_list.map{|x| "<span class='collection_tag'>#{x}</span>"}.join('')
+          = semantic_form_for @collection_list = String.new, :html => {:class => "collection_form"}, :url => tag_admin_book_path(book), :remote => true do  |f|
+            = f.input :collections_list, :input_html => {:value =>  book.collection_list.join(', ')}, :label => "change/remove collection tags: "
+            = f.submit :submit, :class => :collection_submit      
+      %td
+        %table#editions
+          %thead
+            %th format
+            %th copies
+          - book.editions.each do |edition|
+            %tr
+              %td= link_to "#{edition.format} edition", admin_edition_path(edition)
+              %td= edition.inventories.size
+:javascript
+  $('.collection_form').bind("ajax:complete", function(event, data, status, xhr) {
+      $(this).html(xhr.responseText);
+      });

@@ -1,0 +1,6 @@
+= content_for :left_column do 
+  = render :partial => 'shared/right_rec_featured', :locals => {:reviews => @reviews, :featured => @featured}
+  
+.column-9.clearfix.page
+  %h3.lined= raw @staticpage.title
+  = raw @staticpage.body

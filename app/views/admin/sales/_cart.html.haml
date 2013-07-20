@@ -1,0 +1,84 @@
+.system_options
+  = button_to 'delete this sale', [:admin, sale],  :confirm => 'Are you sure?', :method => :delete, :class => "delete_sale"
+  
+  = button_to 'new sale', new_admin_sale_path
+%h2 Slothrop's sales slip:
+
+- unless sale.vouchers.empty?
+  Gift vouchers in this sale:
+  - sale.vouchers.each do |voucher|
+    %p
+      = raw "Voucher ##{voucher.number} - #{number_to_currency(voucher.amount, :unit => '&euro;', :format => '%n%u')}"
+      = link_to '[remove from cart]', admin_sale_voucher_remove_from_cart_path(:sale_id => sale.id, :voucher_id => voucher.id)
+%table.sales_slip
+
+  - sale.items.each do |item|
+    %tr
+      %td= item.full_title
+      %td
+        %span.price
+          = number_to_currency(item.price, :unit => "&euro;", :format => "%n%u")
+      %td= link_to '[remove from cart]', admin_sale_inventory_remove_from_cart_path(:inventory_id => item.id, :sale_id => sale.id) unless sale.balance_due == 0
+      %td
+        - if item.class == ConsignmentItem
+          Consignment Item for
+          = item.consigner.name
+.left_cart       
+  - if sale.balance_due > 0    
+    = form_tag query_admin_sale_path(sale), :method => :get do |f|
+      Scan a barcode or enter author/title information to add an additional book:
+      = text_field_tag :sales_lookup
+    or
+    = link_to 'sell a gift voucher', new_admin_sale_voucher_path(:sale_id => sale.id)
+
+  - if !sale.discount.blank?
+    %p= raw "total before discount: #{number_to_currency(sale.items.map(&:price).sum, :unit => "&euro;", :format => "%n%u")} "
+    %p
+      = raw "discount: " + number_to_currency(sale.discount, :unit => "&euro;", :format => "%n%u") 
+      - if sale.discount_reason
+        = "(#{sale.discount_reason})"
+  %h3= raw "total: #{number_to_currency(sale.total_due, :unit => "&euro;", :format => "%n%u")}"
+  %h3
+    = raw "paid: #{number_to_currency(sale.payments_made.to_f, :unit => "&euro;", :format => "%n%u")}"  
+    = link_to '[edit payments]', admin_sale_payments_path(:sale_id => sale.id)
+  %h3= raw "balance due: #{number_to_currency(sale.balance_due, :unit => "&euro;", :format => "%n%u")}" 
+  - if sale.balance_due > 0 
+    = button_to 'check out / add payments', new_admin_sale_payment_path(:sale_id => sale.id), :method => :get, :class => :payment_button
+
+  - elsif sale.completed?
+    Sale is complete.
+    - unless sale.consignment_items.empty?
+      %h3 Consignment money due:
+      - sale.consignment_items.group_by{|x| x.consigner }.each do |consigner|
+        %p
+          = number_to_currency consigner.last.map(&:wholesale).sum
+          owed to 
+          = consigner.first.name
+      %h3 Put in Slothrop's till:
+      %p= number_to_currency(sale.payments_made - sale.consignment_items.map{|x| x.wholesale }.sum)
+  - else
+    All payments applied.  Sale can be completed.
+    = button_to 'COMPLETE THIS SALE', complete_admin_sale_path(sale), :method => :get  
+.right_cart
+  .sale_comment
+    = form_tag add_comment_admin_sale_path(sale) do |f|
+      %p 
+        Comment on sale (please comment on all sales left open):
+      %p= text_field_tag :comment, sale.comment
+      = submit_tag 'add comment'
+  - if sale.balance_due > 0 
+    .discount
+      = form_tag apply_discount_admin_sale_path(sale) do |f|
+        %p
+          Apply discount of:
+          = text_field_tag :discount, sale.discount
+        %p
+          Why?
+          = text_field_tag :discount_reason, sale.discount_reason
+        = submit_tag 'update discount'
+
+    
+
+
+:javascript
+  $("#sales_lookup").select();

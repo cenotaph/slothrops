@@ -1,0 +1,6 @@
+= content_for :left_column do
+  = render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
+  
+.column-9
+  .post_full.clearfix= render :partial => 'post', :locals => {:post => @post}
+  .read_more= link_to 'see all news', posts_path

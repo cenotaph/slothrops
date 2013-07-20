@@ -1,0 +1,6 @@
+
+.event_title= link_to event.title, event
+.event_metadata
+  - unless event.start_at.blank?
+    = event.start_at.strftime('%d %B %Y')
+.event_description= raw event.description

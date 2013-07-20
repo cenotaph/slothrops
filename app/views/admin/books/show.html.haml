@@ -1,0 +1,101 @@
+= form_tag('/admin/books', :method => :get)  do
+  Search inventory by author or title:
+  = text_field_tag :book_title,  @searchterm, :size => 30
+
+
+%h2
+  editions of 
+  = @book.title
+
+
+  by 
+  = @book.creator_name
+  %span.small= link_to '[edit title/author]', edit_admin_book_path(@book)
+%p 
+  Category:
+  = @book.category.name if @book.category
+  %span.small= link_to '[change]', edit_admin_book_path(@book)
+
+= link_to "create new edition of #{@book.title}", new_admin_book_edition_path(:book_id => @book.id)
+- @book.editions.each do |edition|
+  %p
+    Edition:
+    = edition.format
+    %span.small= link_to '[edit edition details]', edit_admin_edition_path(edition)
+    - if edition.image?
+      .book_image= image_tag edition.image.url(:standard)
+    - if edition.amazoncode?
+      = "(#{edition.amazoncode})" 
+    - unless @book.consignment_items.length == 0
+
+      - @book.consignment_items.each do |ci|
+        .consigner_info
+          %p Is on consignment from:
+          .consigner_name
+            = ci.consigner.name
+            = link_to '[see all]', admin_consigner_path(ci.consigner)
+          .consigner_email
+            = link_to ci.consigner.email, "mailto:#{ci.consigner.email}"
+            = link_to '[add a new consignment item]', new_book_admin_consigner_path(ci.consigner)
+          .consigner.phone= ci.consigner.phone
+      .consignment_item_info
+        - @book.consignment_items.each do |ci|
+          %p
+            Copies in stock:
+            = ci.stock_count
+          %p
+            Price in store:
+            = number_to_currency(ci.price)
+          %p
+            Wholesale price to 
+            = ci.consigner.name
+            = raw ": #{number_to_currency(ci.wholesale)}"
+         
+          - if ci.consignment_sales.empty?
+            No copies sold yet.
+          - else
+            %table
+              %thead
+                %th Sale date
+                %th Sold by
+                %th= "Amount for #{ci.consigner.name}"
+                %th Collected on
+              %tbody
+                - ci.consignment_sales.each do |sale|
+                  %tr
+                    %td
+                      - if sale.sale.sold_at.nil?
+                        %span.open= link_to 'OPEN SALE', admin_sale_path(sale.sale)
+                      - else
+                        = sale.sale.sold_at.strftime('%d %B')
+                    %td= sale.sale.user.real_name
+                    %td= number_to_currency sale.consignment_item.wholesale
+                    %td
+                      - if sale.payment_collected_at.nil?
+                        %span.open payment not yet collected
+                      - else
+                        = sale.payment_collected_at.strftime('%d %B')
+                  
+          
+    - else
+      %table
+        %thead
+          %th title
+          %th condition
+          %th price
+          %th acquired
+          %th &nbsp;
+        - edition.inventories.each do |stock|
+          %tr{:class => cycle('odd', 'even')}
+            %td= stock.edition.book.creator.blank? ? "" : stock.edition.book.creator.displayname
+            %td= stock.edition.book.title
+            %td= stock.condition
+            %td= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+            %td= stock.acquired
+            %td
+              = link_to (stock.featured == true ? 'featured!' : 'make featured'), toggle_featured_admin_inventory_path(stock)
+              - if can? :update, stock
+                = link_to 'Edit', edit_admin_inventory_path(stock)  
+        = link_to 'new inventory of this edition', "/admin/inventories/#{edition.id.to_s}/new_from_edition"
+            
+    

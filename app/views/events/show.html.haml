@@ -1,0 +1,8 @@
+= content_for :left_column do
+  = render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
+  
+.clearfix
+  %h3.lined Events at Slothrop's
+  = render :partial => 'event', :locals => {:event => @event}
+  
+  .read_more= link_to 'All Events', events_path

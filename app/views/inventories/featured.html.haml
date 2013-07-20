@@ -1,0 +1,23 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+
+.featured_index.column-9.clearfix
+  %h3.lined Featured books
+  = paginate @inventories
+  - @inventories.each do |featured|
+    .featured_book.clearfix
+      - if featured.edition.image.url
+        .featured_image= image_tag featured.edition.image.thumbnail.url
+      .featured_info
+        .featured_title= link_to featured.full_title, featured
+        - unless featured.category.blank?
+          .featured_category
+            Category:
+            = link_to featured.category.name, featured.category
+        .featured_price= link_to number_to_currency(featured.price, :unit => "&euro;", :format => "%n%u"), featured
+        .featured_order= paypal(featured)
+        - unless featured.edition.product_description.blank?
+          .featured_description
+            = sanitize(featured.edition.product_description.gsub(/&lt;/, '<').gsub(/&gt;/, '>'), :tags => %w{i em})
+  = paginate @inventories
+  

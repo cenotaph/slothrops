@@ -1,0 +1,29 @@
+%h1 Listing reviews
+
+%table
+  %tr
+    %th Book
+    %th User
+    %th Reviewer name
+    %th Slug
+    %th Published
+    %th Featured
+    %th
+    %th
+    %th
+
+  - @reviews.each do |review|
+    %tr
+      %td= review.book.full_title if review.book
+      %td= review.user.username
+      %td= review.reviewer_name
+      %td= review.slug
+      %td= review.published
+      %td= review.featured
+      %td= link_to 'Show', [:admin, review]
+      %td= link_to 'Edit', edit_admin_review_path(review)
+      %td= link_to 'Destroy', [:admin, review], :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Review', new_admin_review_path

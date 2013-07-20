@@ -1,0 +1,20 @@
+= semantic_form_for [:admin, @book], :html => {:id => :book_new } do |f|
+  -if @book.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@book.errors.count, "error")} prohibited this book from being saved:"
+      %ul
+        - @book.errors.full_messages.each do |msg|
+          %li= msg
+  = f.input :category, :input_html => {:class => :required }
+  = f.input :creator_name, :label => 'Author name(s)'
+  = f.input :title
+
+  .actions
+    = f.submit 'Save'
+
+
+    
+:javascript
+  $(document).ready(function(){
+    $("#book_new").validate();
+  });

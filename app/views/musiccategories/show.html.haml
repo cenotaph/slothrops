@@ -1,0 +1,30 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+
+.column-9.clearfix  
+  - unless @musiccategory.blank?
+    %h3.lined
+      Browsing: 
+      = @musiccategory.name
+
+  .searches
+    - if @musiccategory.records.delete_if{|x| !x.in_stock? }.empty?
+      %p Sorry, this category is currently empty.
+    - else
+      - @musiccategory.records.each do |item|
+        - next unless item.in_stock?
+        .search_hit.clearfix
+          .search_image= link_to image_tag(item.image.url(:thumbnail)), item
+          .search_info
+            .latest_title= link_to item.full_title, item
+            - item.consignment_items.each do |inv|
+              .copy
+                .book_price= number_to_currency(inv.price, :unit => "&euro;", :format => "%n%u")
+                .order_now= paypal(inv)
+
+            - unless item.collections.blank?
+              .collections
+                %ul
+                  - item.collections.each do |collection|
+                    %li= link_to collection.name.humanize, '/collections/' + collection.slug
+                

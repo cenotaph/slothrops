@@ -1,0 +1,42 @@
+Entering payments for sale:
+%ul
+  - @sale.items.each do |stock|
+    %li
+      = stock.full_title
+
+      %span.price= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+      
+  - unless @sale.discount.blank?
+    %li
+      discounted
+      = number_to_currency(@sale.discount, :unit => "&euro;", :format => "%n%u")
+    
+existing payments:
+%ol
+  - @sale.payments.each do |payment|
+    %li
+      = payment.paymenttype.name
+      %span.price=  number_to_currency(payment.amount, :unit => "&euro;", :format => "%n%u")
+%h3= raw "balance due: #{number_to_currency(@sale.balance_due, :unit => "&euro;", :format => "%n%u")}"
+- if @sale.max_allowable_credit < @sale.total_due
+  %h4= raw "Maximum amount allowed to be used as store credit: #{number_to_currency(@sale.max_allowable_credit)}!"
+%h3 enter payment:
+
+= semantic_form_for([:admin, @sale, @payment]) do |f|
+  = f.input :paymenttype, :include_blank => false
+  = f.input :amount
+  .hidden_credit{:style => "display: none;"}= f.input :bookbuy, :collection => Bookbuy.where('creditamt > 0').delete_if{|x| x.credit_left == 0 && x != @payment.bookbuy}.map{|x| [raw(x.source + " (" + number_to_currency(x.credit_left) + " remaining)"), x.id]}, :label => 'If store credit, who\'s credit?'
+  .hidden_voucher{:style => "display: none;"}= f.input :voucher, :collection => Voucher.all.delete_if{|x| x.left == 0 && x != @payment.voucher}.map{|x| [raw(x.number + " (" + number_to_currency(x.amount) + "; " + number_to_currency(x.left) + " remaining)"), x.id]}
+  = f.submit
+  
+:javascript
+  $('li.error').parent().fadeIn();
+  $("#payment_paymenttype_id").change(function() {  
+    if ($("#payment_paymenttype_id").val() == "2") {
+      $(".hidden_credit").fadeIn();
+    }
+    if ($("#payment_paymenttype_id").val() == "3") {
+      $(".hidden_voucher").fadeIn();
+    }    
+    
+  });

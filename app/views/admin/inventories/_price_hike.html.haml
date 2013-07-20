@@ -1,0 +1,51 @@
+- unless inventory.edition.image.url.blank?
+  .audit_image= image_tag inventory.edition.image.url
+.data
+  .title= inventory.title
+  .author= inventory.author
+  - if inventory.jan2013audit == true
+    .ugly
+      YOU ALREADY DID THIS ONE!
+    .when
+      = "#{time_ago_in_words(inventory.updated_at)} ago, probably"
+
+  .category
+    Category:
+    = inventory.book.category.try(:name)
+    %p 
+      Change:
+      = select "inventory[book]", :category_id, Category.all(:order => :name).map{|x| [x.name, x.id]}, {:include_blank => true}, { :id => inventory[:id].to_s + "_select"}
+    :javascript
+      $("##{inventory[:id]}_select").change(function (et, e) {
+        $("##{inventory[:id]}_select").parent().load("/admin/inventories/#{inventory[:id]}/categories/" + $(this).val() + "/set_category");
+      });
+  .stats
+    %p 
+      On shelf since
+      = inventory.acquired.strftime('%d %B %Y')
+      = "(#{time_ago_in_words(inventory.acquired)} ago)"
+    %p
+      Similar sales:
+      - if inventory.similar_sales.empty?
+        none
+      - else
+        - inventory.similar_sales.each do |ss|
+          .similar
+            %span.book
+              = ss.title
+              by
+              = ss.author
+            sold for
+            %b= number_to_currency(ss.price)
+            on 
+            = ss.sale.sold_at.strftime('%d %B %Y')
+            = "(#{time_ago_in_words(ss.sale.sold_at)} ago)"
+  Current price:
+  .current_price= number_to_currency(inventory.price)
+
+  .button_bar
+    = button_to 'RAISE 50 CENT', adjustprice_admin_inventory_path(:id => inventory.id, :amt => ".5"), :class => :raise
+    = button_to 'RAISE A EURO', adjustprice_admin_inventory_path(:id => inventory.id, :amt => "1"), :class => :raise_one
+    = form_tag "/admin/inventories/#{inventory.id.to_s}/adjustprice" do |f|
+      = text_field_tag :amt, 0, :size => 2
+      = submit_tag "RAISE/LOWER ANY AMT"

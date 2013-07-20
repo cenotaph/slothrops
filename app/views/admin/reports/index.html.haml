@@ -1,0 +1,26 @@
+%h4 Sales by day:
+
+
+%p
+  %h4 Monthly reports
+  = form_tag '/reports', {:id => :monthly_report} do 
+    Start date:
+    = text_field_tag :start_date, Time.now.strftime("%Y-%m-01"), :class => 'date-picker'
+    End date:
+    = text_field_tag :end_date, nil, :class => 'date-picker'
+    Render as CSV: 
+    = check_box_tag :render_csv    
+  %p
+    = button_to "Daily sales",  "javascript:$('form#monthly_report').attr('action', '/admin/reports/daily_sales'); $('form#monthly_report').submit();"
+    = button_to "Expenses/CGS",  "javascript:$('form#monthly_report').attr('action', '/admin/reports/expenses_cgs'); $('form#monthly_report').submit();"    
+    = button_to "Inventory Acquisition",  "javascript:$('form#monthly_report').attr('action', '/admin/reports/inventory_acquisition'); $('form#monthly_report').submit();"
+    = button_to "Credit sales report", "javascript:$('form#monthly_report').attr('action', '/admin/reports/credit_sales'); $('form#monthly_report').submit();"
+    
+    
+%p= link_to 'Undiscovered books from Scott\'s initial spreadsheet', undiscovered_admin_reports_path
+
+%p= link_to 'Phantom editions with no inventory', phantom_editions_admin_reports_path
+
+%p= link_to 'All sold books', sold_books_admin_reports_path
+
+%p= link_to 'Amusing and meaningless statistics on staff members', staff_admin_reports_path

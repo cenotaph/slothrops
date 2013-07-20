@@ -1,0 +1,42 @@
+%h3
+  Details sales history for 
+  = @consigner.name
+  
+%table
+  %thead
+    %th Sale date/time
+    %th Item
+    %th Amount
+    %th Sale closed?
+    %th Payment collected?
+  %tbody
+    - @consigner.consignment_sales.sort_by{|x| x.sale.created_at }.each do |cs|
+      %tr
+        %td
+          - if cs.sale.sold_at.blank?
+            = cs.sale.created_at("%d %B %Y %H:%M")
+            %strong OPEN!
+          - else
+            - if cs.sale.created_at.strftime("%d %B %Y") != cs.sale.sold_at.strftime("%d %B %Y")
+              %strong Sale started:
+              = cs.sale.created_at.strftime("%d %B %Y %H:%M")
+              %br/
+              %strong Sale completed:
+              = cs.sale.sold_at.strftime("%d %B %Y %H:%M")
+            - else
+              = cs.sale.sold_at.strftime("%d %B %Y %H:%M")
+        %td= cs.consignment_item.title
+        %td
+          = number_to_currency(cs.consignment_item.price)
+          = raw "(wholesale: #{number_to_currency(cs.consignment_item.wholesale)} )"
+        %td
+          - if cs.sale.sold_at.blank?
+            %strong
+              =link_to "NO!!!", admin_sale_path(cs.sale)
+          - else
+            yes
+        %td
+          - if cs.payment_collected_at.blank?
+            %strong NO!
+          - else
+            = cs.payment_collected_at.strftime("%d %B %Y %H:%M")

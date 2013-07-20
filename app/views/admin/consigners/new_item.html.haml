@@ -1,0 +1,22 @@
+
+= semantic_nested_form_for ([:admin, @book]), :html => {:multipart => true } do |f|
+  = f.input :creator_name, :label => 'Author name(s)'
+  = f.input :title
+  = f.input :category
+  
+  = f.semantic_fields_for :editions do |ff|
+    = ff.input :format
+    = ff.input :product_description
+    = ff.input :amazoncode
+    = ff.input :image
+    = ff.input :barcode
+    = ff.semantic_fields_for :consignment_item do |fff|
+      = fff.input :price
+      = fff.input :wholesale
+      = fff.input :invoice_number, :label => 'Consigner\'s invoice #', :hint => "optional"
+      = fff.input :stock_count
+      = fff.input :initialed
+      = fff.input :consigner_id
+    
+  = f.submit
+    

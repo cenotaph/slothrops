@@ -1,0 +1,15 @@
+= semantic_form_for [:admin, @event], :html => {:multipart => true} do |f|
+  -if @event.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@event.errors.count, "error")} prohibited this event from being saved:"
+      %ul
+        - @event.errors.full_messages.each do |msg|
+          %li= msg
+  = f.inputs do
+    = f.input :title
+    = f.cktext_area :description
+    = f.input :start_at, :as => :string, :input_html => {:class => 'date-picker'}
+    = f.input :end_at, :as => :string, :input_html => {:class => 'date-picker'}
+    = f.input :published
+  .actions
+    = f.submit 'Save'

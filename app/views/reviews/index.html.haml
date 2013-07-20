@@ -1,0 +1,9 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+  
+    
+
+.column-9.clearfix
+  %h3.lined Staff reviews
+  - @reviews.each do |review|
+    .review_full.clearfix= render :partial => 'review', :locals => {:review => review}

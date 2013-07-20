@@ -1,0 +1,106 @@
+
+
+
+%table#books
+  %thead
+    %th= link_to 'Author', :sort => 'creator_name'
+    %th= link_to 'Title', :sort => 'title'
+    %th
+    %th
+
+  - @books.each do |book|
+    - cycle = cycle('odd', 'even')
+    %tr{:class => cycle, :style => "border-top: 60 solid black;"}
+      %td= link_to book.creator.displayname, admin_creator_path(book.creator)
+      %td
+        = book.title
+        .table_options
+          = link_to '[edit book title/author]', edit_admin_book_path(book)
+          = link_to '[write review]', new_admin_book_review_path(:book_id => book.id)
+        .table_options
+          = link_to '[view on public site]', book
+          = link_to '[view full staff details]', admin_book_path(book)
+      %td
+        = pluralize(book.editions.size, 'edition') + " in our db"
+        - if book.collection_list.blank?
+          %p
+            Doesn't belong to any collections.
+        - else
+          %p
+            Tagged to collections:
+        %div{:id => "book_#{book.id.to_s}"}= raw book.collection_list.map{|x| "<span class='collection_tag'>#{x}</span>"}.join('')
+        = semantic_form_for @collection_list = String.new, :html => {:class => "collection_form"}, :url => tag_admin_book_path(book), :remote => true do  |f|
+          = f.input :collections_list, :input_html => {:value =>  book.collection_list.join(', ')}, :label => "change/remove collection tags: "
+          = f.submit :submit, :class => :collection_submit      
+      %td
+        - if can? :destroy, book
+          = link_to 'delete entire book', admin_book_path(:id => book.id), {:confirm => "Are you sure?  This will delete the book entry and all dependent editions and inventory!!", :method => :delete}
+      
+    - book.editions.sort{|x,y| y.inventories.size <=> x.inventories.size  }.each do |edition|
+      %tr{:class => cycle, :style => 'border-bottom: 1px dotted #ABABAB;'}
+        %td Edition:
+        %td
+          = image_tag edition.image.thumbnail.url if edition.image.thumbnail.url
+          %p
+            = "format: #{edition.format}"
+            .table_options
+              - if edition.amazoncode
+                = link_to '[amazon]', "http://www.amazon.com/dp/#{edition.amazoncode}"
+            
+              = link_to '[edit edition details]', edit_admin_edition_path(edition)
+              - if can? :delete, Edition
+                = link_to '[delete edition]', [:admin, edition], {:confirm => 'Are you sure?  This should only be used to delete erroneous entries; not sales', :method => :delete}
+   
+        %td{:colspan => 2}
+          %table
+            - if edition.inventories.empty? && edition.consignment_item.blank?
+              %tr
+                %td No copies of this edition in inventory.
+                %td
+            - elsif !edition.consignment_item.blank?
+              %tr
+                %td= "#{edition.consignment_item.remaining} of #{pluralize(edition.consignment_item.stock_count, 'copy')} in stock"
+              %tr
+                %td= raw "Price: #{number_to_currency edition.consignment_item.price}"
+                %td= raw "Wholesale to #{edition.consignment_item.consigner.name}: #{number_to_currency edition.consignment_item.wholesale}"
+            - else
+              - edition.inventories.sort_by{|x| x.created_at}.reverse.each do |stock|
+                = image_tag stock.image.thumbnail.url if stock.image?
+                %tr{:class => (stock.sold? ? 'sold' : (stock.in_open_sale? ? 'open' : cycle))}
+                  %td
+                    = "Condition: #{stock.condition}"
+                    %span{:class => stock.sold? ? 'sold' : '' }= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+                    - if stock.sold?
+                      %p 
+                        Sold on:
+                        = stock.sale.sold_at.strftime('%d %b') rescue "no time"
+                    - elsif stock.in_open_sale?
+                      %p
+                        In opened sale:
+                        = link_to stock.sale.comment.blank? ? "##{stock.sale.id.to_s}" : stock.sale.comment, admin_sale_path(stock.sale)
+                    .notes= stock.notes
+                  %td
+                    .table_options
+                      - if can? :update, stock
+                        = link_to 'edit details for this inventory entry', edit_admin_inventory_path(stock)
+                        |
+                        = link_to (stock.featured == true ? 'featured!' : 'make featured'), toggle_featured_admin_inventory_path(stock)
+                      - if can? :destroy, stock
+                        |
+                        = link_to 'delete from inventory', admin_inventory_path(:id => stock.id), {:confirm => 'Are you sure?  This should only be used to delete erroneous entries; not sales', :method => :delete}
+              - if can? :create, Inventory
+                %tr
+                  %td.table_options= link_to 'enter a new copy into the inventory for this edition', '/admin/inventories/' + edition.id.to_s + '/new_from_edition'       
+    - if can? :create, Edition
+      %tr{:class => cycle}
+        %td{:colspan => 2, :style => "padding-left: 45px;"}= link_to 'Enter different edition of ' + book.title, new_admin_book_edition_path(:book_id => book.id)
+        %td &nbsp;
+        %td &nbsp;
+%br
+
+= paginate @books
+
+:javascript
+  $('.collection_form').bind("ajax:complete", function(event, data, status, xhr) {
+      $(this).html(xhr.responseText);
+      });

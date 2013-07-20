@@ -1,0 +1,21 @@
+= content_for :left_column do
+  .four.columns.alpha= render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
+
+          
+.clearfix.inventory_item
+  %h2 Analogue Music at Slothrop's
+  %p
+    Slothrop's is pleased to stock a small, carefully chosen selection of music on analogue formats. These records - a mix of secondhand rarities and new, direct-from-artist gems - are selected to increase the presence of vinyl and cassettes in the ever-digital Tallinn marketplace.
+  %p
+    While we are not primarily a record store, we wish to provide a marketplace for true music aficionados. You won't find any Soviet/Melodia junk here, nor old, beat-up ghosts from the dustbins of history. Instead we are pleased to carry an assortment of oddities for the serious fan of all of music's many avenues and crevices.
+  %p
+    Browse by category:
+    = collection_select nil, :musiccategory_id, Musiccategory.all, :slug, :name, {:include_blank => true},  {:onchange => "document.location.href='/musiccategories/' + $(this).val();" }
+  %p
+    %b Showing all in-stock music:
+  .record_grid
+    - @records.sort_by{rand}.each do |record|
+      .record
+        = link_to(record, html_options = {:class => 'brick', :style => 'background-image: url(\'http://slothrops.ee' + record.image.url(:box) + '\');' } ) do
+          .inside_block
+          .user_hover= record.full_title

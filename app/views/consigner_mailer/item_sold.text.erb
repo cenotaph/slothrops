@@ -1,0 +1,15 @@
+Dear <%= @ci.consigner.name %>,
+
+You have sold the item:
+
+<%= @ci.full_title %>
+
+at Slothrop's. The item sold for <%= raw number_to_currency(@ci.price) %> of which you will receive <%= raw number_to_currency(@ci.wholesale )%>.
+
+Please stop by Slothrop's, Müürivahe 19, to collect your money. Or alternatively, contact us for other plans.
+
+You are currently owed: <%= raw number_to_currency(@ci.consigner.owed) %>.
+
+Thanks,
+
+Slothrop's

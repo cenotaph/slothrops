@@ -1,0 +1,10 @@
+= semantic_form_for([:admin, @user], :html => {:multipart => true}) do |f|
+  = f.input :username
+  = f.input :email
+  = f.input :real_name
+  = f.input :location
+  = f.input :website
+  = f.input :about_me
+  = f.input :roles
+  = f.buttons do 
+    = f.submit :submit

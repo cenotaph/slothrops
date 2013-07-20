@@ -1,0 +1,12 @@
+%h1 New sale
+
+#sales_form
+  = form_tag '/admin/sales/query' do |f|
+    Scan a barcode or enter author/title information to search our inventory:
+    = text_field_tag :sales_lookup
+    
+  or
+  = link_to 'Sell a gift voucher', start_cart_admin_vouchers_path
+  
+:javascript
+  $("#sales_lookup").select();

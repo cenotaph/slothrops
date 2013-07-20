@@ -1,0 +1,11 @@
+Date,Description of event or CGS,Amount
+<%= CSV.generate do |csv|
+      @expenses.each do |expense|
+        csv << [expense.expense_date.strftime("%d.%m.%Y"),
+         "#{expense.recipient} / #{expense.description}",
+         number_to_currency(expense.amount, :unit => '')
+        ]
+    end
+  csv << [ nil, 'Total:',  number_to_currency(@expenses.map(&:amount).sum, :unit => '')]
+end
+  %>

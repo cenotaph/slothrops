@@ -1,0 +1,1 @@
+$("#book_<%= @book.id.to_s %>").html('<%= escape_javascript(@book.collection_list.join(',')) %>');

@@ -1,0 +1,22 @@
+%h1 Listing staticpages
+
+%table
+  %tr
+    %th Title
+
+    %th Published
+    %th
+    %th
+    %th
+
+  - @staticpages.each do |staticpage|
+    %tr
+      %td= staticpage.title
+      %td= staticpage.published
+      %td= link_to 'Show',  pages_path(staticpage)
+      %td= link_to 'Edit', edit_admin_staticpage_path(staticpage)
+      %td= link_to 'Destroy',[:admin, staticpage], :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New static page', new_admin_staticpage_path

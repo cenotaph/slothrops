@@ -1,0 +1,24 @@
+%h3.lined Inventory acquisition
+
+%p= "From #{@start_date} to #{@end_date}"
+
+%table#monthly_report
+  %thead
+    %th Date
+    %th Doc#
+    %th Acquisition description
+
+    %th Price paid
+  %tbody
+    - @bookbuys.each do |bookbuy|
+      %tr
+        %td= bookbuy.day_of_sale.strftime("%d.%m.%Y")
+        %td= bookbuy.id        
+        %td= "#{bookbuy.source}: #{pluralize(bookbuy.inventories.size, 'book')}"
+
+        %td.amount= number_to_currency(bookbuy.amount, :unit => '')
+  %thead
+    %th &nbsp;
+    %th &nbsp;
+    %th.total Total:
+    %th.amount= number_to_currency(@bookbuys.map(&:amount).sum, :unit => '')

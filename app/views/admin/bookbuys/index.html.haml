@@ -1,0 +1,45 @@
+%h1 Listing book purchases
+= link_to 'New book purchase', new_admin_bookbuy_path
+%table#sales
+  %thead
+    %th Source
+    %th Amount
+    %th # books
+    %th Credit?
+    %th avg paid per book
+    %th % of potential
+    %th Conversion rate
+    %th Potential sales
+    %th Sold so far
+    %th "Profit"
+    %th Avg time on shelf
+    %th
+
+  - @bookbuys.reverse.each do |bookbuy|
+    %tr
+      %td
+        = bookbuy.source
+        .day_of_sale= bookbuy.day_of_sale.strftime('%d %b')
+
+      %td= number_to_currency(bookbuy.amount, :unit => "&euro;", :format => "%n%u")
+      %td= bookbuy.inventories.size
+      %td
+        = bookbuy.creditamt.blank? ? '' : number_to_currency(bookbuy.creditamt, :unit => "&euro;", :format => "%n%u")
+        .credit_left= bookbuy.creditamt.blank? ? '' : number_to_currency(bookbuy.credit_left, :unit => "&euro;", :format => "%n%u") + ' left'
+      %td= number_to_currency((bookbuy.amount / bookbuy.inventories.size), :unit => "&euro;", :format => "%n%u")
+      %td= sprintf("%0.2f", ((bookbuy.amount.to_f / bookbuy.inventories.map(&:price).sum.to_f)*100)) + '%'
+      %td= sprintf("%0.2f", bookbuy.conversion_rate) + "%"
+      %td= number_to_currency bookbuy.inventories.map(&:price).sum
+      %td= bookbuy.gross_profit > 0 ? number_to_currency(bookbuy.gross_profit) : ''
+      %td{:class =>  bookbuy.profit < 0 ?  'red' : ''}= number_to_currency bookbuy.profit
+      %td= pluralize(sprintf('%0.2f', bookbuy.average_time_on_shelf), 'day')      
+      %td
+        = link_to 'Details', [:admin, bookbuy]
+        %br/
+        = link_to 'Edit', edit_admin_bookbuy_path(bookbuy)
+        %br/
+        = link_to 'Destroy', [:admin, bookbuy], :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New book purchase', new_admin_bookbuy_path

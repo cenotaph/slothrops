@@ -1,0 +1,79 @@
+= content_for :left_column do
+  = render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
+  
+.clearfix
+  %h3 Slothrop's Screaming Sky
+  %h4= "Episode #{@podcast.number}: #{@podcast.name}"
+
+  - if @podcast.image?
+    = image_tag @podcast.image.standard.url
+  
+  - unless @podcast.url.blank?
+    #jplayer_1.jp-jplayer
+    #jp_interface_1.jp-interface
+      %ul.jp-controls
+        %li= link_to 'play', '#', :class => "jp-play", :tabindex => 1
+        %li= link_to 'pause', '#', :class => "jp-pause", :tabindex => 1
+        %li= link_to 'stop', '#', :class => "jp-stop", :tabindex => 1
+        %li= link_to 'mute', '#', :class => "jp-mute", :tabindex => 1
+        %li= link_to 'unmute', '#', :class => "jp-unmute", :tabindex => 1
+      .jp-progress
+        .jp-seek-bar
+          .jp-play-bar
+      .jp-volume-bar
+        .jp-volume-bar-value
+      .jp-current-time
+      .jp-duration
+    .download_link.read_more
+      = link_to 'Subscribe in iTunes!', 'http://itunes.apple.com/us/podcast/slothrops-screaming-sky/id517693587'
+      |
+      = link_to 'Direct download', @podcast.url
+  
+  - if @podcast.description?
+    %p= raw @podcast.description
+    
+  - unless @podcast.podcastlinks.blank?
+    .podcast_links_header 
+      %u Footnotes, references, and other marginalia:
+    - @podcast.podcastlinks.sort_by{|link| link.sortorder.to_f }.each do |link|
+      .podcast_link.clearfix
+        
+        - if link.image?
+          .podcast_link_image= image_tag link.image.midsize.url
+
+        .podcast_link_metadata
+          .podcast_link_title
+            *
+            = link_to_if link.url?, link.name, link.url, :target => :_blank
+          - unless link.description.blank?
+            .podcast_link_description= raw link.description
+  #fb-root
+  .fb-comments{"data-href" => 'http://' + request.host + url_for(@archive), "data-num-posts" => "5", "data-width" => "630"} 
+  :javascript
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=172132482884497";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
+  - unless @podcast.url.blank?
+    :javascript
+        $("#jplayer_1").jPlayer({
+              cssSelectorAncestor: '#jp_interface_1',
+              cssSelector: {
+                play: '.jp-play'
+              },
+              ready: function () {
+                  $(this).jPlayer("setMedia", {
+                      mp3: "#{@podcast.url}",
+                  });
+              },
+              ended: function (event) {
+                  $(this).jPlayer("play", 0);
+              },
+              swfPath: "public",
+              supplied: "mp3"
+          });
+  

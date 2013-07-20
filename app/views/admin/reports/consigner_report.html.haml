@@ -1,0 +1,75 @@
+.consigner_report_header
+  - unless @document_number.blank?
+    %p
+      %strong
+        Dok. Nr.
+        = @document_number
+  %p
+    Periood:
+    %strong
+      = @start_date.to_date.strftime('%d.%m.%Y')
+      = " - "
+      = @end_date.to_date.strftime('%d.%m.%Y')
+
+  %p
+    %strong Arvelduste Kord
+    = " - #{@consigner.name} / Account Settlement"
+  - unless @consigner.report_info.blank?
+    %p= @consigner.report_info
+  - unless @consigner.contact_name.blank?
+    %p= "Kontaktisik: #{@consigner.contact_name}"
+
+  %p &nbsp;
+  %p
+    Ostja:
+    %strong Conglomeron Chemical OÜ
+    (Slothrop's Bookshop reg. nr. 12184175)
+  %p Regati pst. 6d (shop address: Pikk 34)
+  %p 11911 Tallinn
+  %p Kontaktisik: Scott Diel, mob. 56212491; scottdiel@gmail.com
+
+- sumtotal = 0
+
+%table#consignment_report
+  %thead
+    %th Raamat
+    %th Ribakood
+    %th Vastavalt arve nr.
+    %th Kogus
+    %th Hind KM-ta
+    - if @vat_rate.to_f > 0
+      %th KM määr
+      %th Summa
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td= item.first.full_title
+        %td= item.first.edition.try(:barcode)
+        %td= item.first.invoice_number
+        %td= item.last.size
+        %td= number_to_currency(item.first.wholesale)
+        - if @vat_rate.to_f > 0
+          %td= @vat_rate + "%"
+          %td= number_to_currency(item.last.size * item.first.wholesale)
+        - sumtotal += item.last.size * item.first.wholesale
+  %tfoot
+    %tr
+      %td{:colspan => 4} &nbsp;
+      %td.summary{:colspan => 2} Kokku
+      %td.summary= number_to_currency sumtotal
+    %tr
+      %td{:colspan => 4} &nbsp;
+      %td.summary{:colspan => 2} Käibemaks/VAT
+      - if @vat_rate.to_f > 0
+        %td.summary= number_to_currency sumtotal * (@vat_rate.to_f * 0.01)
+      - else
+        %td.summary 0.00
+    %tr
+      %td{:colspan => 4} &nbsp;
+      %td.summary{:colspan => 2}
+        %strong Tasuda EUR
+      %td.summary
+        - if @vat_rate.to_f > 0
+          %strong= number_to_currency sumtotal + (sumtotal * (@vat_rate.to_f * 0.01))
+        - else
+          %strong= number_to_currency sumtotal

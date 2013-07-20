@@ -1,0 +1,7 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+  
+    
+        
+.review_full.clearfix= render :partial => 'review', :locals => {:review => @review}
+.read_more= link_to 'browse all reviews', reviews_path

@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Sold at:
+  = @voucher.sold_at
+%p
+  %b Number:
+  = @voucher.number
+%p
+  %b Amount:
+  = @voucher.amount
+
+= link_to 'Edit', edit_admin_voucher_path(@voucher)
+\|
+= link_to 'Back', admin_vouchers_path

@@ -1,0 +1,37 @@
+%h3.lined Daily sales
+
+%p= "From #{@start_date} to #{@end_date}"
+
+%table#monthly_report
+  %thead
+    %th Date
+    %th Bankcard sales
+    %th VAT
+    %th Cash sales
+    %th VAT
+    %th Store credit
+    %th VAT
+    %th Total sales
+  %tbody
+    - @sales.each do |salesday|
+      %tr
+        %td= salesday.first.strftime('%d.%m.%Y')
+        %td.amount= number_to_currency(salesday.last.map(&:payments).flatten.reject{|x| x.paymenttype_id != 5}.map{|x| x.amount.to_f}.sum, :unit => '')
+        %td.amount 0.00
+        %td.amount= number_to_currency(salesday.last.map(&:cash_payments).sum, :unit => '')
+        %td.amount 0.00
+        %td.amount= number_to_currency(salesday.last.map(&:credit_payments).sum, :unit => '')
+        %td.amount 0.00        
+        %td.amount= number_to_currency(salesday.last.map(&:payments).flatten.map{|x| x.amount.to_f}.sum - salesday.last.map(&:to_consignee).sum - salesday.last.map(&:payments).flatten.reject{|x| x.paymenttype_id != 3}.map{|x| x.amount.to_f}.sum, :unit => '')
+  %thead
+    %th.total Totals
+    %th.amount= number_to_currency(@sales.map{|x| x.last}.flatten.map(&:payments).flatten.reject{|x| x.paymenttype_id != 5}.map{|x| x.amount.to_f}.sum, :unit => '')
+    %th.amount 0.00
+    %th.amount= number_to_currency(@sales.map{|x| x.last}.flatten.map(&:cash_payments).sum, :unit => '')
+    %th.amount 0.00
+    %th.amount= number_to_currency(@sales.map{|x| x.last}.flatten.map(&:credit_payments).sum, :unit => '')
+    %th.amount 0.00    
+    %th.amount= number_to_currency(@sales.map{|x| x.last}.flatten.map(&:payments).flatten.map{|x| x.amount.to_f}.sum - @sales.map{|x| x.last}.flatten.map(&:to_consignee).sum - @sales.map{|x| x.last}.flatten.map(&:payments).flatten.reject{|x| x.paymenttype_id != 3}.map{|x| x.amount.to_f}.sum , :unit => '')
+    
+Cost of goods sold:
+= number_to_currency @cgs

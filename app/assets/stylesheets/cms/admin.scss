@@ -1,0 +1,475 @@
+$helvetica: Helvetica, Arial, sans-serif;
+$georgia: Georgia, Times, serif;
+$slothrop-orange: #DC5405;
+
+#corner_search {
+  margin-right: 10px;
+  float: right;
+
+}
+
+#main_cms {
+  margin-left: 10px;
+  
+  a {
+    color: #B44A30;
+  }
+}
+.staff_menu {
+  width: 650px;
+  float: left;
+}
+
+.staff_menu_link {
+  float: left;
+  margin-right: 10px;
+}
+#cms_header {
+  padding: 5px;
+  background-color: #F7D6C2;
+  width: 100%;
+  margin-bottom: 25px;  
+  form {
+    float: right;
+    font-size: 8pt;
+    clear: right;
+  }
+  
+  h5 {
+    float: left;
+    width: 200px;
+  }
+
+  input[type=text] {
+    height: 12pt;
+    width: 100px;
+    padding: 1px;
+  }
+  .custom_entry {
+    clear: both;
+    float: right;
+  }
+
+}
+
+table#books {
+
+  
+  th {
+    text-align:left;
+  }
+  
+  td.actions p {
+    margin: 0;
+  }
+}
+
+table#creators {
+  width: 850px;
+
+  th.book_info {
+    width: 600px;
+  }
+  
+  table.inner {
+    width: 600px;
+    
+    th.creator_title {
+      width: 150px;
+    } 
+  
+    th.creator_editions, th.creator_copies {
+      width: 50px;
+    }
+    
+    thead {
+      text-align: left;
+    }
+  }
+}
+
+table#sales, table#main_report, table#expenses {
+  td {
+    border: 1px dotted grey;
+  }
+  
+  td.red {
+    color: red;
+  }
+}
+
+table#consigners {
+
+  td {
+    .generate_report {
+      float: right;
+      text-align: right;
+    }
+    .report_dates { 
+      display: none; 
+    }
+    .report_dates input[type=text] {
+      width: 75px;
+    }
+  }
+}
+span.sold {
+  text-decoration: line-through;
+}
+
+.bookbuy_breakdown {
+  margin-top: 10px;
+
+  .breakdown_entry {
+    margin-bottom: 6px;
+  }
+}
+
+span.small {
+  font-size: 8pt;
+  
+  a {
+    text-decoration: underline;
+  }
+}
+span.price {
+  font-size: 20pt;
+}
+
+span.sell_link {
+  font-size: 24pt;
+}
+
+span.buy_link {
+  font-size: 13pt;
+}
+
+span.today {
+  font-size: 18pt;
+}
+
+form {
+  li {
+    list-style-type: none;
+  }
+  .right_form {
+    float: right;
+    margin-left: 200px;
+  }
+  label {
+    width: 120px;
+    text-align: right;
+    float: left;
+    margin-right: 10px;
+  }
+}
+
+table#monthly_report {
+  th {
+    padding-right: 10px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    text-align: left;
+    &.total {
+      padding-right: 10px;
+      text-align: right;
+    }
+    &.amount {
+      text-align: right;
+    }
+  }
+  td {
+    &.amount {
+      text-align: right;
+    }
+  }
+}
+#hook-just-in-case[style]  { position: fixed !important; top: 0; }
+
+
+
+tr.sold {
+  color: red;
+  text-decoration: line-through;
+}
+
+.day_of_sale, .credit_left {
+  font-size: 8pt;
+}
+
+.discount {
+  float: right;
+}
+.left_cart {
+  float: left;
+  width: 65%
+}
+
+.right_cart {
+  float: left;
+  width: 30%;
+}
+.sale_comment {
+  float: right;
+}
+
+.sale_list_comment {
+  font-size: 9pt;
+  font-style: italic;
+}
+
+.system_options {
+  float: right;
+}
+
+input.delete_sale {
+  border: 2px solid #FF0000;
+  color: #FF0000;
+  background-color: #cdcdcd;
+  white-space: normal;
+  
+}
+input.payment_button {
+  width: 150px;
+  height: 150px;
+  padding: 3px;
+  border: 1px solid blue;
+  white-space: normal;
+ background-color: #efefef;
+}
+
+table.sales_slip {
+  width: 600px;
+  
+  td {
+    padding: 8px;
+  }
+}
+
+tr.odd {
+  background-color: #F5DFC9;
+}
+
+tr.sold {
+  background-color: #BBB;
+}
+
+tr.open {
+  background-color: #CDD;
+}
+
+.table_options a {
+  font-size: 8pt;
+}
+
+#podcast_description {
+  width: 400px;
+  height: 100px;
+}
+
+textarea.podcast_link_description  {
+  width: 400px;
+  height: 50px;
+}
+
+.formtastic .fields {
+  padding: 10px;
+  border-top: 1px dotted #999;
+  border-bottom: 1px dotted #999;
+}
+
+span.collection_tag {
+  cursor: pointer;
+  margin: 5px 3px;
+  font-size: 1em;
+  color: #2E6999;
+  float: left;
+  font-style: normal;
+  text-transform: lowercase;  
+}
+
+#collections_list_input {
+  margin-left: 0px;
+  clear: both;
+}
+
+.consigner_info {
+  float: left;
+  
+
+    .consigner_name {
+      font-size: 12pt;
+    }
+    .consigner_email {
+      font-size: 10pt;
+    }
+    .consigner_phone {
+      font-size: 10pt;
+    }
+  
+}
+
+.consignment_item_info {
+  clear: left;
+}
+
+.book_image {
+  width: 500px;
+  float: left;
+  margin-right: 10px;
+}
+
+li.input {
+  clear: left;
+}
+
+.chooser_image {
+  float: left;
+  width: 150px;
+}
+
+.edition_edit_image {
+  float: right;
+}
+
+
+.admin_left {
+  float: left;
+  width: 450px;
+}
+
+.admin_right {
+  float: right;
+  width: 450px;
+  clear: right;
+}
+
+.title {
+  font-size: 14pt;
+}
+
+.inventory_form_image {
+  float: left;
+}
+
+.inventory_form {
+  float: left;
+  padding-left: 25px;
+  width: 600px;
+
+  .existing_entry {
+    border: 1px solid $slothrop-orange;
+    padding: 5px;
+    float: left;
+  }
+  form .input {
+    margin-left: 5px;
+  }
+}
+
+.chooser_box {
+  .already {
+    font-style: italic;
+    margin-bottom: 5px;
+  }
+  img {
+    float: left;
+    margin-right: 5px;
+  }
+  width: 250px;
+  height: 120px;
+  float: left;
+  margin: 5px;
+  padding: 8px;
+  border: 1px dotted $slothrop-orange;
+
+  .history {
+    font-size: 8pt;
+
+    .price {
+      float: left;
+      margin-right: 5px;
+    }
+    .sold_at {
+      font-style: italic;
+      color: $slothrop-orange;
+    }
+  }
+}
+
+.audit_image {
+  float: left;
+  margin-right: 25px;
+}
+
+.data {
+  float: left;
+  width: 520px;
+
+  .title { font-size: 18px; font-weight: bold;  margin-bottom: 15px;}
+
+  .category { margin-top: 20px; font-size: 16px;
+    select {
+      clear: left;
+      } }
+}
+
+.ugly {
+  text-align: center;
+  color: red;
+  font-size: 38px;
+
+}
+
+.current_price {
+  font-size: 22px; font-weight: bold;
+}
+
+.button_bar {
+  margin-top: 30px;
+  input[type=submit] {
+    float: left; 
+    height: 100px;
+    margin-right: 25px;
+  }
+
+  input.raise{
+    width: 86px;
+    font-size: 11px;
+    color: white;
+    font-weight: bold;
+    background: url('/graphics/50cent.jpg') no-repeat;
+  }
+  input[type=text] {
+    width: 20px;
+    float: left;
+  }
+}
+
+.consigner_report_header {
+  margin-bottom: 35px;
+  p {
+    font: 14px/17px Helvetica, Arial, sans-serif;
+    margin: 0px 0px 0px 0px;
+  }
+}
+
+table#consignment_report {
+  border: none;
+  thead {
+    border: 1px solid #DDD;
+  }
+  tbody {
+    border-bottom: 1px solid #DDD;
+    border-left: 1px solid #DDD;
+    border-right: 1px solid #DDD;
+  }
+  tfoot {
+    td {
+      border: none;
+      &.summary {
+        border: 1px solid #DDD;
+      }
+    }
+  }
+}

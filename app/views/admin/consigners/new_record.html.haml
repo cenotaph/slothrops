@@ -1,0 +1,32 @@
+%h2 New consignment LP
+
+= semantic_nested_form_for ([:admin, @record]), :html => {:multipart => true } do |f|
+  = f.input :artist
+  = f.input :title
+  = f.input :label
+  = f.input :format
+  = f.input :catalog, :label => "Catalog #"
+  = f.input :year
+  = f.input :discogs_id, :label => "ID# of this edition from discogs.com"
+  = f.input :master_id, :label => "ID # from discogs.com master entry"
+
+  = f.input :collection_list, :as => :check_boxes, :collection => Tag.all.map(&:name).sort
+  = f.input :musiccategory
+  = f.input :image, :label => "Manual image upload if not discogs"
+  = f.fields_for :consignment_items do |fff|
+    - if controller.action_name != 'edit'
+      - next unless fff.object.consigner_id.to_s == params[:id]
+    = fff.input :condition
+    = fff.input :price
+    = fff.input :wholesale
+    = fff.input :invoice_number, :label => 'Consigner\'s invoice #', :hint => "optional"
+    = fff.input :stock_count
+    = fff.input :initialed
+    %li.input
+      %label.label Consigner
+      = fff.object.consigner.name
+      = " (#{fff.object.consigner.email})"
+    = fff.input :consigner_id, :as => :hidden
+    = fff.input :notweet, :as => :boolean, :label => " Don't tweet to @SlothropsStock"
+  = f.submit
+    

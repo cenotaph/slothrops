@@ -1,0 +1,29 @@
+%h1 Listing podcasts
+
+%table
+  %tr
+    %th Number
+    %th Name
+    %th Url
+    %th Description
+    %th Published
+    %th Image
+    %th
+    %th
+    %th
+
+  - @podcasts.sort{|x, y| y.number <=> x.number }.each do |podcast|
+    %tr
+      %td= podcast.number
+      %td= podcast.name
+      %td= podcast.url
+      %td= truncate_words(podcast.description)
+      %td= podcast.published
+      %td= image_tag podcast.image.box.url
+      %td= link_to 'Show', podcast
+      %td= link_to 'Edit', edit_admin_podcast_path(podcast)
+      %td= link_to 'Destroy', podcast, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Podcast', new_admin_podcast_path

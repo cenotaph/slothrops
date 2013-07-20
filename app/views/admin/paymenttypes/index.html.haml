@@ -1,0 +1,19 @@
+%h1 Listing paymenttypes
+
+%table
+  %tr
+    %th Name
+    %th
+    %th
+    %th
+
+  - @paymenttypes.each do |paymenttype|
+    %tr
+      %td= paymenttype.name
+      %td= link_to 'Show', [:admin, paymenttype]
+      %td= link_to 'Edit', edit_admin_paymenttype_path(paymenttype)
+      %td= link_to 'Destroy', [:admin, paymenttype], :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Paymenttype', new_admin_paymenttype_path

@@ -1,0 +1,18 @@
+- if !defined? omit_collection
+  - cs = book.collections
+- else
+  - cs = book.collections.delete_if{|x| x.name == omit_collection.name }
+
+- cs.each do |collection|
+  .collection.clearfix
+    %p 
+      This item also belongs to the collection:
+      = link_to collection.name.humanize, '/collections/' + collection.slug
+      - unless Book.tagged_with(collection.name).delete_if{|x| x == book }.empty?
+        .collection_others.clearfix
+          %p Also from this collection: 
+          - Book.tagged_with(collection.name).includes([:editions, :creator]).delete_if{|x| x == book }.sort_by{ rand }[0..1].each do |others|
+            .collection_other
+              .collection_little_image= image_tag others.any_image(:thumbnail)
+              .collection_little_text= link_to others.full_title, others
+        .read_more= link_to 'See entire collection', '/collections/' + collection.slug

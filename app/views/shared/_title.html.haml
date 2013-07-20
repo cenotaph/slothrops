@@ -1,0 +1,36 @@
+
+.twelve.columns.inventory_item
+  .book_image.two.columns.alpha
+    - if inventory.image.url
+      = image_tag inventory.image.midsize.url
+      .read_more= link_to 'Enlarge Image', inventory.image.url
+    - elsif inventory.edition.image.url
+      = image_tag inventory.edition.image.midsize.url
+      .read_more= link_to 'Enlarge Image', inventory.edition.image.url
+    - unless inventory.book.collections.blank?
+      = render :partial => "shared/collection_others", :locals => {:book => inventory.book }
+
+                    
+  .book_content.eight.columns.omega
+    %h3= inventory.edition.book.title
+    .book_author= inventory.edition.book.creator.displayname
+    .book_price= number_to_currency(inventory.price, :unit => "&euro;", :format => "%n%u")
+    .order_now= link_to 'IN STOCK NOW', '#'
+    .description_title Format
+    .description_body= inventory.edition.format
+    - unless inventory.condition.blank?
+      .description_title Condition
+      .description_body
+        = inventory.condition
+    - unless inventory.notes.blank?
+      %p= inventory.notes
+    - if inventory.edition.book.reviews.any?
+      .description_title Slothrop's Sez...
+      - inventory.edition.book.reviews.each do |post|
+        .description_body= raw post.body
+        .description_metadata= "posted by #{post.reviewer_name}, #{time_ago_in_words(post.created_at)} ago"
+    - unless inventory.edition.product_description.blank?
+      .description_title Publisher's Description
+      .description_body
+        %p= raw inventory.edition.product_description.gsub(/&#x2019;/, '\'').gsub(/&lt;/, '<').gsub(/&gt;/, '>')
+      

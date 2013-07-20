@@ -1,0 +1,21 @@
+%h1 carousels
+
+%table
+  %tr
+    %th Image
+    %th Published
+    %th
+    %th
+    %th
+
+  - @carousels.each do |carousel|
+    %tr
+      %td= image_tag carousel.image.url(:small)
+      %td= carousel.published == true ? 'public' : 'not'
+      %td= link_to 'Show', [:admin, carousel]
+      %td= link_to 'Edit', edit_admin_carousel_path(carousel)
+      %td= link_to 'Destroy', [:admin, carousel], :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Carousel', new_admin_carousel_path

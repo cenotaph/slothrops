@@ -1,0 +1,6 @@
+= content_for :left_column do
+  .column-3= render :partial => 'shared/static_about_us', :locals => {:static => Staticpage.find('a-bit-about-us')}
+    
+.column-9.clearfix
+  %h3 Sorry...
+  We can't find anything like that here.  Please have a look again?

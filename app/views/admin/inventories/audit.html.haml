@@ -1,0 +1,10 @@
+%h1 audit
+
+#sales_form
+  = form_tag '/admin/inventories/audit_query' do |f|
+    Scan a barcode or enter author/title information to search our inventory:
+    = text_field_tag :sales_lookup
+
+
+:javascript
+  $("#sales_lookup").select();    

@@ -1,0 +1,8 @@
+
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+.column-9
+  %h2.lined= "Search results for \"#{@searchterm}\""
+  .searches
+    - @hits.each do |hit|
+      = render :partial => 'shared/search_hit', :locals => {:item => hit}

@@ -1,0 +1,29 @@
+.search_hit.clearfix
+  - image = item.editions.delete_if{|x| x.image.nil? }.first.image.url(:thumbnail)
+  - if image.blank?
+    .search_image= link_to image_tag('/graphics/missing70-02.png'), item
+  - else
+    .search_image= link_to image_tag(image), item
+  .search_info.latest_in
+    .latest_title= link_to item.full_title, item
+    - unless item.editions.map{|x| x.product_description}.compact.blank?
+      .item_description
+        = raw truncate_words(sanitize(item.editions.delete_if{|x| x.product_description.nil? }.first.product_description.gsub(/&#x2019;/, '\'').gsub(/&lt;/, '<').gsub(/&gt;/, '>'), :tags => %W(em i)), 50)
+        .read_more= link_to 'read more', book_path(item)
+    - if item.editions
+      .in_stock Editions in stock:
+      - item.editions.each do |edition|
+        - next unless edition.in_stock?
+        - edition.items.each do |inv|
+          - next if inv.sold == true
+          .block_150.latest_info
+            .format= inv.edition.format
+            .book_price= number_to_currency(inv.price, :unit => "&euro;", :format => "%n%u")
+            .order_now= paypal(inv)
+            .metadata
+              %ul
+                - unless inv.category.blank?
+                  %li= link_to inv.category.name, inv.category
+                - unless inv.book.collections.blank?
+                  - inv.book.collections.each do |collection|
+                    %li= link_to collection.name.humanize, '/collections/' + collection.slug

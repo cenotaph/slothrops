@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Number:
+  = @podcast.number
+%p
+  %b Name:
+  = @podcast.name
+%p
+  %b Url:
+  = @podcast.url
+%p
+  %b Description:
+  = @podcast.description
+%p
+  %b Published:
+  = @podcast.published
+%p
+  %b Image:
+  = @podcast.image
+
+- unless @podcast.podcastlinks.empty?
+  %b links:
+  - @podcast.podcastlinks.sort_by{|x| x.sortorder.to_f }.each do |link|
+    %p 
+      = link_to link.name, link.url
+    
+= link_to 'Edit', edit_admin_podcast_path(@podcast)
+\|
+= link_to 'Back', admin_podcasts_path

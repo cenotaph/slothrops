@@ -1,0 +1,40 @@
+%h3 Inventory view
+(individual books on shelves, not grouped by edition/title)
+= form_tag('/admin/inventories', :method => :get)  do
+  Filter by author or title:
+  = text_field_tag :inventory_title,  @searchterm, :size => 30
+
+
+%table#books.inventory_admin
+  %thead.cats
+    %th.author Author
+    %th.title Title
+    %th.slim  condition
+    %th.slim price
+    %th Category
+    %th
+    %tbody
+  - @inventories.each do |stock|
+    %tr{:class => cycle('odd', 'even') + (stock.sold? ? ' sold' : '')}
+      %td.author{:style => "text-overflow: clip; width: 120px;"}
+        %div{:style => "text-overflow: clip; font-size: 10pt;  width: 120px;"}= stock.edition.book.creator.blank? ? "" : link_to(stock.edition.book.creator.displayname, admin_creator_path(stock.edition.book.creator))
+        = link_to '[edit]', edit_admin_book_path(stock.edition.book)
+      %td.title
+        %div{:style => "text-overflow: clip; width: 120px;"}= stock.edition.book.title
+      %td.slim= stock.condition
+      %td.slim= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+      %td
+        = stock.book.category.try(:name)
+        Change:
+        = select "stock[book]", :category_id, Category.all(:order => :name).map{|x| [x.name, x.id]}, {:include_blank => true}, { :id => stock[:id].to_s + "_select"}
+        :javascript
+          $("##{stock[:id]}_select").change(function (et, e) {
+            $("##{stock[:id]}_select").parent().load("/admin/inventories/#{stock[:id]}/categories/" + $(this).val() + "/set_category");
+          });
+      %td
+        = link_to (stock.featured == true ? 'featured!' : 'make featured'), toggle_featured_admin_inventory_path(stock)
+        - if can? :update, stock
+          = link_to 'Edit', edit_admin_inventory_path(stock)
+        - if can? :destroy, stock
+          = link_to 'Delete from database', [:admin, stock], :confirm => 'Are you sure?', :method => :delete
+= paginate @inventories

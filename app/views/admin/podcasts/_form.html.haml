@@ -1,0 +1,27 @@
+= semantic_nested_form_for [:admin, @podcast], :html => {:multipart => true } do |f|
+  -if @podcast.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@podcast.errors.count, "error")} prohibited this podcast from being saved:"
+      %ul
+        - @podcast.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.inputs do
+    = f.input :number
+    = f.input :name
+    = f.input :url
+    = f.input :description
+    = f.input :published
+    = f.input :image
+  .field Footnotes and links:
+  = f.fields_for :podcastlinks do |ff|
+    = ff.input :url
+    = ff.input :name
+    = ff.input :description, :input_html => {:class => :podcast_link_description }
+    = ff.input :sortorder
+    = image_tag ff.object.image.box.url unless ff.object.image.url.blank?
+    = ff.input :image
+    = ff.link_to_remove 'remove this footnote'    
+  = f.link_to_add 'add link', :podcastlinks
+  .actions
+    = f.submit 'Save'

@@ -1,0 +1,85 @@
+= form_tag('/admin/books', :method => :get)  do
+  Search inventory by author or title:
+  = text_field_tag :book_title,  @searchterm, :size => 30
+.title
+  = @edition.book.try(:title)
+  = " / "
+  = link_to @edition.book.try(:creator_name), admin_creator_path(@edition.book.creator)
+  - if can? :edit, Book
+    = link_to '[edit book title]', edit_admin_book_path(@edition.book)
+.admin_left
+  %p
+    Category:
+    = @edition.book.category.name
+  %h4 edition info
+  %p= "Format: #{@edition.format}"
+  - if @edition.amazoncode
+    %p 
+      Amazon:
+      = link_to @edition.amazoncode, "http://www.amazon.com/dp/#{@edition.amazoncode}"
+  - if @edition.product_description
+    %p
+      Publisher's description:
+      = @edition.product_description
+  - if @edition.barcode
+    %p= "Barcode: #{@edition.barcode}"
+  %p= link_to '[edit edition details]', edit_admin_edition_path(@edition)  
+.admin_right
+  .book_image= image_tag @edition.image.url if @edition.image.url
+  - unless @edition.book.collection_list.blank?
+    %p 
+      Belongs to collections:
+      = @edition.book.collection_list.join(' / ')
+.admin_left
+  %h4 showing inventory for this edition
+
+
+
+- if @edition.consignment_item.nil?
+  %table
+    %thead
+      %th= link_to 'title', :sort => "title"
+      %th condition
+      %th= link_to 'price', :sort => "price"
+      %th acquired
+      %th &nbsp;
+    
+    - @edition.inventories.each do |stock|
+      %tr{:class => cycle('odd', 'even') + (stock.sold? ? ' sold' : '')}
+        %td
+          = stock.edition.book.creator.blank? ? "" : link_to(stock.edition.book.creator.displayname, admin_creator_path(stock.edition.book.creator))
+          = " / "
+          = stock.edition.book.title
+          - if stock.sold?
+            .sold_at
+              sold on
+              = stock.sale.sold_at.strftime('%b %d %Y')
+        %td= stock.condition
+        %td= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+        %td= stock.acquired
+        %td
+          = link_to (stock.featured == true ? 'featured!' : 'make featured'), toggle_featured_admin_inventory_path(stock)
+          - if can? :update, stock
+            = link_to 'Edit', edit_admin_inventory_path(stock)  
+    %tr{:class => cycle('odd', 'even')}
+      %td= link_to 'and another copy to the inventory for this edition', '/admin/inventories/' + @edition.id.to_s + '/new_from_edition'
+      %td= link_to 'enter a new edition of this book', new_admin_book_edition_path(:book_id => @edition.book.id)
+- else
+  - ci = @edition.consignment_item
+  .consigner_info{:style => 'clear: left;'}
+    %p Is on consignment from:
+    .consigner_name= ci.consigner.name
+    .consigner_email= link_to ci.consigner.email, "mailto:#{ci.consigner.email}"
+    .consigner.phone= ci.consigner.phone
+  .consignment_item_info
+    %p
+      Copies in stock:
+      = ci.stock_count
+    %p
+      Price in store:
+      = number_to_currency(ci.price)
+    %p
+      Wholesale price to 
+      = ci.consigner.name
+      = raw ": #{number_to_currency(ci.wholesale)}"
+    

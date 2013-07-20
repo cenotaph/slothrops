@@ -1,0 +1,495 @@
+// Place all the styles related to the Inventories controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$helvetica: Helvetica, Arial, sans-serif;
+$georgia: Georgia, Times, serif;
+$slothrop-orange: #DC5405;
+h3 {
+  font-family: $georgia;
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+.feed_title {
+  font-size: 14pt;
+}
+
+.order_now a {
+  text-transform: uppercase;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #cc6600;
+  text-decoration: none;
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+
+.browse_item {
+   float: left;
+   margin-bottom: 25px;
+   
+  .browse_image {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .browse_title {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    
+    a {
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    span.book_title  {
+      font-weight: bold;
+    }
+    
+  }
+  .book_price {
+    font-weight:bold;
+  }
+  
+  .order_now a {
+    text-transform: uppercase;
+    color: #CC6600;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+}
+
+
+.inventory_item {
+
+  
+
+  .no_stock {
+    font-family: $helvetica;
+    margin-top: 10px;
+    font-size: 10pt;
+  }
+  .book_author {
+    font-family: Georgia, Times, serif;
+    font-size: 12pt;
+  }
+
+  .book_price {
+    margin-top: 18pt;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 18pt;
+    font-weight: bold;  
+  }
+
+  .order_now a {
+    text-transform: uppercase;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #cc6600;
+    text-decoration: none;
+    font-size: 10pt;
+    font-weight: bold;
+  }
+  
+  .description_metadata {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #999999;
+    font-size: 10pt;
+    font-weight: bold;
+  }
+
+  .description_title {
+    clear: left;
+    margin-top: 18pt;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12pt;
+    font-weight: bold;
+  }
+
+  .description_body {
+    font-family: $georgia;
+    font-size: 11pt;
+  }
+  
+}
+
+.featured_order {
+    text-transform: uppercase;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #cc6600;
+    text-decoration: none;
+    font-size: 8pt;
+    font-weight: bold;
+
+}
+.featured_book {
+    margin-top: 10px;
+
+
+  .featured_title {
+    font-family: $georgia;
+    font-size: 11pt;
+  }
+  
+  .featured_description {
+      margin-top: 5px;
+      clear: left;
+      font-size: 10pt;
+      font-family: $georgia;
+      text-align: justify;
+      line-height: 18px;
+      margin-bottom: 5px;
+  }
+    
+  .featured_price {
+    margin-top: 10px;
+    a {
+      font-family: $helvetica;
+      font-weight: bold;
+      color: black;
+    }
+   }
+   
+  .featured_stock, .read_more a {
+    text-transform: uppercase;
+    font-family: $helvetica;
+    font-size: 8pt;
+    color: $slothrop-orange;
+    font-weight: bold;
+  }
+  
+  .featured_image {
+    float: left;
+    margin-right: 10px;
+  }
+
+}
+
+.latest_in {
+  margin-top: 10px;
+  
+  .latest_image  {
+    float: left;
+    width: 80px;
+    margin-right: 10px;
+  }
+
+  .latest_info {
+    width: 250px;
+    float: left;
+    
+    .metadata {
+      ul {
+        display: inline;
+        margin-top: 8px;
+        margin-left: 0;
+        li {
+          float: left;
+          list-style-type: none;
+          padding-right: 10px;
+          a {
+            color: black;
+            &:hover {
+              color: $slothrop-orange;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .latest_title a {
+    font-family: $georgia;
+    font-size: 12pt;
+    text-decoration: none;
+  }
+  .book_price {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14pt;
+    font-weight: bold;  
+  }
+  
+  .order_now a {
+    text-transform: uppercase;
+    font-family: $helvetica;
+    color: $slothrop-orange;
+    text-decoration: none;
+    font-size: 10pt;
+    font-weight: bold;
+  }
+
+}
+
+
+
+.searches {
+  margin-top: 10px;
+  .search_hit {
+    margin-bottom: 25px;
+  
+    .in_stock {
+      text-decoration: underline;
+      margin-bottom: 5px;
+    }
+    .copy {
+      margin: 10px 0 5px 0;
+    }
+    
+    .search_image {
+      float: left;
+      width: 70px;
+      margin-right: 10px;
+    }
+    .search_info {
+      float: left;
+      width: 480px;
+      .collection {
+        float: left;
+        margin: 0;
+        padding: 0;
+      }
+      ul {
+        float: left;
+        margin: 0;
+        padding: 0;
+        li {
+          float: left;
+          list-style-type: none;
+          padding-right: 15px;
+        }
+      }
+    }
+    .book_price {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 14pt;
+      font-weight: bold;  
+    }
+    .order_now a {
+      text-transform: uppercase;
+      font-family: $helvetica;
+      color: $slothrop-orange;
+      text-decoration: none;
+      font-size: 10pt;
+      font-weight: bold;
+    }
+    .read_more a {
+      text-transform: uppercase;
+      font-family: $helvetica;
+      font-size: 8pt;
+      color: $slothrop-orange;
+      font-weight: bold;
+    }
+      
+  .item_description, .item_description p {
+      margin-top: 5px;
+      clear: left;
+      font-size: 10pt;
+      font-family: $georgia;
+      text-align: justify;
+      line-height: 18px;
+      margin-bottom: 5px;
+  }
+  
+  }
+}
+
+.featured_index .featured_book {
+  margin-bottom: 25px;
+  .featured_info {
+    float: left;
+    width: 480px;
+    .featured_category {
+     font-size: 10pt;
+     margin-top: 5px;
+    }
+  }
+}
+
+.side_cat {
+  font-family: $helvetica;
+  clear: both;
+  text-transform: uppercase;
+  font-size: 8pt;
+  line-height: 10pt;
+  margin-bottom: 5px;
+  &.featured {
+    font-weight: bold;
+    font-size: 9pt;
+    a {
+      color: $slothrop-orange;
+    }
+  }
+}
+
+.side_cat a {
+  color: black;
+}
+
+.side_cat a:hover {
+  color: $slothrop-orange;
+}
+
+.collection_book {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  .overview {
+    span.book_title {
+      font-size: 13pt;
+      font-family: $georgia;
+    }
+    margin-bottom: 10px;
+  }
+  .browse_image {
+    float: left;
+    margin-right: 10px;
+    width: 150px;
+  }
+  .collection {
+    float: right;
+    width: 200px;
+    padding: 8px;
+    border: 1px dotted $slothrop-orange;
+  }
+  .collection_right {
+    float: left;
+    width: 500px;
+    
+    .description_metadata {
+      font-family: Helvetica, Arial, sans-serif;
+      color: #999999;
+      font-size: 8pt;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+
+    .description_title {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 12pt;
+      font-weight: bold;
+    }
+
+    .description_body {
+      font-family: $georgia;
+      font-size: 11pt;
+      p {
+        margin: 5px 15px 5px 15px;
+      }
+    }
+    
+  }
+}
+
+.block_150 {
+  width: 150px;
+  float: left;
+  
+  .format {
+    margin: 0;
+    padding: 0;
+    font-size: 9pt;
+    font-family: $helvetica;
+  }
+}
+    
+.collection {
+  h4 {
+    margin-bottom: 5px;
+  }
+  p {
+    margin: 0 0 10px 0;
+  }
+}
+    
+.collection_others {
+    p {
+      margin: 5px 0px 0px 0px;
+    }
+  .collection_other {
+    float: left;
+    width: 75px;
+//    height: 180px;
+    margin-top: 10px;
+
+    .collection_little_image {
+      float: left;
+    }
+    .collection_little_text {
+      font-size: 8pt;
+      line-height: 10pt;
+      padding-right: 8px;
+    }
+    
+  }
+}
+.book_content {
+  float: left;
+  line-height: 18pt;
+  h3 {
+    margin-bottom: 10px;
+  }
+}
+
+.book_image {
+  float: left;
+  width: 150px;
+  margin-right: 10px;
+}
+
+.book_metadata {
+  float: left;
+  width: 450px;
+}
+
+.record_grid {
+  .record {
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin-right: 2px;
+    background: white none repeat scroll 0 0;
+    a.brick {
+      width: 150px;
+      height: 150px;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      float: left;      
+    }
+    .inside_block {
+      padding-top: 25px;
+      padding-left: 8px;
+      padding-right: 8px;
+
+    }
+    .user_hover {
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      top: 0px;
+      bottom: 0px;
+      padding-top: 10px;
+      background-color: black;
+      display: none;
+      z-index: 10;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      font-family: $helvetica;
+      font-size: 10pt;      
+      opacity: 0.75;
+      filter: alpha(opacity = 75);
+      -moz-opacity: .75;
+    }
+    a.brick:hover {
+      cursor: pointer;
+    }
+
+    a.brick:hover div.user_hover {
+      display: block;
+    }
+  }
+}
+

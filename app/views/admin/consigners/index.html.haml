@@ -1,0 +1,59 @@
+%h2 Consigners
+
+%table#consigners
+  %tr
+    %th Name
+    %th # of items
+    %th # of sales
+    %th Owed
+    %th
+    %th
+
+
+  - @consigners.each do |consigner|
+    %tr
+      %td
+        = link_to consigner.name, edit_admin_consigner_path(consigner)
+        .email= consigner.email
+        .comments= consigner.comments
+        .generate_report
+          = link_to 'generate report', '#', :onclick => 'javascript:$(this).next(".report_dates").slideDown();'
+          .report_dates
+            = form_tag '/admin/reports/consigner_report'  do 
+              Start date:
+              = text_field_tag :start_date, Time.now.strftime("%Y-%m-01"), :class => 'date-picker', :id => 'start_date_' + consigner.id.to_s
+              End date:
+              = text_field_tag :end_date, Time.now.strftime("%Y-%m-01"), :class => 'date-picker', :id => 'end_date_' + consigner.id.to_s
+              .second_row
+                VAT rate (0 for no VAT):
+                = text_field_tag :vat_rate,  9, :style => "width: 15px;"
+                Dokument #:
+                = text_field_tag :document_number, nil, :style => "width: 25px;"
+                Render as CSV: 
+                = check_box_tag :render_csv
+                = hidden_field_tag :consigner_id, consigner.id
+              = submit_tag 'go'  
+      %td= consigner.consignment_items.size
+      %td
+        = consigner.consignment_sales.closed.size
+        .open
+          - if consigner.consignment_sales.opened.map(&:sale).uniq.size > 0
+            %strong= link_to (consigner.consignment_sales.opened.map(&:sale).uniq.size.to_s + " open!"), "/admin/sales?opened_for=#{consigner.id.to_s}"
+        .history
+          = link_to 'detailed sales history', sales_history_admin_consigner_path(consigner)
+      %td
+        = number_to_currency consigner.owed
+        - if consigner.owed > 0
+          = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(consigner)
+      %td= link_to 'Details', [:admin, consigner]
+      %td
+        Add:
+        = link_to 'book', new_book_admin_consigner_path(consigner)
+        |
+        = link_to 'vinyl', new_record_admin_consigner_path(consigner)
+        | 
+        = link_to 'other item', new_admin_consigner_consignment_item_path(consigner)
+
+%br
+
+= link_to 'New Consigner', new_admin_consigner_path

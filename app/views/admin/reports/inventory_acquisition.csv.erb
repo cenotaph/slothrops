@@ -1,0 +1,11 @@
+Date,Document number,Acquisition description,Price paid
+<%= CSV.generate do |csv|
+    @bookbuys.each do |bookbuy|
+      csv << [ bookbuy.day_of_sale.strftime("%d.%m.%Y"),
+               bookbuy.id,
+               "#{bookbuy.source}: #{pluralize(bookbuy.inventories.size, 'book')}",
+               number_to_currency(bookbuy.amount, :unit => '') 
+             ]
+    end
+    csv << [ nil, nil, 'Total:', @bookbuys.map(&:amount).sum.to_f ]
+  end %>

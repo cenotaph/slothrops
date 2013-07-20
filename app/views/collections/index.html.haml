@@ -1,0 +1,15 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+  
+    
+
+.clearfix.clearfix
+  %h3.lined Collections
+  
+  %p The Slothrop's staff has curated several collections from our stock. Additionally, you may browse our categories, found on the left side of this page.
+  
+  - @collections.sort_by{|x| x.name}.each do |collection|
+    .collection
+      %h4= link_to collection.name, collection_path(collection)
+      - unless collection.tag_description.blank?
+        %p= collection.tag_description

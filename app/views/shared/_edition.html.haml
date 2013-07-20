@@ -1,0 +1,16 @@
+.block_150
+  - if inventory.image.midsize.url != inventory.book.any_image
+    - unless inventory.image.midsize.url.blank?
+      = image_tag inventory.image.midsize.url
+  .format= inventory.format
+  - inventory.items.delete_if{|x| x.sold? }.each do |stock|
+    .price= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+    .order_now= link_to 'IN STOCK NOW', '#'      
+    - if current_user
+      - if can? :update, stock
+        = link_to '[edit record]', edit_admin_inventory_path(stock)  
+      
+  - if inventory.items.delete_if{|x| x.sold? || !x.sale_id.blank?}.blank?
+    .no_stock Sorry, we don't currently have any copies of this edition in stock.
+
+

@@ -1,0 +1,29 @@
+= semantic_form_for [:admin, @review] do |f|
+  -if @review.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@review.errors.count, "error")} prohibited this review from being saved:"
+      %ul
+        - @review.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.input :review_title
+    
+  .field
+    = f.input :book_id, :value => (@book.nil? ? (@review.book.nil? ? '' : @review.book.id) : @book.id), :as => :hidden
+  - unless @book.nil?
+    will be associated to book
+    = @book.full_title
+  .field
+    = f.input :user_id, :value => current_user.id, :as => :hidden
+  .field
+    = f.input :reviewer_name
+  .field
+    = f.cktext_area :body
+  .field
+    = f.cktext_area :abstract
+  .field
+    = f.input :published
+  .field
+    = f.input :featured
+  .actions
+    = f.submit 'Save'

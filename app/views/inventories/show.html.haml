@@ -1,0 +1,19 @@
+= content_for :left_column do
+  .four.columns.alpha= render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
+
+.twelve.columns.omega.inventory_item
+  - if @inventory.edition_id.blank?
+    = render :partial => "shared/other_item", :locals => {:inventory => @inventory}
+  - else
+    = render :partial => "shared/title", :locals => {:inventory => @inventory}
+
+  #fb-root
+  .fb-comments{"data-href" => 'http://' + request.host + (request.port.to_s == "80" ? '' : ":" + request.port.to_s) + url_for(@book), "data-num-posts" => "5", "data-width" => "630"} 
+  :javascript
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=172132482884497";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));      

@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Edition:
+  = @consignment_item.edition
+%p
+  %b Price:
+  = @consignment_item.price
+%p
+  %b Wholesale:
+  = @consignment_item.wholesale
+%p
+  %b Stock count:
+  = @consignment_item.stock_count
+%p
+  %b Acquired:
+  = @consignment_item.acquired
+%p
+  %b Initialed:
+  = @consignment_item.initialed
+%p
+  %b Consigner:
+  = @consignment_item.consigner
+%p
+  %b Slug:
+  = @consignment_item.slug
+
+= link_to 'Edit', edit_consignment_item_path(@consignment_item)
+\|
+= link_to 'Back', consignment_items_path

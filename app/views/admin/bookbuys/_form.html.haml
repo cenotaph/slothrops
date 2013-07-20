@@ -1,0 +1,16 @@
+= semantic_form_for [:admin, @bookbuy] do |f|
+  -if @bookbuy.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@bookbuy.errors.count, "error")} prohibited this bookbuy from being saved:"
+      %ul
+        - @bookbuy.errors.full_messages.each do |msg|
+          %li= msg
+  = f.input :user_id, :as => :hidden, :value => current_user.id
+  = f.input :day_of_sale, :as => :string, :input_html => {:class => 'date-picker'}
+  = f.input :amount
+  = f.input :source
+  = f.input :notes
+  = f.input :creditamt, :label => 'Amount issued as credit'
+  = f.input :closed, :label => 'Closed (if checked, no further books can be added to sale and purchase will go in monthly reports)'
+  .actions
+    = f.submit 'Save'

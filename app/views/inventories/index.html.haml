@@ -1,0 +1,41 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+  
+    
+= content_for :right_column do
+  = render :partial => 'shared/right_rec_featured', :locals => {:reviews => @reviews, :featured => @featured}    
+.column-6.clearfix
+  #carousel_wrapper 
+    %ul.carousel
+      - Carousel.published.random(10).each_with_index do |carousel_entry, index|
+        %li{:class => (index == 0 ? 'show' : '')}
+          - if carousel_entry.url.blank?
+            = image_tag carousel_entry.image.url(:standard)
+          - else
+            = link_to(image_tag(carousel_entry.image.url(:standard)), carousel_entry.url)
+            
+    
+  %h3.lined Latest arrivals
+  = render :partial => 'shared/latest_acquisitions', :locals => {:latest => @latest}
+
+        
+  / - @inventories.each do |item|
+  /   .browse_item
+  /     .column-1.browse_image
+  /       - if item.edition.image.url
+  /         = link_to image_tag(item.edition.image.thumbnail.url), item
+  /     .column-5.left
+  /       .browse_title
+  /         %span.book_title= link_to item.edition.book.title, item
+  /         = raw "&mdash;"
+  /         %span.browse_author= link_to(item.edition.book.creator.displayname, item.edition.book.creator)
+  /       - unless item.condition.blank? || item.notes.blank?
+  /         .book_metadata
+  /           = item.condition
+  /           %br/
+  /           = item.notes
+  /       .book_price= number_to_currency(item.price, :unit => "&euro;", :format => "%n%u")
+  /       .order_now= link_to 'ORDER NOW', '#'
+  /       
+        
+          

@@ -1,0 +1,41 @@
+.column-3
+  /= render :partial => 'shared/static_about_us', :locals => {:static => Staticpage.find('a-bit-about-us')}
+  %h3.lined Browse categories
+  .category_front.clearfix
+    .side_cat.featured= link_to 'All featured books', featured_inventories_path
+    - Category.all.sort_by{|x| x.name }.each do |cat|
+      .side_cat= link_to cat.name, cat
+        
+    
+.column-3.clearfix.latest_sidebar
+  - unless @podcast.blank? || controller.controller_name == 'podcasts'
+    %h3.lined Slothrop's podcast
+    .podcast
+      .podcast_title
+        = "Slothrop's Screaming Sky"
+        = "Episode #{@podcast.number}: #{@podcast.name}"
+        
+      - unless @podcast.image.url.blank?
+        = image_tag @podcast.image.midsize.url
+      .podcast_description= raw @podcast.description
+      .read_more
+        = link_to 'listen now', @podcast
+        |
+        = link_to 'subscribe in itunes', 'http://itunes.apple.com/us/podcast/slothrops-screaming-sky/id517693587'
+      
+    
+  %h3.lined Latest news
+  - feed[0..2].each do |item|
+    .main_feed
+      - if item.class == Event
+        = render :partial => 'events/event', :locals => {:event => item}
+      - else
+        .feed_title= "#{item.title}"
+        .post_metadata= "posted #{time_ago_in_words(item.created_at)} ago"
+        - if item.respond_to?(:book)
+          a review of
+          = link_to item.book.full_title, item.book
+        = raw item.body
+        - if item.respond_to?(:reviewer_name)
+          .reviewed_by= "reviewed by #{item.reviewer_name}"
+  .read_more= link_to 'see all posts', posts_path

@@ -1,0 +1,10 @@
+.podcast
+  %h4= link_to "Episode #{podcast.number}: #{podcast.name}", podcast
+
+  
+  .podcast_image= image_tag podcast.image.box.url
+
+  .podcast_metadata
+    .podcast_description
+      = raw podcast.description  
+      %p= link_to 'Listen here, and read footnotes and other miscellany', podcast

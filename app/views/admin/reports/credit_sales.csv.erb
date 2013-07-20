@@ -1,0 +1,11 @@
+Date,Customer name,Amount
+<%= CSV.generate do |csv|
+   @credit_sales.each do |cs|
+     csv << [ cs.sale.sold_at.strftime('%d.%m.%Y'), cs.bookbuy.source,
+          number_to_currency(cs.amount, :unit => '') 
+          ]
+    end
+    csv << [ 'Totals', nil, 
+          number_to_currency(@credit_sales.map(&:amount).flatten.sum, :unit => '')
+        ]
+end %>

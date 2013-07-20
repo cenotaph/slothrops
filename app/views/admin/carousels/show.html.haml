@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Image:
+  = image_tag @carousel.image.url(:standard)
+%p
+  %b Published:
+  = @carousel.published
+
+= link_to 'Edit', edit_admin_carousel_path(@carousel)
+\|
+= link_to 'Back', admin_carousels_path

@@ -1,0 +1,20 @@
+%p#notice= notice
+
+%p
+  %b Book:
+  = @edition.book.try(:title)
+  by
+  = @edition.book.try(:author)
+%p
+  %b Format:
+  = @edition.format
+%p
+  %b Product description:
+  = @edition.product_description
+%p
+  %b Amazoncode:
+  = @edition.amazoncode
+
+= link_to 'Edit', edit_edition_path(@edition)
+\|
+= link_to 'Back', editions_path

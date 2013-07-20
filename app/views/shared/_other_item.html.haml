@@ -1,0 +1,18 @@
+
+.column-9.inventory_item
+  .book_image.column-2
+    - if inventory.item_image.url
+      = image_tag inventory.item_image.midsize.url
+      .read_more= link_to 'Enlarge Image', inventory.item_image.url
+    
+
+
+                    
+  .book_content.column-7
+    %h3= inventory.full_title
+    .inventory_item
+      .description_body= raw inventory.item_description
+    .book_price= number_to_currency(inventory.price, :unit => "&euro;", :format => "%n%u")
+    .order_now= link_to inventory.stock_count.to_s + ' IN STOCK NOW', '#'
+
+

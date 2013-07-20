@@ -1,0 +1,13 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+  
+    
+
+.clearfix
+  %h3.lined Events at Slothrop's
+  - if @events.empty?
+    .event_full
+      %p There are no events currently. Please check back later.
+  - else
+    - @events.each do |event|
+      .event_full.clearfix= render :partial => 'event', :locals => {:event => event}

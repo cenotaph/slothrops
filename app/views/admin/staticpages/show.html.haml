@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @staticpage.title
+%p
+  %b Body:
+  = raw  @staticpage.body
+%p
+  %b Published:
+  = @staticpage.published
+
+= link_to 'Edit', edit_admin_staticpage_path(@staticpage)
+\|
+= link_to 'Back', admin_staticpages_path

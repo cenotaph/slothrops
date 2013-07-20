@@ -1,0 +1,23 @@
+%h4 multiple hits found, please choose ....
+
+- @queries.each do |hit|
+  - if hit['type'] == 'amazon'
+    .chooser_box
+      .already From amazon:
+      - unless hit['image'].blank?
+        = link_to image_tag(hit['image']), '/admin/books/' + hit['key'] + '/choose'
+      = link_to hit['title'], '/admin/books/' + hit['key'] + '/choose'
+  - elsif hit['type'] == 'local'
+    .chooser_box
+      - e = Edition.find(hit['key'])
+      .already Already in Slothrop's database:
+      = link_to image_tag(e.image.url(:thumbnail)), "/admin/inventories/#{e.id.to_s}/new_from_edition"
+      = link_to e.full_title, "/admin/inventories/#{e.id.to_s}/new_from_edition"
+      .history
+        - e.inventories.each do |inv|
+          .line
+            .price= number_to_currency inv.price
+            - if inv.sold?
+              .sold_at
+                sold on
+                = inv.sale.sold_at.strftime("%d %b %Y")

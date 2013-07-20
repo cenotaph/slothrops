@@ -1,0 +1,20 @@
+= semantic_nested_form_for ([:admin, @consignment_item]), :html => {:multipart => true } do |f|
+  %li.input
+    %label.label Consigner
+    = f.object.consigner.name
+    = " (#{f.object.consigner.email})"
+  = f.input :consigner_id, :as => :hidden
+  = f.input :name, :label => 'name of item:'
+  = f.input :item_description
+  - unless f.object.new_record?
+    - unless f.object.item_image.blank?
+      = image_tag f.object.item_image.url(:thumbnail)
+  = f.input :item_image
+  = f.input :collection_list, :as => :check_boxes, :collection => Tag.all.map(&:name).sort  
+  = f.input :price
+  = f.input :invoice_number, :label => "Consigner's invoice number (optional)"
+  = f.input :wholesale
+  = f.input :stock_count
+  = f.input :initialed
+  = f.input :notweet, :as => :boolean, :label => " Don't tweet to @SlothropsStock"
+  = f.submit 'Save'

@@ -1,0 +1,55 @@
+= content_for :left_column do
+  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+  
+    
+
+.clearfix
+  %h3.lined 
+    Slothrop's collections:
+    = @tag.name
+  - unless @tag.tag_description.blank?
+    %p= @tag.tag_description
+  - if @collection.blank?
+    Sorry, we no longer have any books from this collection in stock. Please try browsing our categories, listed on the left column of the page.
+  - else
+    - @collection.sort{|x, y| y.created_at <=> x.created_at }.each do |book|
+      .collection_book.clearfix
+        .overview
+          %span.book_title= link_to book.title, book
+          - unless book.author.blank? 
+            by
+            %span.book_author= book.author
+        .browse_image
+          - unless book.any_image(:midsize).nil?
+            = link_to image_tag(book.any_image(:midsize)), book
+          - else
+            = link_to image_tag('/graphics/missing70-02.png'), book
+
+
+                              
+        .collection_right.latest_in
+          - if book.reviews.any?
+            .description_title Slothrop's Sez...
+            - book.reviews.each do |post|
+              .description_body= raw post.body
+              .description_metadata= "posted by #{post.reviewer_name}, #{time_ago_in_words(post.created_at)} ago"
+          - elsif !book.any_description.blank?
+            .description_title Item description:
+            .description_body
+              %p= raw book.any_description.gsub(/&#x2019;/, '\'').gsub(/&lt;/, '<').gsub(/&gt;/, '>').gsub(/\<\/?div\>/i, ' ').strip
+          - if !book.in_stock?
+            .book_price Sorry, this item is not currently in stock.
+          - else
+            - book.items.each do |inv|
+              - next if inv.sold?
+              .block_150.latest_info
+                .condition= inv.format
+                .book_price= number_to_currency(inv.price, :unit => "&euro;", :format => "%n%u")
+                .order_now= paypal(inv)
+                .metadata
+                  %ul
+                    - unless book.category.blank?
+                      %li= link_to book.category.name, book.category
+          - unless book.collections.blank?
+            = render :partial => "shared/collection_others", :locals => {:book => book, :omit_collection => @tag }                      
+          .read_more{:style => "clear: both; padding-top: 15px;"}= link_to raw('more information on <i>' + book.title + '</i>'), book

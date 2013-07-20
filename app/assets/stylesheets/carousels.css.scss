@@ -1,0 +1,69 @@
+// Place all the styles related to the Carousels controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#carousel_wrapper {
+  width: 600px;
+  height: 400px;
+  z-index: 5;
+}
+
+ul.carousel {
+    list-style:none;
+    width:475px;
+    height:280px;
+    overflow:hidden;
+    position:relative;
+    margin:0;
+    padding:0;
+     
+}   
+ 
+ul.carousel li {
+    position:absolute;
+    left:0;
+    right:0;
+}
+ 
+ul.carousel li.show {
+    z-index:500;    
+}
+ 
+ul img {
+    border:none;    
+}
+ 
+
+#carousel-caption h3 {
+    margin:0;
+    padding:0;  
+    font-size:14px;
+    text-align: right;
+    font-family: Helvetica, Arial, sans-serif;
+}
+ 
+#carousel-caption p {
+    margin:5px 0 0 0;
+    padding:0;
+    text-align: right;
+}
+
+.carousel {
+  padding-top: 60%;
+}
+.carousel_text_line {
+  font-family: Helvetica, Arial, sans-serif;
+  width: auto;
+  font-size: 1.3em;
+  display: inline;
+  background-color: rgba(0, 102, 204, 0.8);
+  color: white;
+  float: right;
+}
+
+#carousel_wrapper {
+  position: relative;
+  overflow: hidden;
+  float: left;
+  width: 475px;
+  height: 280px;
+}

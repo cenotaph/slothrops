@@ -1,0 +1,10 @@
+= semantic_form_for ([:admin, @carousel]),  :html => {:multipart => true} do |f|
+  - if f.object.image.url
+    = image_tag f.object.image.url(:standard)
+  = f.input :image
+  = f.input :url, :label => "optional URL to make clickable"
+  = f.input :show_first, :label => "Show as first thing on carousel"
+  = f.input :published
+  .actions
+    = f.submit 'Save'
+`

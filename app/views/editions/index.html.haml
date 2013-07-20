@@ -1,0 +1,25 @@
+%h1 Listing editions
+
+%table
+  %tr
+    %th Book
+    %th Format
+    %th Product description
+    %th Amazoncode
+    %th
+    %th
+    %th
+
+  - @editions.each do |edition|
+    %tr
+      %td= edition.book
+      %td= edition.format
+      %td= edition.product_description
+      %td= edition.amazoncode
+      %td= link_to 'Show', edition
+      %td= link_to 'Edit', edit_edition_path(edition)
+      %td= link_to 'Destroy', edition, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Edition', new_edition_path

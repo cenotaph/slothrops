@@ -1,0 +1,20 @@
+%h3.lined Credit sales
+
+%p= "From #{@start_date} to #{@end_date}"
+
+%table#monthly_report
+  %thead
+    %th Date
+    %th Customer name
+    %th Amount
+
+  %tbody
+    - @credit_sales.each do |sale|
+      %tr
+        %td= sale.sale.sold_at.strftime('%d.%m.%Y')
+        %td.name= sale.bookbuy.source
+        %td.amount= number_to_currency(sale.amount)
+  %thead
+    %th.total Totals
+    %th.name &nbsp;
+    %th.amount= number_to_currency(@credit_sales.map(&:amount).flatten.sum)

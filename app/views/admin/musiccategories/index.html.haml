@@ -1,0 +1,5 @@
+- @musiccategories.each do |mc|
+  .line
+    = link_to mc.name, edit_admin_musiccategory_path(mc)
+
+= link_to 'new music category', new_admin_musiccategory_path

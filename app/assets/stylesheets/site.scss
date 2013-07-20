@@ -1,0 +1,491 @@
+$helvetica: Helvetica, sans-serif;
+$georgia: Georgia, Times, serif;
+$slothrop-orange: #DC5405;
+
+
+
+
+#overall_container {
+ text-align:left; /* reset text alignment */
+ width:100%; 
+ margin:0 auto; /* for the rest */
+}
+p, ol, ul, td {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px; }
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px; 
+}
+div {
+  &.field, &.actions {
+    margin-bottom: 10px; } }
+
+
+a {
+  text-decoration: none;
+  color: #DC5405;
+    &:visited {
+    color: #666;
+     }
+
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+
+
+
+  
+.header_image {
+  margin-left: auto;
+  margin-right: auto;
+
+  text-align: center;
+}
+
+.column-1 {
+  width: 70px;
+}
+
+.column-2 {
+  width: 150px;
+}
+
+.column-3 {
+  padding-right: 5px;
+  margin-bottom: 10px;
+}
+
+#right .column-3.facebook {
+  padding-right: 0;
+/*  padding-left: 10px;*/
+}
+.column-5 {
+  width: 385px;
+}
+.column-6 {
+  width: 475px;
+}
+
+.column-7 {
+  width: 550px;
+}
+
+.column-9 {
+  width: 715px;
+}
+
+
+
+
+.reviewed_by {
+  font-size: 7pt;
+}
+
+
+
+
+
+
+#divider_bar {
+
+  border-top: 3px solid black;
+  border-bottom: 1px solid black;
+  background-color: $slothrop-orange ;
+  height: 72px;
+  overflow: visible;
+	z-index: 99;
+}
+
+.white_stretch {
+  margin-left: 0;
+  width: 484px;
+  float: left;
+  height: 72px;
+  margin-left: -6px;
+}
+
+h3 {
+  margin:0; padding: 0;
+  &.lined {
+    padding-bottom: 12px;
+    font-size: 14pt;
+    border-bottom: 1px solid black;
+  }
+}
+
+h2 {
+  margin: 0; padding: 0;
+  &.lined {
+    padding-bottom: 12px;
+    border-bottom: 1px solid black;
+  }
+}
+
+
+#main {
+  padding-top: 12pt;
+}
+
+.read_more a {
+    text-transform: uppercase;
+    font-family: $helvetica;
+    font-size: 8pt;
+    color: $slothrop-orange;
+    font-weight: bold;
+}
+  
+.latest_sidebar {
+  margin-top: 20px;
+}  
+
+.main_feed {
+  margin-top: 10px;
+  border-bottom: 1px solid #878787;
+  .post_metadata {
+    font-size: 8pt;
+    font-family: $helvetica;
+  }
+}
+.bar_block {
+  float: left;
+  a { color: white; }
+  width: 70px;
+  margin-right: 6px;
+  margin-left: 6px;
+  height: 36px;
+}
+
+.white {
+    color: black;
+    float: left;
+    height: 36px;
+    background-color: white;
+    width: 475px;
+    border-left: 1px solid black;
+    
+    h4 {
+      margin: 0;
+      padding: 5px;
+      font-family: $helvetica;
+      a { color: black;}
+    }
+
+}
+
+.search  {
+  width: 474px;
+}
+#contact_block {
+  border-right: 1px solid black;
+}
+.search_box {
+  height: 35px;
+  border-right: 1px solid black;
+  border-left:  1px solid black;
+  border-bottom: 1px solid #666;
+  h4 {
+    float: left;
+  }
+  input[type="text"] {
+    width: 365px;
+    height: 28px;
+    border-bottom: 1px dotted #333;
+    border-top: none;
+    border-left: none; border-right: none;
+    font-size: 22px;
+    float: left;
+      &:focus {
+        outline: 0;
+      }
+    }
+  input[type="submit"] {
+    float: left;
+    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -489px;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 2px;
+    border: none;
+    opacity: 1;
+    -webkit-transition: opacity 1.4s linear;
+    -moz-transition: opacity 1.4s linear;
+    &:hover {
+      opacity: .47;
+      cursor: pointer;
+      -webkit-transition: opacity 0.5s linear;
+      -moz-transition: opacity 0.5s linear;
+    }
+  }
+}
+
+#divider_bar .icons ul {
+  display: inline;
+  float: left;
+  height: 72px;
+  margin: 0;
+  padding: 0px 0px 2px 0px;
+
+  list-style: none;
+}
+
+#divider_bar .icons li {
+  width: 32px;
+  height: 72px;
+  float: left;
+  opacity: .67;
+  -webkit-transition: opacity 1.4s linear;
+  -moz-transition: opacity 1.4s linear;
+  cursor: pointer;
+  list-style-type: none;
+  margin-left: 3px;
+  padding-right: 3px;
+  border-right: 1px solid black;
+  &:hover {
+    opacity: 1;
+    -webkit-transition: opacity 0.5s linear;
+    -moz-transition: opacity 0.5s linear;
+  }
+  &.facebook  {
+
+    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -419px;
+  }
+  &.twitter {
+    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -337px;
+  }
+  &.rss {
+    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -255px;
+  }
+  &.inventory {
+    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -9px transparent;
+  }
+  &.itunes {
+    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -91px transparent;
+  }
+  &.foursquare {
+    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -173px transparent;
+    border-right: none;
+  }
+  
+}
+.browse_all {
+    text-transform: uppercase;
+    font-family: $helvetica;
+    font-size: 8pt;
+    font-style: italic;
+    color: $slothrop-orange;
+    font-weight: bold;
+ 
+    margin-top: 10px;
+    padding: 5px 0 5px 0;
+    border-top: 1px solid black;
+    border-bottom: 3px solid black;
+}
+
+.secondary {
+   margin-top: 15px;
+}
+
+.review {
+
+   margin-top: 10px;
+  .review_image {
+    float: left;
+    margin-right: 10px;
+  }
+  .reviewed_by {
+    text-align: right;
+    font-size: 8pt;
+  }
+  
+  .review_description {
+    margin-top: 5px;
+    clear: left;
+    font-size: 10pt;
+    font-family: $georgia;
+    text-align: justify;
+    line-height: 18px;
+    margin-bottom: 5px;
+    p {
+      font-size: 10pt;
+      font-family: $georgia;
+      text-align: justify;
+      margin-bottom: 5px;
+    }
+    
+  }
+  .review_price {
+    margin-top: 10px;
+    a {
+      font-family: $helvetica;
+      font-weight: bold;
+      color: black;
+    }
+  }
+  
+  
+  .review_stock , .read_more a {
+    text-transform: uppercase;
+    font-family: $helvetica;
+    font-size: 8pt;
+    color: $slothrop-orange;
+    font-weight: bold;
+
+  }
+  .review_subtitle {
+    font-style: italic;
+    font-size: 10pt;
+     
+    a {
+      color: black;
+      font-weight: bold;
+    }
+  }
+}
+
+.review_full {
+  clear: both;
+   margin: 10px 0 20px 0;
+   
+   .review_title {
+     font-weight: bold;
+     font-size: 13pt;
+   }
+  .review_subtitle {
+    margin-top: 5px;
+    font-style: italic;
+    font-size: 12pt;
+     
+    a {
+      padding-left: 2px;
+      color: $slothrop-orange;
+      font-weight: bold;
+      font-style: normal;
+    }
+  }  
+  .review_image {
+    float: left;
+    margin-right: 25px;
+  }
+  .reviewed_by {
+    margin-top: 5px;
+    text-align: left;
+    font-size: 11pt;
+  }
+  
+  .review_description {
+     margin-top: 5px;
+    p {
+      font-size: 10pt;
+      font-family: $georgia;
+      line-height: 16pt;
+      margin-bottom: 5px;
+    }
+    
+  }
+  .review_price {
+    margin-top: 10px;
+    a {
+      font-family: $helvetica;
+      font-weight: bold;
+      color: black;
+    }
+  }
+  
+  
+  .review_stock , .read_more a {
+    text-transform: uppercase;
+    font-family: $helvetica;
+    font-size: 8pt;
+    color: $slothrop-orange;
+    font-weight: bold;
+
+  }
+
+  
+}
+
+#fb-root {
+    display: none;
+}
+
+/* To fill the container and nothing else */
+
+.fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe[style] {
+    width: 100% !important;
+}
+
+.post_full {
+  border-bottom: 1px solid #989898;
+  .post_title {
+    font-family: $georgia;
+    font-weight: bold;
+    a {
+      color: black;
+    }
+    font-size: 14pt;
+    margin-top: 10px;
+  }
+  .post_body {
+    p {
+      font-family: $georgia;
+    }
+  }
+  .post_metadata {
+    font-size: 9pt;
+    font-family: $helvetica;
+  }
+}
+
+.category_front {
+    padding-top: 9pt;
+  margin-bottom: 25px;
+}
+.cat_browse {
+
+  float: left;
+  color: #CCC;
+  margin: 10px 5px 0 5px;
+}
+
+.pagination {
+  margin-top: 5px;
+
+}
+
+.fb-like-box {
+  margin-bottom: 25px;
+}
+
+.column-9.page {
+  padding-left: 15px;
+  width: 700px;
+}
+
+.event_full {
+  border-bottom: 1px dotted $slothrop-orange;
+  .event_title {
+    font-weight: bold;
+    font-family: $helvetica;
+  }
+}

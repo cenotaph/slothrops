@@ -1,0 +1,11 @@
+%h2 new custom book
+Only use this to enter books with editions that you cannot find in amazon.
+
+= semantic_form_for [:admin, @book] do |f|
+  = f.input :title
+  = f.input :creator_name
+  = f.input :category
+  = f.semantic_fields_for :editions do |ff|
+    = ff.input :format
+    = ff.input :barcode
+  = f.submit

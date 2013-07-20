@@ -1,0 +1,24 @@
+Date,Bankcard sales,VAT,Cash sales,VAT,Store credit,VAT,Total sales
+<%= CSV.generate do |csv|
+   @sales.each do |salesday|
+     csv << [ salesday.first.strftime('%d.%m.%Y'),
+          number_to_currency(salesday.last.map(&:payments).flatten.reject{|x| x.paymenttype_id != 5}.map{|x| x.amount.to_f }.sum, :unit => ''),
+          0.00,
+          number_to_currency(salesday.last.map(&:cash_payments).sum, :unit => ''),
+          0.00,
+          number_to_currency(salesday.last.map(&:credit_payments).sum, :unit => ''),
+          0.00, 
+          number_to_currency(salesday.last.map(&:payments).flatten.map{|x| x.amount.to_f }.sum  - salesday.last.map(&:to_consignee).sum, :unit => '')                 
+        ]
+    end
+    csv << [ 'Totals', 
+          number_to_currency(@sales.map{|x| x.last}.flatten.map(&:payments).flatten.reject{|x| x.paymenttype_id != 5}.map{|x| x.amount.to_f }.sum, :unit => ''),
+          0.00,
+          number_to_currency(@sales.map{|x| x.last}.flatten.map(&:cash_payments).sum, :unit => ''),
+          0.00,
+          number_to_currency(@sales.map{|x| x.last}.flatten.map(&:credit_payments).sum, :unit => ''),
+          0.00,
+          number_to_currency(@sales.map{|x| x.last}.flatten.map(&:payments).flatten.map{|x| x.amount.to_f }.sum  - @sales.map{|x| x.last}.flatten.map(&:to_consignee).sum, :unit => '')                       
+      ]
+end %>
+Total CGS,<%= number_to_currency @cgs %>

@@ -1,0 +1,46 @@
+%p#notice= notice
+
+%p
+  %b Bought by:
+  = @bookbuy.user.username
+%p
+  %b Day of sale:
+  = @bookbuy.day_of_sale.strftime('%d %B %Y')
+%p
+  %b Amount paid:
+  = number_to_currency(@bookbuy.amount)
+%p
+  %b Source:
+  = @bookbuy.source
+%p
+  %b Notes:
+  = @bookbuy.notes
+%p
+  %b Store credit issued:
+  = number_to_currency @bookbuy.creditamt
+
+%p
+  %b Total books bought:
+  = @bookbuy.inventories.size
+  
+.bookbuy_stats
+  - sold = @bookbuy.inventories.reject{|x| !x.sold? }
+  .conversion
+    = "#{sold.size} of #{@bookbuy.inventories.size} sold; conversion rate #{sprintf('%0.2f', @bookbuy.conversion_rate)}%"
+  .money
+    = raw "total money brought in: #{number_to_currency @bookbuy.gross_profit}; amount cleared #{number_to_currency @bookbuy.profit}"
+  .time
+    = "Average time on shelf: #{pluralize(@bookbuy.average_time_on_shelf, 'day')}"
+.bookbuy_breakdown  
+  - @bookbuy.inventories.sort_by{|x| [ x.time_on_shelf, x.full_title]}.each do |book|
+    .breakdown_entry
+      %span{:class => book.sold? ? 'sold' : ''}= link_to book.full_title, book
+      - if book.sold?
+        sold on
+        = book.sale.created_at.strftime('%d %B %Y')
+      ;; time on shelf:
+      = pluralize(book.time_on_shelf, 'day')
+
+= link_to 'Edit', edit_admin_bookbuy_path(@bookbuy)
+\|
+= link_to 'Back', admin_bookbuys_path

@@ -1,0 +1,22 @@
+= form_for @edition do |f|
+  -if @edition.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@edition.errors.count, "error")} prohibited this edition from being saved:"
+      %ul
+        - @edition.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :book
+    = f.text_field :book
+  .field
+    = f.label :format
+    = f.text_field :format
+  .field
+    = f.label :product_description
+    = f.text_area :product_description
+  .field
+    = f.label :amazoncode
+    = f.number_field :amazoncode
+  .actions
+    = f.submit 'Save'

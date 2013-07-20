@@ -1,0 +1,29 @@
+%p Create one consigner per actual person/institution that will receive money from Slothrop's. You can assign multiple items to this person, but it has to start here.
+= form_for [:admin, @consigner] do |f|
+  -if @consigner.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@consigner.errors.count, "error")} prohibited this consigner from being saved:"
+      %ul
+        - @consigner.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :contact_name
+    = f.text_field :contact_name, :label => "Contact name", :hint => "Will appear on reports if filled in"
+  .field
+    = f.label :report_info
+    = f.text_field :report_info, :label => "Additional report info for invoice"
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :phone
+    = f.text_field :phone
+  .field
+    = f.label :comments
+    = f.text_area :comments
+  .actions
+    = f.submit 'Save'

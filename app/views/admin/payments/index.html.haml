@@ -1,0 +1,11 @@
+%h3= "payments for this sale"
+click amount to edit
+
+- @payments.each do |payment|
+  %p
+    = link_to number_to_currency(payment.amount, :unit => "&euro;", :format => "%n%u"), edit_admin_sale_payment_path(:sale_id => @sale.id, :id => payment.id) 
+    = payment.paymenttype.name
+    - if payment.paymenttype_id == 2 && !payment.bookbuy.nil?
+      = raw "credit from: #{link_to payment.bookbuy.source, admin_bookbuy_path(payment.bookbuy)}"
+    - if payment.paymenttype_id == 3 && !payment.voucher.nil?
+      = raw "from: #{link_to payment.voucher.number, admin_voucher_path(payment.voucher)}"

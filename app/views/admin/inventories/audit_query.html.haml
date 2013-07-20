@@ -1,0 +1,34 @@
+- if @hits.size == 1
+  - if @hits.first.class == Inventory
+    = render :partial => 'price_hike', :locals => {:inventory => @hits.first}
+  - elsif @hits.first.class == ConsignmentItem
+    %p This is a consignment item. Move on, bro.
+
+    %h1 audit
+
+    #sales_form
+      = form_tag '/admin/inventories/audit_query' do |f|
+        Scan a barcode or enter author/title information to search our inventory:
+        = text_field_tag :sales_lookup
+
+
+    :javascript
+      $("#sales_lookup").select(); 
+- else
+  - @hits.each do |stock|
+    .hit.clearfix{:style => "margin-right: 15px;"}
+      .chooser_image= image_tag stock.edition.image.url(:thumbnail) unless stock.edition.image.url.blank?
+      .chooser_title= stock.full_title
+
+      
+           
+      - if stock.class == Inventory
+        %span.price= link_to number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u"), audit_item_admin_inventory_path(stock)
+        - if stock.jan2013audit == true
+          %p
+            %b Already audited
+            price changed
+            = "#{time_ago_in_words(stock.updated_at)} ago, probably"
+      - elsif stock.class == ConsignmentItem
+        (CONSIGNMENT ITEM)
+        Don't audit consignment items

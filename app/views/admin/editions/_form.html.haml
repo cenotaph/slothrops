@@ -1,0 +1,25 @@
+= semantic_form_for [:admin,  @edition], :html => {:multipart => true, :id => :edition_edit} do |f|
+
+  = f.input :format
+  = f.input :amazoncode
+  = f.input :book_id, :as => :hidden, :value => (@book.nil? ? @edition.book.id : @book.id)
+  = f.input :product_description, :input_html => {:rows => 5, :cols => 80}
+  - if f.object.image_url
+    .edition_edit_image= image_tag f.object.image_url
+    = f.check_box :remove_image
+    Remove image
+
+  = f.input :collection_list, :as => :check_boxes, :collection => Book.collection_counts.map(&:name).sort
+
+  = f.input :image
+  = f.semantic_fields_for :book do |ff|
+    = ff.input :category_id, :as => :select, :collection => Category.find(:all, :order => :name), :input_html => {:class => :required }
+
+  = f.input :barcode, :input_html => {:class => :required }
+  = f.buttons do
+    = f.submit
+    
+:javascript
+  $(document).ready(function(){
+    $("#edition_edit").validate();
+  });

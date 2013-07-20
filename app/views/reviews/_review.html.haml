@@ -1,0 +1,18 @@
+- if review.book.editions.any?
+  - if review.book.editions.first.image_url
+    .review_image= link_to image_tag(review.book.editions.first.image_url(:midsize)), review.book
+.review_title= review.title
+- if review.respond_to?(:book)
+  .review_subtitle 
+    = raw "a review of #{link_to review.book.title, review.book}"
+    - unless review.book.creator.blank?
+      by
+      = link_to review.book.creator.displayname, review.book
+  .reviewed_by= "reviewed by #{review.reviewer_name}" unless review.reviewer_name.blank?
+  - unless review.book.in_stock.empty?
+    - if review.book.in_stock.size > 1
+      .review_stock= link_to 'multiple copies in stock!', review.book
+    - else
+      .review_price= link_to number_to_currency(review.book.in_stock.first.price, :unit => "&euro;", :format => "%n%u"), review.book
+      .review_stock= link_to 'one copy in stock!', review.book
+.review_description= raw review.body

@@ -1,0 +1,80 @@
+// Place all the styles related to the Podcasts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$helvetica: Helvetica, Arial, sans-serif;
+$georgia: Georgia, Times, serif;
+$slothrop-orange: #DC5405;
+.podcast_links_header {
+  font-family: $georgia;
+  margin: 15px 0 10px 0;
+  font-size: 12pt;
+}
+
+.podcast_link {
+  margin-bottom: 10px;
+  clear: both;
+  padding-left: 15px;
+  .podcast_link_image { 
+    float: left;
+    width: 150px;
+    margin-right: 10px;
+  }
+  
+  .podcast_link_metadata {
+    float: left;
+    width: 500px;
+  }
+}
+
+.podcast_title {
+  font-size: 11pt;
+}
+
+.podcast {
+  padding: 12px 0 12px 0;
+  .podcast_image {
+    float: left;
+    width: 165px;
+    padding-right: 15px;
+  }
+  .podcast_metadata {
+    float: left;
+    width: 450px;
+  }
+  .podcast_description {
+      margin-top: 5px;
+      clear: left;
+      font-size: 10pt;
+      font-family: $georgia;
+      text-align: justify;
+      line-height: 18px;
+      margin-bottom: 5px;
+  }
+}
+
+.podcast_link_title {
+  font-size: 11pt;
+}
+
+.podcast_link_description {
+  font-size: 10pt;
+  line-height: 13pt;
+  margin-left: 15px;
+}
+.download_link {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.download_link a, .download_link a:visited {
+
+    color: $slothrop-orange;
+}
+
+.event_title {
+  margin-top: 10px;
+}
+
+.event_metadata {
+  font-size: 10pt;
+  font-family: $helvetica;
+}

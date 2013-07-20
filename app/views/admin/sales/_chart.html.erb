@@ -1,0 +1,17 @@
+<% day_sales = chart_array(sales, :days, :sums) %>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+      var r = Raphael("sales_chart"),
+      xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    ys = [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] ,
+                    data = <%= weekly_chart_for_hourly(sales).inspect %>,
+        axisy = ["Sun <%= number_to_currency(day_sales[6], :unit => '') %>", "Sat <%=   number_to_currency(day_sales[5], :unit => '') %>", "Fri <%=   number_to_currency(day_sales[4], :unit => '') %>", "Thu <%=   number_to_currency(day_sales[3], :unit => '') %>", "Wed <%=   number_to_currency(day_sales[2], :unit => '') %>", "Tue <%=   number_to_currency(day_sales[1], :unit => '') %>", "Mon <%=   number_to_currency(day_sales[0], :unit => '') %>"],
+        axisx = ["before 11", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20+"];
+        r.dotchart(10, 10, 620, 260, xs, ys, data, {symbol: "o", max: 10, heat: true, axis: "0 0 1 1", axisxstep: 10, axisystep: 6, axisxlabels: axisx, axisxtype: " ", axisytype: " ", axisylabels: axisy}).hover(function () {
+            this.marker = this.marker || r.tag(this.x, this.y, this.value, 0, this.r + 2).insertBefore(this);
+                    this.marker.show();
+                }, function () {
+                    this.marker && this.marker.hide();
+                });
+    });
+</script>

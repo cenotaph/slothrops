@@ -1,0 +1,33 @@
+%h1 Listing consignment_items
+
+%table
+  %tr
+    %th Edition
+    %th Price
+    %th Wholesale
+    %th Stock count
+    %th Acquired
+    %th Initialed
+    %th Consigner
+    %th Slug
+    %th
+    %th
+    %th
+
+  - @consignment_items.each do |consignment_item|
+    %tr
+      %td= consignment_item.edition
+      %td= consignment_item.price
+      %td= consignment_item.wholesale
+      %td= consignment_item.stock_count
+      %td= consignment_item.acquired
+      %td= consignment_item.initialed
+      %td= consignment_item.consigner
+      %td= consignment_item.slug
+      %td= link_to 'Show', consignment_item
+      %td= link_to 'Edit', edit_consignment_item_path(consignment_item)
+      %td= link_to 'Destroy', consignment_item, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Consignment item', new_consignment_item_path

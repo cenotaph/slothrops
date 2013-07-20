@@ -1,0 +1,19 @@
+- @hits.each do |stock|
+  %p
+    .chooser_image= image_tag stock.image.url(:thumbnail) unless stock.image.blank?
+    .chooser_title= stock.full_title
+
+    %span.price
+      - if @sale
+        - if stock.class == Inventory
+          = link_to number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u"), admin_sale_inventory_add_to_cart_path(:sale_id => @sale.id, :inventory_id => stock.id)
+        - elsif stock.class == ConsignmentItem
+          (CONSIGNMENT ITEM)
+          = link_to number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u"), admin_sale_consignment_item_add_to_cart_consignment_path(:sale_id => @sale.id, :consignment_item_id => stock.id)
+          
+      - else
+        - if stock.class == Inventory
+          = link_to number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u"), admin_inventory_start_cart_path(stock)
+        - elsif stock.class == ConsignmentItem
+          (CONSIGNMENT ITEM)
+          = link_to number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u"), admin_consignment_item_start_from_consignment_path(stock)

@@ -1,0 +1,21 @@
+%h2 tags (collections)
+
+%table
+  %thead
+    %tr
+      %th Tag/collection name
+      %th Description
+      %th number in collection
+      %th Show out-of-stock in listings
+  %tbody
+    - @tags.sort_by{|x| x.name}.each do |tag|
+      %tr
+        %td= tag.name
+        %td= best_in_place tag, :tag_description, :path => admin_tag_path(tag), :type => :textarea, :nil => "Click me to add content!" 
+        %td= Book.tagged_with(tag.name).size
+        %td= best_in_place tag, :show_out_of_stock, :path => admin_tag_path(tag), :type => :checkbox, :collection => ["No", "Yes"]
+        %td= link_to 'Delete tag/collection!', admin_tag_path(tag), {:confirm => "Are you sure?  This will delete the collection list.", :method => :delete}
+:javascript     
+  $(document).ready(function() {
+    jQuery(".best_in_place").best_in_place();
+  });

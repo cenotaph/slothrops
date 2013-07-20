@@ -1,0 +1,45 @@
+.column-3.facebook
+  .fb-like-box{"data-href" => "http://www.facebook.com/Slothrops", "data-width" => "230", "data-height" => "335", "data-show-faces" => "true", "data-border-color" => "#DC5405", "data-stream" => "false",  "data-header" => "false"}
+.column-3.bottom_lined
+  %h3.lined Staff reviews
+  - reviews.each do |item|
+    .review.clearfix
+      - if item.book.editions.any?
+        - if item.book.editions.first.image_url
+          .review_image= link_to image_tag(item.book.editions.first.image_url(:thumbnail)), item
+      .review_title= link_to item.title, item
+      - if item.respond_to?(:book)
+        .review_subtitle 
+          a review of
+          = link_to item.book.full_title, item.book
+        - unless item.book.in_stock.empty?
+          - if item.book.in_stock.size > 1
+            .review_stock= link_to 'multiple copies in stock!', item.book
+          - else
+            .review_price= link_to number_to_currency(item.book.in_stock.first.price, :unit => "&euro;", :format => "%n%u"), item.book
+            .review_stock= link_to 'one copy in stock!', item.book
+      - if item.abstract.blank?
+        .review_description= raw truncate_words(item.body, 50)
+      - else
+        .review_description
+          = raw item.abstract
+          .read_more
+            = link_to 'read more', item
+            |
+            = link_to 'browse all reviews', reviews_path
+  
+.column-3.secondary
+  %h3.lined Featured books
+  - featured.each do |featured|
+    .featured_book.clearfix
+      - if featured.edition.image.url
+        .featured_image= image_tag featured.edition.image.thumbnail.url
+      .featured_title= link_to featured.full_title, featured
+      .featured_price= link_to number_to_currency(featured.price, :unit => "&euro;", :format => "%n%u"), featured
+      .featured_order= link_to 'IN STOCK NOW!', featured
+      - unless featured.edition.product_description.blank?
+        .featured_description
+          = raw truncate_words(sanitize(featured.edition.product_description.gsub(/&lt;/, '<').gsub(/&gt;/, '>'), :tags => %w{i em}), 50)
+        .read_more= link_to 'read more', featured
+.column-3.clearfix
+  

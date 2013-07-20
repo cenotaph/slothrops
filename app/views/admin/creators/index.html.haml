@@ -1,0 +1,35 @@
+= form_tag('/admin/creators', :method => :get)  do
+  Filter by author:
+  = text_field_tag :creator_name,  @searchterm, :size => 30
+
+
+%table#creators
+  %thead
+    %th Author
+    %th.book_info
+  - @creators.each do |creator|
+  - cycle = cycle('odd', 'even')
+    %tr{:class => cycle}
+      %td
+        = creator.displayname
+        = link_to '[edit]', edit_admin_creator_path(creator)
+      %td.book_info
+        %u Books:
+        %table.inner
+          %thead
+            %th.creator_title Title
+            %th.creator_editions Editions
+            %th.creator_copies Copies sold/unsold
+          - creator.books.each do |book|
+            %tr
+              %td
+                = book.title
+                .table_options
+                  = link_to '[edit book title/author]', edit_admin_book_path(book)
+                  = link_to '[write review]', new_admin_book_review_path(:book_id => book.id)
+              %td= book.editions.size
+              %td
+                = book.editions.map(&:inventories).flatten.delete_if{|x| !x.sold }.size
+                = "/"
+                = book.editions.map(&:inventories).flatten.size
+= paginate @creators
