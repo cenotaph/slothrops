@@ -5,13 +5,14 @@ gem 'rails', '3.2.13'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 # gem 'mysql2', :group => :development
-gem 'mysql2' #, '< 0.3' #,          '0.3.12b4',  :group => :production
+gem 'mysql2' ,          '0.3.12b4',  :group => :production
 # gem 'mysql2', :group => [:development]
 gem 'better_errors', :group => :development
 gem 'binding_of_caller', :group => :development
 gem "capybara", :group => [:development, :test]
 gem "ckeditor", "~> 3.7.3"
 gem "devise"
+gem "fog", "~> 1.3.1"
 gem "haml", ">= 3.0.0"
 gem "haml-rails"
 # gem "oa-oauth", '~> 0.3.2', :require => "omniauth/oauth"
