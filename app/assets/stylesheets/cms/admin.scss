@@ -18,11 +18,12 @@ $slothrop-orange: #DC5405;
 .staff_menu {
   width: 650px;
   float: left;
+  font-family: $helvetica;
 }
 
 .staff_menu_link {
   float: left;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 #cms_header {
   padding: 5px;
@@ -202,9 +203,16 @@ tr.sold {
 }
 .left_cart {
   float: left;
+  h3 {
+    font-family: $helvetica;
+  }
+  font-family: $helvetica;
   width: 65%
 }
 
+.status_bar {
+  margin-bottom: 15px;
+}
 .right_cart {
   float: left;
   width: 30%;
@@ -240,8 +248,10 @@ input.payment_button {
 
 table.sales_slip {
   width: 600px;
+  margin-bottom: 15px;
   
   td {
+    border: 1px solid #999;
     padding: 8px;
   }
 }

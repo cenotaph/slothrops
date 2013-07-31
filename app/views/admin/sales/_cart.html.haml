@@ -46,8 +46,11 @@
     = button_to 'check out / add payments', new_admin_sale_payment_path(:sale_id => sale.id), :method => :get, :class => :payment_button
 
   - elsif sale.completed?
-    Sale is complete.
+  
+    %p Sale is complete.
     - unless sale.consignment_items.empty?
+      %br/
+      %br/
       %h3 Consignment money due:
       - sale.consignment_items.group_by{|x| x.consigner }.each do |consigner|
         %p

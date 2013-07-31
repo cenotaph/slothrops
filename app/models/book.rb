@@ -101,6 +101,7 @@ class Book < ActiveRecord::Base
   def self.query(searchterm)
     hits = Edition.where(:barcode => searchterm)
     hits += Amazon::Ecs.item_search(searchterm, {:response_group => 'Medium'}).items
+
     if hits.size == 1
       return hits.first
     else

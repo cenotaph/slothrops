@@ -28,7 +28,7 @@ class Inventory < ActiveRecord::Base
 
   def set_acquired
     if self.acquired.blank?
-      self.acquired = Time.now
+      self.acquired = Time.zone.now
     end
   end
 
@@ -82,7 +82,7 @@ class Inventory < ActiveRecord::Base
     if sold?
       (sale.created_at.to_date - bookbuy.day_of_sale).to_i
     else
-      (Time.now.to_date - bookbuy.day_of_sale).to_i
+      (Time.zone.now.to_date - bookbuy.day_of_sale).to_i
     end
   end
   def title

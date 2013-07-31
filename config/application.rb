@@ -52,3 +52,4 @@ module Slothrop
     config.assets.version = '1.0'
   end
 end
+# Rails.logger = Le.new(ENV.fetch('LOGENTRIES_TOKEN'))

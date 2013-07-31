@@ -24,7 +24,7 @@ class Admin::SalesController < Admin::BaseController
       # @sale.save!
       unless @sale.consignment_items.empty?
         @sale.consignment_items.each do |ci|
-          ConsignerMailer.item_sold(ci).deliver
+          # ConsignerMailer.item_sold(ci).deliver
         end
       else
         flash[:notice] = 'Sale completed.  PLEASE PLACE CONSIGNMENT MONEY IN ENVELOPES: ' + @sale.consignment_items.map{|x| x.wholesale.to_s + " for " + x.consigner.name }.join('; ')
@@ -39,7 +39,7 @@ class Admin::SalesController < Admin::BaseController
   def csv_export
     require 'csv'
     @sales = Sale.closed.order(:sold_at)
-    @outfile = "sales_" + Time.now.strftime("%m-%d-%Y") + ".csv"
+    @outfile = "sales_" + Time.zone.now.strftime("%m-%d-%Y") + ".csv"
   
     csv_data = CSV.generate do |csv|
       csv << [

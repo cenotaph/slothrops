@@ -155,7 +155,7 @@ class ConsignmentItem < ActiveRecord::Base
     
   def set_acquired
     if self.acquired.blank?
-      self.acquired = Time.now
+      self.acquired = Time.zone.now
     end
   end
   

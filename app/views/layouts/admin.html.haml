@@ -13,10 +13,11 @@
   %body
     #cms_header.clearfix 
       .staff_menu
-        = "you are logged in as #{current_user.username}."
-        = link_to "[public site]", '/'
-        = link_to "[good-bye]", destroy_user_session_path, :method => :delete
-        %br/
+        .status_bar
+          = "you are logged in as #{current_user.username}."
+          = link_to "[public site]", '/'
+          = link_to "[good-bye]", destroy_user_session_path, :method => :delete
+
         .staff_menu_link= link_to 'all books', '/admin/books'
         .staff_menu_link= link_to 'all authors', '/admin/creators'
         .staff_menu_link= link_to 'latest stats', '/admin/'
@@ -51,7 +52,12 @@
           New inventory item:
           = text_field_tag :query
         .custom_entry= link_to 'create custom entry', '/admin/books/new'
-        
+        .custom_entry
+          Local time is:
+          = Time.zone.now.strftime("%H:%M")
+        .custom_entry
+          System time is:
+          = Time.now.strftime("%H:%M")
     - flash.each do |name, msg| 
       = content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) 
 
