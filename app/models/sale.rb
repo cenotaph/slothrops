@@ -10,9 +10,9 @@ class Sale < ActiveRecord::Base
   scope :opened, :conditions => {:sold_at => nil}
   scope :opened_for, ->(consigner_id) { includes(:consignment_sales => [:consignment_item => [:consigner]]).where(sold_at: nil, "consigners.id" => consigner_id) }
   scope :closed, where("sold_at is not null")
-  scope :today, where("date(sold_at) = ?", Time.zone.now.strftime("%Y-%m-%d"))
-  scope :this_week, where("date(sold_at) >= ? AND date(sold_at) <= ?", Time.zone.now.beginning_of_week.to_date.to_s, Time.zone.now.end_of_week.to_date.to_s)
-  scope :this_month, where("date(sold_at) >= ? AND date(sold_at) <= ?", Time.zone.now.strftime("%Y-%m-01"), (Date.new((Date.today>>1).year,(Date.today>>1).month,1)-1).to_s)
+  scope :today, lambda {  where(["date(sold_at) = ? OR date(created_at) = ?", Time.zone.now.strftime("%Y-%m-%d"), Time.zone.now.strftime("%Y-%m-%d")]) }
+  scope :this_week, lambda { where("date(sold_at) >= ? AND date(sold_at) <= ?", Time.zone.now.beginning_of_week.to_date.to_s, Time.zone.now.end_of_week.to_date.to_s) }
+  scope :this_month, lambda { where("date(sold_at) >= ? AND date(sold_at) <= ?", Time.zone.now.strftime("%Y-%m-01"), (Date.new((Date.today>>1).year,(Date.today>>1).month,1)-1).to_s) }
   scope :any_period, lambda { |start_date, end_date| where("date(sold_at) >= ? AND date(sold_at) <= ?", start_date, end_date) }
   
   FILTERS = [
@@ -57,6 +57,9 @@ class Sale < ActiveRecord::Base
   def complete!
     unless consignment_sales.empty?
       consignment_sales.each do |cs|
+        if cs.consignment_item.consigner.consignment_sales_count.nil?
+          cs.consignment_item.consigner.consignment_sales_count = 0
+        end
         cs.consignment_item.consigner.consignment_sales_count += 1
         cs.consignment_item.consigner.save!
       end

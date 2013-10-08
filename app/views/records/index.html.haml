@@ -16,6 +16,6 @@
   .record_grid
     - @records.sort_by{rand}.each do |record|
       .record
-        = link_to(record, html_options = {:class => 'brick', :style => 'background-image: url(\'http://slothrops.ee' + record.image.url(:box) + '\');' } ) do
+        = link_to(record, html_options = {:class => 'brick', :style => 'background-image: url(\'' + record.image.url(:box) + '\');' } ) do
           .inside_block
           .user_hover= record.full_title

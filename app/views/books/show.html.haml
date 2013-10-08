@@ -14,9 +14,10 @@
 
       
     .book_metadata
-      %p
-        Category:
-        = link_to @book.category.name, @book.category
+      - unless @book.category.nil?
+        %p
+          Category:
+          = link_to @book.category.name, @book.category
       - if @book.editions_in_stock.size == 0
         %p Sorry, Slothrop's does not currently have this title in stock.
       - else

@@ -3,6 +3,17 @@
 %br/
 = old_select_tag_for_filter("sales", @filters, params) 
 
+.debug{:style => 'display: none'}
+  john debugging, ignore
+  %p= Time.zone.now.beginning_of_week.to_date.to_s
+  %p= Time.zone.now.end_of_week.to_date.to_s
+  %P
+    today is
+    = Sale.today.to_sql
+  %p
+    this week is
+    = Sale.this_week.to_sql
+
 %table#sales{:style => "border: 1px solid grey;"}
   %tr{:style => "border: 1px solid black;"}
     %th Sold on
@@ -19,7 +30,7 @@
     %th
 
   - @sales.each do |sale|
-    %tr{:style => "border: 1px dotted grey;"}
+    %tr{:style => "border: 1px dotted grey;", :class => (sale.open? ? :open : false)}
       %td= sale.created_at.strftime("%d %B")
       %td
         = sale.user.username

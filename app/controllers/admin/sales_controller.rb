@@ -97,6 +97,7 @@ class Admin::SalesController < Admin::BaseController
       @sales = Sale.send(params[:show]).includes([:payments, :vouchers, :user, :inventories, :consignment_items])
     elsif params[:opened_for]
       @sales = Sale.opened_for(params[:opened_for]).includes([:payments, :vouchers, :user, :inventories, :consignment_items])
+      logger.warn('getting sales ' + @sales.inspect)
     else
       @sales = Sale.all
     end  
