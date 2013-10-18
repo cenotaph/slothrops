@@ -35,9 +35,11 @@ gem 'globalize3'
 gem 'has_scope'
 gem 'inherited_resources'
 gem 'jquery-rails', '>= 1.0.12'
+gem 'jquery-ui-rails'
 gem 'json'
 gem 'kaminari'
-gem 'le'
+gem "koala", "~> 1.7.0rc1"
+gem 'letter_opener', :group => :development
 # gem 'kgio' , '2.8.0'
 gem 'meta-tags', :require => 'meta_tags'
 gem 'mini_magick'
@@ -57,10 +59,12 @@ gem 'twitter', '4.4.4'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails'#, "3.1.4"
-  gem 'coffee-rails'
-  gem 'uglifier'
-  gem 'jquery-ui-rails'
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'uglifier', '>= 1.0.3'
+  # Add Foundation Here
+  gem 'compass-rails' # you need this or you get an err
+  gem 'zurb-foundation', '~> 4.0.0'
 end
 group :production do
   gem 'therubyracer'
@@ -78,3 +82,4 @@ end
 
 # To use debugger
 # gem 'ruby-debug'
+

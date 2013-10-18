@@ -25,5 +25,11 @@
   .field
     = f.label :comments
     = f.text_area :comments
+  .field
+    = f.label :legit
+    = f.check_box :legit
+  .field
+    = f.label :email_on_every_sale
+    = f.check_box :email_on_every_sale
   .actions
     = f.submit 'Save'

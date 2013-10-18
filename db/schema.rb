@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620095459) do
+ActiveRecord::Schema.define(:version => 20131018120046) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(:version => 20130620095459) do
     t.integer  "consignment_sales_count"
     t.string   "contact_name"
     t.string   "report_info"
+    t.boolean  "legit",                   :default => false, :null => false
+    t.boolean  "email_on_every_sale",     :default => true,  :null => false
   end
 
   create_table "consignment_items", :force => true do |t|
