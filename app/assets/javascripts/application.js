@@ -4,6 +4,7 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //= require jquery
+//= require jquery.ui.core
 //= require jquery.ui.datepicker
 //= require jquery.ui.autocomplete
 //= require jquery.purr
@@ -21,3 +22,5 @@
 
 //= require_self
 CKEDITOR_BASEPATH = "/assets/ckeditor/";
+//= require foundation
+$(document).foundation();
