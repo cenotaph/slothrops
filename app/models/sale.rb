@@ -32,7 +32,7 @@ class Sale < ActiveRecord::Base
   
   def cash_payments
     cash_payments = payments.empty? ? 0 : payments.reject{|x| x.paymenttype_id != 1}.delete_if{|x| x.amount.nil?}.map{|x| x.amount.to_f}.sum
-    credit_payments = payments.empty? ? 0 : payments.reject{|x| x.paymenttype_id != 2}.delete_if{|x| x.amount.nil?}.map{|x| x.amount.to_f}.sum 
+    # credit_payments = payments.empty? ? 0 : payments.reject{|x| x.paymenttype_id != 2}.delete_if{|x| x.amount.nil?}.map{|x| x.amount.to_f}.sum 
     if to_consignee > 0.00
       cash_payments - to_consignee
     else
@@ -40,9 +40,26 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  def gross_cash_payments
+    cash_payments = payments.empty? ? 0 : payments.reject{|x| x.paymenttype_id != 1}.delete_if{|x| x.amount.nil?}.map{|x| x.amount.to_f}.sum
+    if to_consignee_variable > 0.00
+      cash_payments - to_consignee_variable
+    else
+      cash_payments
+    end    
+  end
+      
   
   def to_consignee
     consignment_items.map(&:wholesale).sum
+  end
+  
+  def to_consignee_variable
+    consignment_items.map{|x| x.consigner.legit == true ? 0 : x.wholesale }.sum
+  end
+  
+  def consignee_gross
+    consignment_items.map{|x| x.consigner.legit == true ? x.price : (x.price - x.wholesale) }.sum
   end
   
   def credit_payments

@@ -42,7 +42,7 @@ class Admin::ReportsController < ActionController::Base
     end
     @cgs = 0.0
     sales.each do |saleday|
-      @cgs += saleday.last.map(&:inventories).flatten.map(&:our_cost).sum
+      @cgs += saleday.last.map(&:items).flatten.map(&:our_cost).sum
     end
     @sales = Hash[sales.sort]
     if params[:render_csv] == "1"

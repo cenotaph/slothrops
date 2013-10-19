@@ -20,7 +20,14 @@ class ConsignmentItem < ActiveRecord::Base
   acts_as_taggable_on :collections
   
 
-
+  def our_cost
+    consigner.legit == true ? wholesale : 0
+  end
+      
+  def our_gross
+    consigner.legit == true ?  price : (price - wholesale)
+  end
+  
   def any_image(size = :midsize)
     if book.nil? && record.nil?
       item_image.url(size)
