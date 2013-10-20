@@ -1,0 +1,119 @@
+@import 'variables';
+// typeface overrides
+h1 {
+  font: bold 22px/26px Helvetica, Arial, sans-serif;
+  margin-bottom: 5px;
+}
+
+h2 {
+  font: bold 16px/20px Helvetica, Arial, sans-serif;
+}
+
+.top-bar-slothrops {
+  background: url(image_path('top_orange.png')) repeat-x top;
+  background-color: black;
+  padding-top: 30px;
+  height: 125px;
+
+  ul.right {
+
+    background-color: black;
+  }
+}
+section.main {
+  padding: 25px 0px 30px 0px;
+  background-color: #f4f1e9;
+}
+
+section.info {
+  h2 .small {
+    font: bold 10px/12px Lucida Grande, Arial, sans-serif;
+  }
+  
+  .hours {
+    margin-top: 20px;
+  }
+}
+
+section.social_networking {
+  ul {
+    li {
+      list-style-type: none;
+      float: left;
+      width: 50px;
+      height: 30px;
+      border-right: 1px solid #333;
+      &.facebook  {
+        background: url(image_path('social_fb.png')) no-repeat;
+        width: 30px;
+      }
+      &.twitter {
+        background: url(image_path('social_twitone.png')) no-repeat 9px;
+      }
+      &.inventory {
+        background: url(image_path('social_twittwo.png')) no-repeat 9px;
+      }
+      &.foursquare {
+        background: url(image_path('social_fs.png')) no-repeat 9px;
+        border-right: none;
+      }
+    }
+  }
+}
+
+section.categories {
+  .content {
+    margin-top: 25px;
+    ul.side_cat {
+      li {
+        font: 10px/13px Lucida Grand, Arial, sans-serif;
+        a { color: #333; 
+          &:hover {
+              color: #DC5405;
+          }
+        }
+        
+      }
+    }
+  }
+}
+
+
+
+
+footer {
+  padding: 20px 0px;
+  background-color: #000;
+  .footer_menu {
+    padding-bottom: 15px;
+    
+  }
+  .contact_deets {
+    border-top: 1px solid #FFF;
+    padding-top: 15px;
+    text-align: center;
+    p {
+      margin: 0px 0px 0px 0px;
+      color: #f4f1e9;
+      a, a:visited {
+        color: #f4f1e9;
+        &:hover {
+          color: $slothrops-orange;
+        }
+      }
+    }
+  }
+  ul {
+    li {
+      list-style-type: none;
+      font-family: $lucida;
+      font-size: 10px;
+      a, a:visited {
+        color: #fff;
+        &:hover {
+          color: $slothrops-orange;
+        }
+      }
+    }
+  }
+}

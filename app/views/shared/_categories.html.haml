@@ -1,0 +1,4 @@
+.content
+  %ul.side-nav.side_cat
+    - Category.all.sort_by{|x| x.name }.each do |cat|
+      %li= link_to cat.name, cat
