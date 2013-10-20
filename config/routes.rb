@@ -47,7 +47,7 @@ Slothrop::Application.routes.draw do
   resources :creators
   resources :users
 
-  root :to => 'inventories#index' 
+  root :to => 'posts#index' 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

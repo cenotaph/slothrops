@@ -8,5 +8,10 @@
  *= require jquery.ui.autocomplete 
  *= require_tree ../../../vendor/assets/stylesheets/jplayer 
  *= require foundation
+ *= require foundation_and_overrides
  *= require_directory . 
 */
+
+.reveal-modal{
+top: 0px !important;
+}

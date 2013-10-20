@@ -1,6 +1,8 @@
-
-.event_title= link_to event.title, event
-.event_metadata
-  - unless event.start_at.blank?
-    = event.start_at.strftime('%d %B %Y')
-.event_description= raw event.description
+.row
+  .small-10.columns
+    .date_posted Event on
+    .date= event.start_at.strftime("%d/%m")
+    .post_body
+      .event_name= link_to raw(event.title), event.facebook
+      .body= raw event.description
+  .small-1.column.right_link= link_to 'Read more', event

@@ -1,4 +1,9 @@
 module ApplicationHelper
+  include AutoHtml
+  
+  def output(html)
+    auto_html(html) { simple_format; link(:target => 'blank') }
+  end
   
   def old_select_tag_for_filter(model, nvpairs, params)
     options = { :query => params[:query] }

@@ -1,3 +1,36 @@
-.post_title=link_to post.title, post
-.post_metadata= "posted #{time_ago_in_words(post.created_at)} ago"
-.post_body= raw post.body
+.row
+  .small-10.columns
+    .date_posted Date Posted
+    .date= post.created_at.strftime("%d/%m")
+    .post_lead
+      - if post.event.nil?
+        .post_title= raw post.subject + " : "
+      - else
+        .event_title= link_to "Event - " + post.subject, post.event
+      = truncate_html(output(post.body), :length => 600)
+      
+        
+    .post_body.reveal-modal{:id => "post_#{post.id.to_s}"}
+      
+      - if post.event.nil?
+        .post_title= raw post.subject + " : "
+      - else
+        .event_title= link_to post.subject, post.event
+      = output(post.body)
+      - if post.event.nil?
+        - if !post.fb_link.nil?
+          = link_to "Read more", post.fb_link, :target => :_blank
+      - else
+        = link_to 'Read more', post.event
+      %a.close-reveal-modal &#215;
+  .small-1.column.right_link
+    - if output(post.body).size > 600
+      = link_to 'Read more', '#', "data-reveal-id" => "post_#{post.id.to_s}"
+    - else
+      - if post.event.nil?
+        - if post.fb_link.nil?
+          = link_to "Read more", post
+        - else
+          = link_to "Read more", post.fb_link, :target => :_blank
+      - else
+        = link_to 'Read more', post.event

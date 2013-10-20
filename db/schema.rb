@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620095459) do
+ActiveRecord::Schema.define(:version => 20131020134328) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(:version => 20130620095459) do
     t.integer  "consignment_sales_count"
     t.string   "contact_name"
     t.string   "report_info"
+    t.boolean  "legit",                   :default => false, :null => false
+    t.boolean  "email_on_every_sale",     :default => true,  :null => false
   end
 
   create_table "consignment_items", :force => true do |t|
@@ -160,7 +162,15 @@ ActiveRecord::Schema.define(:version => 20130620095459) do
     t.datetime "updated_at"
     t.string   "slug"
     t.string   "facebook"
+    t.integer  "fb_id",              :limit => 8
+    t.string   "image"
+    t.integer  "image_width"
+    t.integer  "image_height"
+    t.string   "image_content_type"
+    t.integer  "image_size",         :limit => 8
   end
+
+  add_index "events", ["fb_id"], :name => "index_events_on_fb_id", :unique => true
 
   create_table "expenses", :force => true do |t|
     t.date     "expense_date"
@@ -259,9 +269,17 @@ ActiveRecord::Schema.define(:version => 20130620095459) do
     t.datetime "updated_at"
     t.boolean  "published"
     t.boolean  "sticky"
+    t.integer  "fb_id",              :limit => 8
+    t.string   "fb_link"
+    t.integer  "image_size",         :limit => 8
+    t.string   "image_content_type"
+    t.integer  "image_height"
+    t.integer  "image_width"
+    t.integer  "event_id"
   end
 
   add_index "posts", ["book_id"], :name => "index_posts_on_book_id"
+  add_index "posts", ["fb_id"], :name => "index_posts_on_fb_id", :unique => true
   add_index "posts", ["slug"], :name => "index_posts_on_slug", :unique => true
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
 
