@@ -1,7 +1,7 @@
 
 
 
-%table#books
+%table#books{:style => "border-collapse: collapse;"}
   %thead
     %th= link_to 'Author', :sort => 'creator_name'
     %th= link_to 'Title', :sort => 'title'
@@ -10,16 +10,17 @@
 
   - @books.each do |book|
     - cycle = cycle('odd', 'even')
+
     %tr{:class => cycle, :style => "border-top: 60 solid black;"}
       %td= link_to book.creator.displayname, admin_creator_path(book.creator)
       %td
         = book.title
         .table_options
-          = link_to '[edit book title/author]', edit_admin_book_path(book)
-          = link_to '[write review]', new_admin_book_review_path(:book_id => book.id)
+          = button_to 'Edit book title/author', edit_admin_book_path(book), :method => :get, :class => [:button, :radius, :tiny]
+          = button_to 'Write review', new_admin_book_review_path(:book_id => book.id), :method => :get, :class => [:button, :radius, :tiny]
         .table_options
-          = link_to '[view on public site]', book
-          = link_to '[view full staff details]', admin_book_path(book)
+          = button_to 'View on public site', book, :method => :get, :class => [:button, :radius, :tiny]
+          = button_to 'View full staff details', admin_book_path(book), :method => :get, :class => [:button, :radius, :tiny]
       %td
         = pluralize(book.editions.size, 'edition') + " in our db"
         - if book.collection_list.blank?
@@ -34,10 +35,10 @@
           = f.submit :submit, :class => :collection_submit      
       %td
         - if can? :destroy, book
-          = link_to 'delete entire book', admin_book_path(:id => book.id), {:confirm => "Are you sure?  This will delete the book entry and all dependent editions and inventory!!", :method => :delete}
+          = button_to 'Delete entire book', admin_book_path(:id => book.id), :data => { :confirm => "Are you sure?  This will delete the book entry and all dependent editions and inventory!!"}, :method => :delete, :class => [:button, :tiny, :radius, :red_button]
       
     - book.editions.sort{|x,y| y.inventories.size <=> x.inventories.size  }.each do |edition|
-      %tr{:class => cycle, :style => 'border-bottom: 1px dotted #ABABAB;'}
+      %tr{:class => cycle}
         %td Edition:
         %td
           = image_tag edition.image.thumbnail.url if edition.image.thumbnail.url
@@ -93,9 +94,9 @@
                   %td.table_options= link_to 'enter a new copy into the inventory for this edition', '/admin/inventories/' + edition.id.to_s + '/new_from_edition'       
     - if can? :create, Edition
       %tr{:class => cycle}
-        %td{:colspan => 2, :style => "padding-left: 45px;"}= link_to 'Enter different edition of ' + book.title, new_admin_book_edition_path(:book_id => book.id)
-        %td &nbsp;
-        %td &nbsp;
+        %td{:colspan => 2, :style => "border-bottom: 2px solid black; padding-left: 45px;"}= link_to 'Enter different edition of ' + book.title, new_admin_book_edition_path(:book_id => book.id)
+        %td{:style => "border-bottom: 2px solid black;"} &nbsp;
+        %td{:style => "border-bottom: 2px solid black;"} &nbsp;
 %br
 
 = paginate @books

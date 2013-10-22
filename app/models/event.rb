@@ -5,6 +5,7 @@ class Event < ActiveRecord::Base
   friendly_id :title, :use => :slugged
   default_scope where(:published => true).order('start_at DESC')
   mount_uploader :image, NewcarouselUploader
+  has_event_calendar
   
   before_save :update_image_attributes
   
@@ -18,8 +19,20 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def calendar_icon(style = :small, day = nil)
+    image.url(style)
+  end
+  
+  def happens_on?(day)
+    return true if day.to_date >= start_at.to_date && day.to_date <= end_at.to_date
+    end
+  
   def sortdate
     end_at.blank? ? start_at : end_at
+  end
+  
+  def name
+    title
   end
   
 end

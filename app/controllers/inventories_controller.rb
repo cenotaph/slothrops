@@ -11,9 +11,10 @@ class InventoriesController < InheritedResources::Base
   
   # this is our homepage
   def index
-    @latest = Inventory.includes([:edition, :category, {:book => [:collections, :creator]}]).latest_arrivals.order('created_at DESC').limit(15)
-    @latest += ConsignmentItem.includes([:edition, :category, {:book => [:collections, :creator]}]).latest_arrivals.order('acquired DESC').limit(15).delete_if{|x| x.in_stock? == false }
-    @latest.sort!{|x, y| y.created_at <=> x.created_at }
+    @latest = Storeitem.order('acquisition_date DESC').page(params[:page]).per(28)
+    # @latest = Inventory.includes([:edition, :category, {:book => [:collections, :creator]}]).latest_arrivals.order('created_at DESC').limit(15)
+    # @latest += ConsignmentItem.includes([:edition, :category, {:book => [:collections, :creator]}]).latest_arrivals.order('acquired DESC').limit(15).delete_if{|x| x.in_stock? == false }
+    # @latest.sort!{|x, y| y.created_at <=> x.created_at }
   end
   
   def show

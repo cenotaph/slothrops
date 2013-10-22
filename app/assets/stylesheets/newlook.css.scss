@@ -14,10 +14,82 @@ h2 {
   background-color: black;
   padding-top: 30px;
   height: 125px;
-
-  ul.right {
-
+  .top-bar {
+    height: 95px;
+    .top-bar-section {
+      padding: 60px 0px 0px 0px;
+    }
+  }
+  ul.left {
+    
     background-color: black;
+    li {
+      &.divider {
+        display: none;
+      }
+      a {
+        font-family: Plantin;
+        font-size: 18px;
+        line-height: 35px;
+        text-transform: uppercase;
+      }
+      &.active a {
+        background-color: rgba(255,255,255,1);
+        color: black;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+      }
+    }
+  }
+}
+
+section.search {
+  padding: 0px;
+  background-color: #FFF;
+  .search_box {
+
+    h4 {
+      padding-top: 21px;
+      font-size: 18px;
+      margin-bottom: 0px;
+      float: left;
+    }
+    input[type="text"] {
+      float: left;
+      width: 70%;
+      margin: 0px 15px 0px 15px;
+      padding-top: 25px;
+      border-bottom: 3px dotted #999;
+      border-top: none !important;
+      border-left: none !important; border-right: none !important;
+      font-size: 22px;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+
+      float: left;
+        &:focus {
+          outline: 0;
+          background-color: #FFF;
+        }
+      }
+    input[type="submit"] {
+      float: left;
+      background: url(image_path('Searchbutton.png')) no-repeat;
+      width: 60px;
+      height: 57px;
+      padding-bottom: 0px;
+      margin-bottom: 0px;
+      border: none;
+      opacity: 1;
+      -webkit-transition: opacity 1.4s linear;
+      -moz-transition: opacity 1.4s linear;
+      &:hover {
+        opacity: .47;
+        cursor: pointer;
+        -webkit-transition: opacity 0.5s linear;
+        -moz-transition: opacity 0.5s linear;
+      }
+    }
   }
 }
 section.main {
@@ -116,4 +188,16 @@ footer {
       }
     }
   }
+}
+
+// misc
+
+.filter_label {
+  float: left; 
+  margin: 15px 0px 10px 10px;
+}
+
+.browse select {
+  width: 200px;
+  margin: 15px 0px 10px 10px;
 }

@@ -1,17 +1,15 @@
-= content_for :left_column do
-  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
-  
-    
+.podcasts
+  = image_tag 'podcast_banner.png'
 
-.clearfix
-  %h3.lined Slothrop's Screaming Sky
+  %h1 Slothrop's Screaming Sky
+  
   %p 
     %em Slothrop's Screaming Sky
-    is a semi-regular podcast by the proprietors of Slothrop's. In any given episode you can hear scintillating discussion about books, life in Estonia, politics, fashion, history, and other worthwhile matters. 
+    is a very irregular podcast by the proprietors of Slothrop's. In any given episode you can hear scintillating discussion about books, life in Estonia, politics, fashion, history, and other worthwhile matters. 
   %p 
     You can listen to our podcasts through our site, where we annotate each one with footnotes, or
     = link_to 'subscribe via iTunes', 'http://itunes.apple.com/us/podcast/slothrops-screaming-sky/id517693587'
     if you are so inclined.
     
   - @podcasts.each do |podcast|
-    .podcast_full.clearfix= render :partial => 'podcast', :locals => {:podcast => podcast}
+    .podcast= render :partial => 'podcast', :locals => {:podcast => podcast}

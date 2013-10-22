@@ -1,11 +1,7 @@
-// Place all the styles related to the Inventories controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-$helvetica: Helvetica, Arial, sans-serif;
-$georgia: Georgia, Times, serif;
-$slothrop-orange: #DC5405;
+@import 'variables';
+
 h3 {
-  font-family: $georgia;
+  font-family: $helvetica;
   font-size: 18pt;
   font-weight: bold;
 }
@@ -14,12 +10,20 @@ h3 {
   font-size: 14pt;
 }
 
-.order_now a {
+.order_now {
   text-transform: uppercase;
   font-family: Helvetica, Arial, sans-serif;
-  color: #cc6600;
+  color: $slothrops-orange;
   text-decoration: none;
-  font-size: 10pt;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.oop {
+  font-family: Helvetica, Arial, sans-serif;
+  color: #666;
+  text-decoration: none;
+  font-size: 11px;
   font-weight: bold;
 }
 
@@ -109,7 +113,7 @@ h3 {
   }
 
   .description_body {
-    font-family: $georgia;
+    font-family: $helvetica;
     font-size: 11pt;
   }
   
@@ -129,7 +133,7 @@ h3 {
 
 
   .featured_title {
-    font-family: $georgia;
+    font-family: $helvetica;
     font-size: 11pt;
   }
   
@@ -137,7 +141,7 @@ h3 {
       margin-top: 5px;
       clear: left;
       font-size: 10pt;
-      font-family: $georgia;
+      font-family: $helvetica;
       text-align: justify;
       line-height: 18px;
       margin-bottom: 5px;
@@ -169,7 +173,7 @@ h3 {
 
 .latest_in {
   margin-top: 10px;
-  
+}
   .latest_image  {
     float: left;
     width: 80px;
@@ -177,7 +181,7 @@ h3 {
   }
 
   .latest_info {
-    width: 250px;
+    margin-top: 10px;
     float: left;
     
     .metadata {
@@ -200,10 +204,15 @@ h3 {
     }
   }
   
-  .latest_title a {
-    font-family: $georgia;
-    font-size: 12pt;
+  .latest_title a, .latest_title a:visited {
+    font-family: $helvetica;
+    font-size: 14px;
+    color: $slothrops-orange;
     text-decoration: none;
+  }
+  .format {
+    font-size: 13px;
+    color: #666;
   }
   .book_price {
     font-family: Helvetica, Arial, sans-serif;
@@ -220,7 +229,6 @@ h3 {
     font-weight: bold;
   }
 
-}
 
 
 
@@ -286,7 +294,7 @@ h3 {
       margin-top: 5px;
       clear: left;
       font-size: 10pt;
-      font-family: $georgia;
+      font-family: $helvetica;
       text-align: justify;
       line-height: 18px;
       margin-bottom: 5px;
@@ -337,7 +345,7 @@ h3 {
   .overview {
     span.book_title {
       font-size: 13pt;
-      font-family: $georgia;
+      font-family: $helvetica;
     }
     margin-bottom: 10px;
   }
@@ -371,7 +379,7 @@ h3 {
     }
 
     .description_body {
-      font-family: $georgia;
+      font-family: $helvetica;
       font-size: 11pt;
       p {
         margin: 5px 15px 5px 15px;

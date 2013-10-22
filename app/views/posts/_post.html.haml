@@ -31,6 +31,6 @@
         - if post.fb_link.nil?
           = link_to "Read more", post
         - else
-          = link_to "Read more", post.fb_link, :target => :_blank
+          = link_to image_tag('FB_post_link.png'), post.fb_link, :target => :_blank
       - else
         = link_to 'Read more', post.event

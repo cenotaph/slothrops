@@ -1,9 +1,7 @@
-= content_for :left_column do
-  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
+.browse
 
-.column-9.clearfix  
   - unless @cat.blank?
-    %h3.lined
+    %h1
       Browsing: 
       = @cat.name
     = select_tag_for_filter("category", @cat, @filters, params)
@@ -38,5 +36,5 @@
               %ul
                 - item.collections.each do |collection|
                   %li= link_to collection.name.humanize, '/collections/' + collection.slug
-              
+            
   = paginate @inventories

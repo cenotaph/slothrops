@@ -22,7 +22,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
   def default_url
-    "/graphics/missing70-02.png"
+    "/graphics/missing225.png"
   end
   # Process files as they are uploaded:
   # process :scale => [200, 300]
@@ -37,12 +37,13 @@ class ImageUploader < CarrierWave::Uploader::Base
     process :resize_to_fit => [500, 500]
   end
   
+
   version :box do
     process :resize_to_fill => [150, 150]
   end
   
   version :midsize do
-    process :resize_to_fit => [150, 214]
+    process :resize_to_fit => [225, 350]
   end
   
   version :thumbnail do 

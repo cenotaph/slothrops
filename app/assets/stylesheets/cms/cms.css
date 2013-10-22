@@ -2,9 +2,11 @@
  * This css will include all web-app-theme css you need
  *
 
-
- *= require_self
- *= require_directory .
+ *= require foundation
+ *= require foundation_and_overrides
+ *= require ../newlook
+ *= require ./new_admin
+ *= require ../newlook
  */
 
 /* Write here your css for overriding the theme's rules */

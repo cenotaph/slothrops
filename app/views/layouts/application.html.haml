@@ -36,27 +36,34 @@
     .contain-to-grid.top-bar-slothrops
       %nav.top-bar
         .row
-          .small-12.columns
+          .large-3.columns
             %ul.title-area
               %li.name= image_tag 'sg.png'
-            %section.top-bar-section
-              %ul.right
-                %li.divider
-                %li= link_to 'Home', '/'
-                %li= link_to 'Calendar', '/'
-                %li= link_to 'Stock', '/'
-                %li= link_to 'Podcast', '/'
-                - if current_user
-                  %li= link_to 'Admin side', '/admin'
-                  %li= link_to "Sign out", destroy_user_session_path, :method => :delete 
-
+          .large-9.top-bar-section.columns
+            %ul.left
+              %li.divider
+              %li{:class => ( request.path == '/' ? :active : false)}= link_to 'Home', '/'
+              %li{:class => ( ['calendar', 'events'].include?(controller.controller_name) ? :active : false)}= link_to 'Calendar', '/calendar'
+              %li{:class => ( ['inventories', 'books', 'editions', 'consigment_items', 'collections', 'categories', 'records', 'searches', 'reviews'].include?(controller.controller_name) ? :active : false)}= link_to 'Stock', inventories_path
+              %li{:class => ( ['podcasts'].include?(controller.controller_name) ? :active : false)}= link_to 'Podcast', podcasts_path
+              - if current_user
+                %li= link_to 'Admin side', '/admin'
+                %li= link_to "Sign out", destroy_user_session_path, :method => :delete 
+    %section.search
+      .row
+        .large-9.push-3.columns.search_box
+          %h4 Search
+          = form_tag '/search' do
+            = text_field_tag :searchterm
+            = submit_tag ''
+        .large-3.pull-9.columns &nbsp;
     %section.main
       .row
         .large-9.push-3.columns= yield
         .large-3.pull-9.columns
           %section.info
             %h1 Slothrop's English Language Bookshop
-            %h2 Pikk 34, Kesklinn
+            %h2 Pikk 34, Tallinn
           
             .hours
               %h2
@@ -91,7 +98,7 @@
                   %ul
                     %li= link_to 'Home & News', '/'
                     %li= link_to 'Stock', inventories_path
-                    %li= link_to 'Calendar', events_path
+                    %li= link_to 'Calendar', '/calendar'
                     %li= link_to 'Podcast', podcasts_path
             .large-7.columns
               .row

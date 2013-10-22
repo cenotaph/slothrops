@@ -3,7 +3,7 @@ module InventoriesHelper
   def select_tag_for_filter(model, item, nvpairs, params)
     options = { :query => params[:query] }
     _url = url_for(eval("#{model}_url('#{item.slug.to_s}', options)"))
-    _html = %{<label for="show">Sort by:</label><br />}
+    _html = %{<label for="show" class="filter_label">Sort by:</label>}
     _html << %{<select name="show" id="show"}
     _html << %{onchange="window.location='#{_url}' + '?sort_order=' + this.value ">}
     nvpairs.each do |pair|
@@ -43,14 +43,14 @@ module InventoriesHelper
   
   def paypal(stock)
     if stock.sold?
-      raw "<div>Sorry, this item is not currently in stock.</div>"
+      raw "<div class='oop'>Sorry, this item is not currently in stock.</div>"
     else
       if stock.respond_to?('stock_count') && stock.book.nil? && stock.record.nil?
         c = stock.remaining
       else
         c = ''
       end
-      raw "<div class=\"order_now\"><a href=\"#\">#{c} IN STOCK NOW!</a></div>"
+      raw "<div class=\"order_now\">IN STOCK NOW!</div>"
     end
   end
   

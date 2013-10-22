@@ -1,10 +1,32 @@
-.podcast
-  %h4= link_to "Episode #{podcast.number}: #{podcast.name}", podcast
+.date
+%h2= "##{podcast.number} #{podcast.name}"
 
-  
-  .podcast_image= image_tag podcast.image.box.url
+.row
+  .columns.small-2
+    .podcast_image= image_tag podcast.image.box.url
+  .small-6.columns
+    .podcast_description= raw podcast.description
+    - unless podcast.podcastlinks.blank?
+      .footnote_link= link_to 'See footnotes, references, and other marginalia', '#', "data-reveal-id" => "podcast_#{podcast.id.to_s}"
+      .podcast_links_header.reveal-modal.large{:id => "podcast_#{podcast.id.to_s}"}
+        %h2 
+          Footnotes for 
+          %em
+            = @podcast.name
+        
+        - podcast.podcastlinks.sort_by{|link| link.sortorder.to_f }.each do |link|
+          .podcast_link.clearfix
+        
+            - if link.image?
+              .podcast_link_image= image_tag link.image.midsize.url
 
-  .podcast_metadata
-    .podcast_description
-      = raw podcast.description  
-      %p= link_to 'Listen here, and read footnotes and other miscellany', podcast
+            .podcast_link_metadata
+              .podcast_link_title
+                *
+                = link_to_if link.url?, link.name, link.url, :target => :_blank
+              - unless link.description.blank?
+                .podcast_link_description= raw link.description        
+        %a.close-reveal-modal &#215;
+    - unless podcast.url.blank?
+    
+  .small-1.columns.right_link= link_to 'iTunes', 'http://itunes.apple.com/us/podcast/slothrops-screaming-sky/id517693587'

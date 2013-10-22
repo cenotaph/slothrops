@@ -37,8 +37,8 @@ class ApplicationController < ActionController::Base
     events.each do |event|
       next if Event.exists?(:fb_id => event['id'])
       e = Event.create(:fb_id => event['id'], :title => event['name'], 
-                      :start_at => event['start_time'].to_datetime + 10.hours, :facebook => event['link'], 
-                      :end_at => event['end_time'].to_datetime + 10.hours, :description => event['description'],
+                      :start_at => event['start_time'].to_datetime + 8.hours, :facebook => event['link'], 
+                      :end_at => event['end_time'].to_datetime + 8.hours, :description => event['description'],
                       :remote_image_url => event['cover']['source'], :published => true
                       )
     end
@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
         unless event.empty?
           next if Post.exists?(:event_id => event.first.id)
           Post.create(:event => event.first, :subject => event.first.title,
-                      :created_at => post['created_time'].to_datetime + 10.hours,
+                      :created_at => post['created_time'].to_datetime + 8.hours,
                       :body => event.first.start_at.strftime("%d %B, %Y at %H:%M") + " - " + event.first.description,
                       :published => true, :remote_image_url => event.first.image.url, :fb_link => post['link']
           )
@@ -92,12 +92,12 @@ class ApplicationController < ActionController::Base
         Post.create(:subject => subject, :body => body,
                     :fb_id => pid, :fb_link => post['link'],
                     :remote_image_url => ph['images'].first['source'], :published => true,
-                    :created_at => post['created_time'].to_datetime + 10.hours
+                    :created_at => post['created_time'].to_datetime + 8.hours
                     )
       elsif post['type'] == 'link'
         Post.create(:subject => subject, :body => post['message'],
                     :fb_id => pid, :fb_link => post['link'],
-                    :published => true, :created_at => post['created_time'].to_datetime + 10.hours
+                    :published => true, :created_at => post['created_time'].to_datetime + 8.hours
                     )
       end
     end

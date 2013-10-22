@@ -1,5 +1,6 @@
 class Inventory < ActiveRecord::Base
   belongs_to :edition
+  has_many :storeitems, as: :item, :dependent => :destroy
   mount_uploader :image, ImageUploader
   extend FriendlyId
   friendly_id :inventory_entry, :use => :slugged
@@ -15,9 +16,26 @@ class Inventory < ActiveRecord::Base
   attr_accessible :edition_id, :condition, :notes, :price, :edition, :bookbuy_id, :image_cache, :initialed, :notweet, :box, :omahind, :source
   attr_accessor :notweet
   after_create :check_twitter
-  before_create :set_acquired
+  after_create :save_storeitem
 
+  before_create :set_acquired
+  before_save :update_image_attributes
   
+  def update_image_attributes
+    if image.present?
+      self.image_content_type = image.file.content_type
+      self.image_size = image.file.size
+      self.image_width, self.image_height = `identify -format "%wx%h" #{image.file.path}`.split(/x/)
+      # if you also need to store the original filename:
+      # self.original_filename = image.file.filename
+    end
+  end
+  
+  def save_storeitem
+    Storeitem.create(:item_type => 'Inventory', :item_id => self.id, :title => self.title, :acquisition_date => self.acquired, :price => self.price)
+  end
+  
+
   def check_twitter
     if notweet == "1"
       logger.warn('do not tweet')
@@ -85,6 +103,7 @@ class Inventory < ActiveRecord::Base
       (Time.zone.now.to_date - bookbuy.day_of_sale).to_i
     end
   end
+  
   def title
     edition.book.title.blank? ? 'untitled' : edition.book.title
   end

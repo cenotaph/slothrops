@@ -1,76 +1,64 @@
-%h1 Listing sales
-= link_to '[export to CSV]', csv_export_admin_sales_path
-%br/
-= old_select_tag_for_filter("sales", @filters, params) 
-
-.debug{:style => 'display: none'}
-  john debugging, ignore
-  %p= Time.zone.now.beginning_of_week.to_date.to_s
-  %p= Time.zone.now.end_of_week.to_date.to_s
-  %P
-    today is
-    = Sale.today.to_sql
-  %p
-    this week is
-    = Sale.this_week.to_sql
-
-%table#sales{:style => "border: 1px solid grey;"}
-  %tr{:style => "border: 1px solid black;"}
-    %th Sold on
-    %th Staff
-    %th # of books
-    %th Cash
-    %th Credit
-    %th To consigner
-    %th Other 
-    %th Amount    
-    %th Open?
-    %th
-    %th
-    %th
-
-  - @sales.each do |sale|
-    %tr{:style => "border: 1px dotted grey;", :class => (sale.open? ? :open : false)}
-      %td= sale.created_at.strftime("%d %B")
-      %td
-        = sale.user.username
-        - unless sale.comment.blank?
-          .sale_list_comment= sale.comment
-      %td= sale.items.size
-
-      %td= number_to_currency(sale.cash_payments, :unit => "&euro;", :format => "%n%u")
-      %td= sale.credit_payments == 0 ? '' : number_to_currency(sale.credit_payments, :unit => "&euro;", :format => "%n%u")
-      %td= sale.to_consignee == 0 ? '' : number_to_currency(sale.to_consignee)
-      %td= sale.other_payments == 0 ? '' : number_to_currency(sale.other_payments, :unit => "&euro;", :format => "%n%u")
-      %td= number_to_currency(sale.total_due, :unit => "&euro;", :format => "%n%u")      
-      %td= sale.open? ? "open" : "complete"
-
-      %td= link_to 'Show', [:admin,sale]
-      %td= link_to_if (sale.open?), 'Complete',  complete_admin_sale_path(sale), :method => :get
-      %td= link_to 'Destroy', [:admin, sale], :confirm => 'Are you sure?', :method => :delete
-  %tr{:style => "border: 1px solid black; font-weight: bold"}
-    %td &nbsp;
-    %td TOTALS:
-    %td= @sales.map{|x| x.items.size}.sum
-    %td= number_to_currency(@sales.map{|x| x.cash_payments}.sum, :unit => "&euro;", :format => "%n%u")
-    %td= number_to_currency(@sales.map{|x| x.credit_payments}.sum, :unit => "&euro;", :format => "%n%u")
-    %td= number_to_currency(@sales.map{|x| x.to_consignee}.sum, :unit => "&euro;", :format => "%n%u")      
-    %td= number_to_currency(@sales.map{|x| x.other_payments}.sum, :unit => "&euro;", :format => "%n%u")
-    %td= number_to_currency(@sales.map{|x| x.total_due}.sum, :unit => "&euro;", :format => "%n%u")
-    %td{:colspan => 4} &nbsp;
-  %tr{:style => "border: 1px solid black;"}
-    %th(colspan =2) &nbsp;
-    %th # of books
-    %th Cash
-    %th Credit
-    %th To consigner
-    %th Other 
-    %th(colspan=5) Amount    
+.sales.column
+  %h1 Listing sales
+  = link_to '[export to CSV]', csv_export_admin_sales_path
+  .filter= old_select_tag_for_filter("sales", @filters, params) 
 
 
-= link_to 'New Sale', new_admin_sale_path
+  %p Click the # of items for more details on each sale.
+  
+  %table#sales{:style => "border: 1px solid grey;"}
+    %tr{:style => "border: 1px solid black;"}
+      %th Sold on
+      %th Staff
+      %th # items
+      %th Cash
+      %th Credit
+      %th To consigner
+      %th Amount
+      %th Open?
+      %th(colspan=4)
 
-%p Sales in &euro;s by hour
-#sales_chart= render :partial => 'chart', :locals => {:sales => @sales}
-%p Num transactions per hour
-#transactions_chart=render :partial => 'transchart', :locals => {:sales => @sales}
+
+    - @sales.each do |sale|
+      %tr{:style => "border: 1px dotted grey;", :class => (sale.open? ? :open : false), :border => 1}
+        %td= sale.created_at.strftime("%d %B")
+        %td
+          = sale.user.username
+          - unless sale.comment.blank?
+            .sale_list_comment= sale.comment
+        %td= link_to sale.items.size,  [:admin,sale]
+
+        %td= number_to_currency(sale.cash_payments, :unit => "&euro;", :format => "%n%u")
+        %td= sale.credit_payments == 0 ? '' : number_to_currency(sale.credit_payments, :unit => "&euro;", :format => "%n%u")
+        %td= sale.to_consignee == 0 ? '' : number_to_currency(sale.to_consignee)
+
+        %td= number_to_currency(sale.total_due, :unit => "&euro;", :format => "%n%u")      
+        %td= sale.open? ? "open" : "complete"
+        %td
+          - if sale.open?
+            = button_to 'Complete',  complete_admin_sale_path(sale), :method => :get, :class => [:button, :tiny, :success, :radius]
+        %td= button_to 'Destroy', [:admin, sale], :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => [:button, :red_button, :tiny, :radius]
+    %tr{:style => "border: 1px solid black; font-weight: bold"}
+      %td &nbsp;
+      %td TOTALS:
+      %td= @sales.map{|x| x.items.size}.sum
+      %td= number_to_currency(@sales.map{|x| x.cash_payments}.sum, :unit => "&euro;", :format => "%n%u")
+      %td= number_to_currency(@sales.map{|x| x.credit_payments}.sum, :unit => "&euro;", :format => "%n%u")
+      %td= number_to_currency(@sales.map{|x| x.to_consignee}.sum, :unit => "&euro;", :format => "%n%u")      
+      %td= number_to_currency(@sales.map{|x| x.total_due}.sum, :unit => "&euro;", :format => "%n%u")
+      %td{:colspan =>5} &nbsp;
+    %tr{:style => "border: 1px solid black;"}
+      %th(colspan =2) &nbsp;
+      %th # 
+      %th Cash
+      %th Credit
+      %th To consigner
+      %th Amount    
+      %th(colspan=4)
+
+  = link_to 'New Sale', new_admin_sale_path
+
+  %p Sales in &euro;s by hour
+  #sales_chart= render :partial => 'chart', :locals => {:sales => @sales}
+  %p Num transactions per hour
+  #transactions_chart=render :partial => 'transchart', :locals => {:sales => @sales}

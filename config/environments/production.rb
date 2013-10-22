@@ -50,7 +50,7 @@ Slothrop::Application.configure do
   # config.assets.precompile += %w( search.js ckeditor/config.js ckeditor/contents.css jplayer/ ckeditor/init.js)
   config.assets.precompile += %w( galleria.js cms/cms.css print/print.css ckeditor/init.js)
   config.assets.precompile += Ckeditor.assets
- 
+  config.assets.precompile += %w( .svg .eot .woff .ttf ) 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 

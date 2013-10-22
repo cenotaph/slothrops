@@ -1,8 +1,18 @@
-= content_for :left_column do
-  = render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
-  
-.clearfix
-  %h3.lined Events at Slothrop's
-  = render :partial => 'event', :locals => {:event => @event}
-  
-  .read_more= link_to 'All Events', events_path
+.event
+  - if @event.image?
+    - if @event.image_width < 900
+      = image_tag @event.image.url
+    - else
+      = image_tag @event.image.url(:standard)
+  .small-10
+    .date= @event.start_at.strftime('%d/%m')
+
+    %h1= @event.name
+    .event_metadata
+      = @event.start_at.strftime('%d %B, %Y from %H:%M')
+      - unless @event.end_at.blank?
+        until
+        = @event.end_at.strftime("%H:%M")
+    .event_description= output @event.description
+  .small-1.right_link 
+    = link_to image_tag('FB_post_link.png'), @event.facebook

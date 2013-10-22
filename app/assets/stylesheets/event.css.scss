@@ -1,0 +1,51 @@
+@import 'variables';
+.event {
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  position: relative;
+  .date {
+    font-family: $helvetica;
+    color: $slothrops-orange;
+    font-size: 18px;
+    margin: 15px 0px;
+  }
+  h1 {
+    margin-bottom: 10px;
+  }
+  .event_metadata {
+    margin-bottom: 5px;
+    color: #333;
+    font-style: italic;
+    font-size: 14px;
+  }
+  .event_description {
+    font-family: $lucida;
+    color: #000;
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 10px;
+    p {
+      margin-bottom: 10px;
+    }
+    
+    
+  }
+  .right_link {
+    float: right;
+    margin-top: -18px;
+    padding: 6px;
+    border-top-left-radius: 0.75em;
+    border-top-right-radius: 0.75em;
+    font-family: $lucida;
+    font-size: 11px;
+    display: inline;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-color: black;
+    a {
+      color: white;
+    }
+  }
+}
