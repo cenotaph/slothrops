@@ -1,8 +1,5 @@
-$helvetica: Helvetica, sans-serif;
-$georgia: Georgia, Times, serif;
-$slothrop-orange: #DC5405;
 
-
+@import 'variables';
 
 
 #overall_container {
@@ -194,50 +191,11 @@ h2 {
 
 }
 
-.search  {
-  width: 474px;
-}
+
 #contact_block {
   border-right: 1px solid black;
 }
-.search_box {
-  height: 35px;
-  border-right: 1px solid black;
-  border-left:  1px solid black;
-  border-bottom: 1px solid #666;
-  h4 {
-    float: left;
-  }
-  input[type="text"] {
-    width: 365px;
-    height: 28px;
-    border-bottom: 1px dotted #333;
-    border-top: none;
-    border-left: none; border-right: none;
-    font-size: 22px;
-    float: left;
-      &:focus {
-        outline: 0;
-      }
-    }
-  input[type="submit"] {
-    float: left;
-    background: url('/graphics/sloth_icons-01.png') no-repeat 0px -489px;
-    width: 36px;
-    height: 36px;
-    margin-bottom: 2px;
-    border: none;
-    opacity: 1;
-    -webkit-transition: opacity 1.4s linear;
-    -moz-transition: opacity 1.4s linear;
-    &:hover {
-      opacity: .47;
-      cursor: pointer;
-      -webkit-transition: opacity 0.5s linear;
-      -moz-transition: opacity 0.5s linear;
-    }
-  }
-}
+
 
 #divider_bar .icons ul {
   display: inline;
@@ -470,7 +428,21 @@ h2 {
 
 .pagination {
   margin-top: 5px;
-
+  a { 
+    color: #333;
+    &:hover { color: $slothrops-orange; 
+    }
+  }
+  span.current {
+    font-weight: bold;
+    color: #000;
+  }
+  span.next {
+    margin-left: 5px;
+  }
+  span.first , span.last {
+    display: none;
+  }
 }
 
 .fb-like-box {

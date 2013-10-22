@@ -1,0 +1,165 @@
+@import '../variables';
+
+form {
+  input{
+    width: inherit !important;
+  }
+}
+.new_sale {
+  h1 {
+    color: $slothrops-orange;
+    float: left;
+    font-size: 28px;
+    margin: 20px 20px 20px 0px;
+  }
+  
+  form {
+    float: left;
+    input[type=text] {
+      margin: 15px 0px 20px 0px;
+      font-size: 18px;
+      width: 500px;
+    }
+  }
+}
+
+.side_stuff {
+  margin-top: -20px;
+}
+
+.book_details {
+  input.button {
+    float: left; 
+    margin-right: 5px;
+  }
+}
+
+.red_button {
+  background-color: red;
+
+  &:hover {
+    background-color: white;
+    color: red;
+  }
+}
+
+span.alert {
+  a {
+    color: white;
+  }
+}
+
+.table_options  form div {
+  float: left; margin-right: 5px;
+}
+
+form.formtastic {
+  li {
+    list-style-type: none;
+  }
+  abbr {
+    display: none;
+  }
+  input[type=text], input[type=number] {
+    width: 25em;
+  }
+  textarea {
+    width: 25em;
+  }
+}
+#corner_search {
+  color: white;
+  font-size: 10px;
+  line-height: 12px;
+  label {
+    padding: 2px 0px 0px 0px;
+    margin-bottom: 0px;
+    font-size: 12px;
+    line-height: 13px;
+    float: left;
+ 
+
+    text-align: right;
+  }
+  input[type=text] {
+    font-size: 11px;
+    height: 22px;
+    margin-top: 2px;
+    background-color: #999;
+  }
+}
+h1 {
+  color: #000;
+  a, a:visited {
+    color: #000;
+  }
+  font-size: 34px;
+  line-height: 42px;
+}
+h2 {
+  font-size: 26px;
+  line-height: 32px;
+  color: #000;
+  a, a:visited {
+    color: #000;
+  }
+}
+
+h3.payments {
+  float: left;
+  margin-right: 15px;
+}
+
+.admin_content {
+  padding-bottom: 20px;
+  border-bottom: 1px solid black;
+}
+
+.payments {
+  ol {
+    margin-left: 25px;
+    
+  }
+}
+.sales {
+  .filter {
+    select {
+      width: inherit;
+    }
+  }
+}
+
+form {
+  label {
+    padding: 8px;
+  }
+
+  select {
+    width: inherit !important;
+  }
+}
+
+#new_payment {
+  input[type=number] {
+    width: 100px;
+  }
+}
+
+table#sales {
+  border-collapse: collapse;
+  width: 100%;
+  tr:hover {
+   background-color: rgba(189, 185, 160 ,0.7); 
+   cursor: pointer;
+  }
+  td {
+    text-align: center;
+    form {
+      margin-bottom: 0px;
+      input.button {
+        margin-bottom: 0px;
+        padding-top: 2px;
+      }
+    }
+  }
+}

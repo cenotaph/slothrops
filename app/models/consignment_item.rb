@@ -2,6 +2,7 @@ class ConsignmentItem < ActiveRecord::Base
   mount_uploader :item_image, ImageUploader 
   belongs_to :edition
   belongs_to :record
+  has_many :storeitems, as: :item
   has_one :book, :through => :edition
   has_one :creator, :through => :book
   has_one :category, :through => :book
@@ -18,7 +19,14 @@ class ConsignmentItem < ActiveRecord::Base
   validates_presence_of :consigner_id
   acts_as_taggable
   acts_as_taggable_on :collections
+  before_save :update_image_attributes
+  after_create :save_storeitem
   
+  def update_image_attributes
+    if item_image.present?
+      self.item_image_content_type = item_image.file.content_type
+      self.item_image_size = item_image.file.size
+      self.item_image_width, self.item_image_height = `identify -format "%wx%h" #{item_image.file.path}`.split(/x/)
 
   def our_cost
     consigner.legit == true ? wholesale : 0
@@ -26,6 +34,12 @@ class ConsignmentItem < ActiveRecord::Base
       
   def our_gross
     consigner.legit == true ?  price : (price - wholesale)
+  end
+
+
+  
+  def save_storeitem
+    Storeitem.create(:item_type => 'ConsignmentItem', :item_id => self.id, :title => self.title, :acquisition_date => self.acquired, :price => self.price)
   end
   
   def any_image(size = :midsize)
@@ -38,7 +52,7 @@ class ConsignmentItem < ActiveRecord::Base
     if edition
       edition.format
     elsif record
-      record.format
+      record.format.blank? ? 'record' : record.format
     else
       ''
     end

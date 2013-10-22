@@ -1,39 +1,12 @@
-%h1 Slothrop's staff side
+.cart.columns
+  %h1 Slothrop's staff side
 
-#stats
-  Total inventory:
-  - sum = Inventory.sum(:price)
-  - priced = Inventory.count(:conditions => 'price > 0')
-  = raw "#{Inventory.available.count} unsold of #{Inventory.count} (#{Book.count} unique titles, #{Edition.count} unique editions). #{priced} priced, #{Inventory.count(:conditions => 'initialed is not null')} reviewed/shelved, total potential value #{number_to_currency(sum, :unit => '&euro;', :format => '%n%u')} (avg. #{number_to_currency((sum/priced), :unit => '&euro;', :format => '%n%u')} per book)"
+  #stats
+    Total inventory:
+    - sum = Inventory.sum(:price)
+    - priced = Inventory.count(:conditions => 'price > 0')
+    = raw "#{Inventory.available.count} unsold of #{Inventory.count} (#{Book.count} unique titles, #{Edition.count} unique editions). #{priced} priced, #{Inventory.count(:conditions => 'initialed is not null')} reviewed/shelved, total potential value #{number_to_currency(sum, :unit => '&euro;', :format => '%n%u')} (avg. #{number_to_currency((sum/priced), :unit => '&euro;', :format => '%n%u')} per book)"
 
-  - bottom = Payment.sum(:amount) - (Expense.sum(:amount) + Bookbuy.sum(:amount)) 
 
-  %table#main_report
-    %thead.subheading
-      %th Costs
-    %tbody
-      %tr
-        %td General expenses
-        %td.red= number_to_currency(Expense.sum(:amount), :unit => '&euro;', :format => '%n%u')
-      %tr
-        %td Book purchases
-        %td.red= number_to_currency(Bookbuy.sum(:amount), :unit => '&euro;', :format => '%n%u')
-    %thead.subheading
-      %th Income
-    %tbody
-      %tr
-        %td Cash payments
-        %td.black= raw number_to_currency(Payment.where(:paymenttype_id => 1).sum(:amount), :unit => '&euro;', :format => '%n%u')
-      %tr 
-        %td Store credit
-        %td.black=  raw number_to_currency(Payment.where(:paymenttype_id => 2).sum(:amount), :unit => '&euro;', :format => '%n%u')
-      
-    %thead.bottom_line
-      %th Bottom line
-    %tbody
-      %tr
-        %td Total
-        %td{:class => (bottom > 0 ? 'black' : 'red')}=  raw number_to_currency(bottom, :unit => '&euro;', :format => '%n%u')
-          
-%h3= link_to 'see all books', admin_books_path
+  %h3= link_to 'see all books', admin_books_path
 

@@ -1,5 +1,5 @@
-%h2 new custom book
-Only use this to enter books with editions that you cannot find in amazon.
+%h2 New custom book
+%p Only use this to enter books with editions that you cannot find in Amazon.
 
 = semantic_form_for [:admin, @book] do |f|
   = f.input :title
@@ -8,4 +8,4 @@ Only use this to enter books with editions that you cannot find in amazon.
   = f.semantic_fields_for :editions do |ff|
     = ff.input :format
     = ff.input :barcode
-  = f.submit
+  = f.submit "Save", :class => [:button, :radius] 

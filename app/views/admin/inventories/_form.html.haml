@@ -1,68 +1,73 @@
-%h3 
-  New inventory entry for
-  = @inventory.full_title
-  = link_to '[edit book title]', edit_admin_book_path(@inventory.book)
-- if @inventory.edition.image.url
-  .inventory_form_image= image_tag @inventory.edition.image.url
+.inventory.columns
+  %h3 
+    New inventory entry for
+    = @inventory.full_title
+  = button_to 'Edit book title', edit_admin_book_path(@inventory.book), :method => :get, :class => [:button, :radius, :tiny]
 
 
-.inventory_form
-  = @inventory.edition.book.try(:title)
-  = " / "
-  = @inventory.edition.book.try(:creator_name)
-  = link_to '[edit]', edit_admin_book_path(@inventory.edition.book)
 
-  - if @inventory.edition.inventories.size > 0 
-    .already_exists
-      %p 
-        %u Already existing in db:
-      - @inventory.edition.inventories.each do |inv|
-        .existing_entry
-          condition:
-          = inv.condition
-          , price:
-          = number_to_currency inv.price
-          .sold_at= "from purchase: #{inv.bookbuy.nil? ? 'unknown' : inv.bookbuy.source + ", " + inv.bookbuy.day_of_sale.strftime('%d %b %Y')}"
-          - if inv.sold?
-            .sold_at
-              sold on
-              = inv.sale.sold_at.strftime('%d %b') rescue "no time"
-          - else
-            .sold_at
-              Still in stock! Check this isn't the same copy.
-  = semantic_form_for [:admin, @inventory] do |f|
-    %div{:style => "clear: both; padding-top: 25px; font-size: 13pt;"} This new copy:
-    -if @inventory.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@inventory.errors.count, "error")} prohibited this book from being saved:"
-        %ul
-          - @inventory.errors.full_messages.each do |msg|
-            %li= msg
-    = f.input :condition
-    = f.input :notes, :input_html => {:cols => 60, :rows => 4}
-    = f.input :price
-    = f.input :edition_id, :as => :hidden
-    - if f.object.new_record?
-      = f.input :bookbuy, :collection => Bookbuy.where("closed is false").order('day_of_sale DESC').map{|x| [raw("#{x.source} (#{number_to_currency(x.amount, :unit => "&euro;", :format => "%n%u")}, #{x.day_of_sale.strftime('%d %B')})"), x.id]}
-    - else
-      = f.input :bookbuy, :collection => Bookbuy.order('day_of_sale DESC').map{|x| [raw("#{x.source} (#{number_to_currency(x.amount, :unit => "&euro;", :format => "%n%u")}, #{x.day_of_sale.strftime('%d %B')})"), x.id]}
-    = f.input :image
-    = f.input :image_cache, :as => :hidden
-    = f.input :initialed
-    = f.input :notweet, :as => :boolean, :label => " Don't tweet to @SlothropsStock"
-    %div{:style => "clear: both"}
-    / - if @no_edition
-    /   = f.input :edition_id, :as => :hidden
-    / - else
-    /   = f.semantic_fields_for :edition do |ff|
-    /     = ff.input :format
-    /     = ff.input :barcode
-    %h4 
-      Obsolete fields
-      = link_to '(show/hide)', 'javascript:$(".right_form").toggle();'
-    .right_form{:style => "display: none;"}
-      = f.input :box
-      = f.input :omahind, :label => 'Price paid (obsolete)'
-      = f.input :source, :label => 'Source (obsolete)'
-    .actions
-      = f.submit 'Save'
+  .inventory_form.row
+    .small-6.columns
+      - if @inventory.edition.image.url
+        .inventory_form_image= image_tag @inventory.edition.image.url
+      = @inventory.edition.book.try(:title)
+      = " / "
+      = @inventory.edition.book.try(:creator_name)
+      = button_to 'Edit author/title', edit_admin_book_path(@inventory.edition.book), :method => :get, :class => [:button, :radius, :tiny]
+    .small-6.columns
+      - if @inventory.edition.inventories.size > 0 
+        .already_exists
+          %p 
+            %u Already existing in db:
+          - @inventory.edition.inventories.each do |inv|
+            .existing_entry
+              condition:
+              = inv.condition
+              , price:
+              = number_to_currency inv.price
+              .sold_at= "from purchase: #{inv.bookbuy.nil? ? 'unknown' : inv.bookbuy.source + ", " + inv.bookbuy.day_of_sale.strftime('%d %b %Y')}"
+              - if inv.sold?
+                .sold_at
+                  sold on
+                  = inv.sale.sold_at.strftime('%d %b') rescue "no time"
+              - else
+                .sold_at
+                  Still in stock! Check this isn't the same copy.
+      = semantic_form_for [:admin, @inventory] do |f|
+        %div{:style => "clear: both; padding-top: 25px; font-size: 13pt;"} This new copy:
+        -if @inventory.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@inventory.errors.count, "error")} prohibited this book from being saved:"
+            %ul
+              - @inventory.errors.full_messages.each do |msg|
+                %li= msg
+        = f.input :condition, :input_html => {:required => true}
+        = f.input :notes, :input_html => {:cols => 60, :rows => 4}
+        = f.input :price, :input_html => {:required => true}
+        = f.input :edition_id, :as => :hidden
+        - if f.object.new_record?
+          = f.input :bookbuy, :collection => Bookbuy.where("closed is false").order('day_of_sale DESC').map{|x| [raw("#{x.source} (#{number_to_currency(x.amount, :unit => "&euro;", :format => "%n%u")}, #{x.day_of_sale.strftime('%d %B')})"), x.id]},  :input_html => {:required => true}
+        - else
+          = f.input :bookbuy, :collection => Bookbuy.order('day_of_sale DESC').map{|x| [raw("#{x.source} (#{number_to_currency(x.amount, :unit => "&euro;", :format => "%n%u")}, #{x.day_of_sale.strftime('%d %B')})"), x.id]}
+        = f.input :image
+        = f.input :image_cache, :as => :hidden
+        = f.input :initialed, :input_html => {:required => true}
+        = f.input :notweet, :as => :boolean, :label => " Don't tweet to @SlothropsStock"
+        %div{:style => "clear: both"}
+        / - if @no_edition
+        /   = f.input :edition_id, :as => :hidden
+        / - else
+        /   = f.semantic_fields_for :edition do |ff|
+        /     = ff.input :format
+        /     = ff.input :barcode
+        %h4 
+          Obsolete fields
+          = link_to '(show/hide)', 'javascript:$(".right_form").toggle();'
+        .right_form{:style => "display: none;"}
+          = f.input :box
+          = f.input :omahind, :label => 'Price paid (obsolete)'
+          = f.input :source, :label => 'Source (obsolete)'
+        .actions
+          = f.submit 'Save', :class => [:button, :radius]
+  :javascript
+    $('form.inventory').validate();

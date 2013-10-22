@@ -9,25 +9,19 @@
     = image_tag @podcast.image.standard.url
   
   - unless @podcast.url.blank?
-    #jplayer_1.jp-jplayer
-    #jp_interface_1.jp-interface
-      %ul.jp-controls
-        %li= link_to 'play', '#', :class => "jp-play", :tabindex => 1
-        %li= link_to 'pause', '#', :class => "jp-pause", :tabindex => 1
-        %li= link_to 'stop', '#', :class => "jp-stop", :tabindex => 1
-        %li= link_to 'mute', '#', :class => "jp-mute", :tabindex => 1
-        %li= link_to 'unmute', '#', :class => "jp-unmute", :tabindex => 1
-      .jp-progress
-        .jp-seek-bar
-          .jp-play-bar
-      .jp-volume-bar
-        .jp-volume-bar-value
-      .jp-current-time
-      .jp-duration
+    #mediaplayer This will be replaced.
+    :javascript
+      mySound = soundManager.createSound({
+          id: 'mediaplayer',
+          serverURL: 'rtmp://media.slothops.ee/cfx/st', 
+          url: 'mp4:#{File.basename(@podcast.url)}'
+
+ 
+      });
+      
     .download_link.read_more
       = link_to 'Subscribe in iTunes!', 'http://itunes.apple.com/us/podcast/slothrops-screaming-sky/id517693587'
-      |
-      = link_to 'Direct download', @podcast.url
+
   
   - if @podcast.description?
     %p= raw @podcast.description
@@ -47,33 +41,4 @@
             = link_to_if link.url?, link.name, link.url, :target => :_blank
           - unless link.description.blank?
             .podcast_link_description= raw link.description
-  #fb-root
-  .fb-comments{"data-href" => 'http://' + request.host + url_for(@archive), "data-num-posts" => "5", "data-width" => "630"} 
-  :javascript
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=172132482884497";
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
 
-  - unless @podcast.url.blank?
-    :javascript
-        $("#jplayer_1").jPlayer({
-              cssSelectorAncestor: '#jp_interface_1',
-              cssSelector: {
-                play: '.jp-play'
-              },
-              ready: function () {
-                  $(this).jPlayer("setMedia", {
-                      mp3: "#{@podcast.url}",
-                  });
-              },
-              ended: function (event) {
-                  $(this).jPlayer("play", 0);
-              },
-              swfPath: "public",
-              supplied: "mp3"
-          });
-  

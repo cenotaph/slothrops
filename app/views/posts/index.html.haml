@@ -1,8 +1,15 @@
-= content_for :left_column do
-  = render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
-  
-    
-.column-9.clearfix
-  %h3.lined News, events and other information
+.row
+  %ul{"data-orbit" => ""}
+    - @posts.each do |post|
+      - next if post.image.blank?
+      - next if post.image_width < 900
+      %li
+        = image_tag post.image.url(:standard)
+        .orbit-caption= link_to post.subject, post
+
+  %h1 Recent news
   - @posts.each do |post|
-    .post_full.clearfix= render :partial => 'post', :locals => {:post => post}
+    .post= render :partial => 'post', :locals => {:post => post}
+    
+  .row
+    .large-9.columns= paginate @posts

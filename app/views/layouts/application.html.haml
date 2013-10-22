@@ -4,57 +4,15 @@
   %head
     = display_meta_tags :site => "Slothrop's"
     = stylesheet_link_tag    "application"
-    = javascript_include_tag "application", "galleria"
+    = javascript_include_tag "application"
     = csrf_meta_tags 
+    = javascript_include_tag "vendor/custom.modernizr"
     %meta{:property => "og:locale", :content => "en_GB"}    
     %meta{:property => "og:type", :content => "article"}
     %meta{:property => "og:site_name", :content => "Slothrop's"}
     %meta{:property => "fb:app_id", :content => (Rails.env == 'development' ? "274357239251162" : "172132482884497")}   
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     :javascript
-    
-       function slideShow(speed) {
-       
-        $('ul.carousel li').css({opacity: 0.0});
-     
-        //Get the first image and display it (set it to full opacity)
-        $('ul.carousel li:first').css({opacity: 1.0});  
-     
-        //Call the gallery function to run the carousel    
-        var timer = setInterval('gallery()',speed);
-     
-        //pause the carousel on mouse over
-        $('ul.carousel').hover(
-            function () {
-                clearInterval(timer);   
-            },  
-            function () {
-                timer = setInterval('gallery()',speed);         
-            }
-        );
-     
-      }
-  
-      function gallery() {
-        var current = ($('ul.carousel li.show')?  $('ul.carousel li.show') : $('#ul.carousel li:first'));
-        var next = ((current.next().length) ? ((current.next().attr('id') == 'carousel-caption')? $('ul.carousel li:first') :current.next()) : $('ul.carousel li:first'));
-        var title = next.find('img').attr('title'); 
-        var desc = next.find('img').attr('alt');    
-        next.css({opacity: 0.0}).addClass('show').animate({opacity: 1.0}, 1000);
-
-        $('#carousel-caption').slideToggle(300, function () { 
-          $('#carousel-caption h3').html(title); 
-          $('#carousel-caption p').html(desc); 
-          $('#carousel-caption').slideToggle(500); 
-        }); 
- 
-        current.animate({opacity: 0.0}, 1000).removeClass('show');
-      }
-
-    
-    
-      function putfocus() {
-          $("#searchterm").focus();
-      }
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-28072286-1']);
       _gaq.push(['_trackPageview']);
@@ -64,7 +22,7 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-  %body
+  %body.anti-aliased.off-canvas.hide-extras
     .container
       #fb-root
       :javascript
@@ -75,80 +33,98 @@
             js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=361608853869521";
            fjs.parentNode.insertBefore(js, fjs);
          }(document, 'script', 'facebook-jssdk'));
-      - if current_user
-        = "Logged in as #{current_user.username}; "
-        = link_to 'Admin side', '/admin'
-        = ";"
-        = link_to "Sign out", destroy_user_session_path, :method => :delete 
-
-      #header.sixteen.columns
-        .header_image= link_to image_tag('/images/system/header_logo.png'), '/'
-      #divider_bar.clearfix.sixteen.columns
-        .icons.four.columns.alpha.omega
-          %ul
-            = link_to 'http://www.facebook.com/Slothrops', :target => :_blank do
-              %li.facebook
+    .contain-to-grid.top-bar-slothrops
+      %nav.top-bar
+        .row
+          .large-3.columns
+            %ul.title-area
+              %li.name= image_tag 'sg.png'
+          .large-9.top-bar-section.columns
+            %ul.left
+              %li.divider
+              %li{:class => ( request.path == '/' ? :active : false)}= link_to 'Home', '/'
+              %li{:class => ( ['calendar', 'events'].include?(controller.controller_name) ? :active : false)}= link_to 'Calendar', '/calendar'
+              %li{:class => ( ['inventories', 'books', 'editions', 'consigment_items', 'collections', 'categories', 'records', 'searches', 'reviews'].include?(controller.controller_name) ? :active : false)}= link_to 'Stock', inventories_path
+              %li{:class => ( ['podcasts'].include?(controller.controller_name) ? :active : false)}= link_to 'Podcast', podcasts_path
+              - if current_user
+                %li= link_to 'Admin side', '/admin'
+                %li= link_to "Sign out", destroy_user_session_path, :method => :delete 
+    %section.search
+      .row
+        .large-9.push-3.columns.search_box
+          %h4 Search
+          = form_tag '/search' do
+            = text_field_tag :searchterm
+            = submit_tag ''
+        .large-3.pull-9.columns &nbsp;
+    %section.main
+      .row
+        .large-9.push-3.columns= yield
+        .large-3.pull-9.columns
+          %section.info
+            %h1 Slothrop's English Language Bookshop
+            %h2 Pikk 34, Tallinn
+          
+            .hours
+              %h2
+                .small We are usually open:
+              %h2 Mon - Sat 12:00 - 18:00
+              %h2= link_to 'info@slothrops.ee', 'mailto:info@slothrops.ee'
+          %section.social_networking
+            .content
+              %ul.side-nav
+                = link_to 'http://www.facebook.com/Slothrops', :target => :_blank do
+                  %li.facebook
             
-            = link_to  'http://www.twitter.com/Slothrops' , :target => :_blank do
-              %li.twitter
-            = link_to posts_path(:format => :rss) do
-              %li.rss
-            = link_to 'http://itunes.apple.com/us/podcast/slothrops-screaming-sky/id517693587' , :target => :_blank do
-              %li.itunes         
-            = link_to  'http://www.twitter.com/SlothropsStock', :target => :_blank, :class => :stock do
-              %li.inventory
-            = link_to 'https://foursquare.com/v/slothrops/4eeabdddc2ee434b7134054c',:target => :_blank do
-              %li.foursquare
-        .white_stretch.twelve.columns.omega
-          .white.search.clearfix.search_box.eight.columns.alpha
-            %h4 Search
-            = form_tag '/search' do
-              = text_field_tag :searchterm
-              = submit_tag ''
-          .white.eight.columns.alpha
-            %ul.sf-menu
-              %li.current.top.three.columns.alpha.omega
-                = link_to "What's new", '#'
-                %ul
-                  %li= link_to 'Podcasts', podcasts_path
-                  %li= link_to 'Events', events_path
-                  %li= link_to 'News', posts_path
-              %li.top.top.three.columns.alpha.omega
-                = link_to "Books", '#'
-                %ul
-                  %li= link_to 'Music', records_path
-                  %li= link_to 'Reviews', reviews_path
-                  %li= link_to 'Collections', collections_path
-              %li.last.columns.omega.two
-                = link_to 'About Us', '/page/a-bit-about-us'
-                %ul
-                  %li= link_to 'Contact', '/page/contact' 
-      #main.sixteen.columns
-     
-        #left.four.columns.alpha= yield :left_column
-
-        - if content_for?(:right_column)
-          #centre.eight.columns
-            - flash.each do |name, msg| 
-              = content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) 
-            = yield
-          #right.four.columns.omega= yield :right_column
-        - else
-          #centre.twelve.columns.omega= yield
-:javascript
-  $(document).ready(function(){
-    slideShow(8000);
-    $('li.inventory')
-        .mouseover(function() {
-  
-        $(this).stop().animate({backgroundPosition: "(0 8px)"}, {duration:500});
-   })
-   // On mouse out, move the background back
-   .mouseout(function() {
-     $(this).stop().animate({backgroundPosition: "(0 0)"}, {duration:500});
-   });
- 
-   $("ul.sf-menu").superfish(); 
-
-   
-     });
+                = link_to  'http://www.twitter.com/Slothrops' , :target => :_blank do
+                  %li.twitter
+                = link_to  'http://www.twitter.com/SlothropsStock', :target => :_blank, :class => :stock do
+                  %li.inventory
+                = link_to 'https://foursquare.com/v/slothrops/4eeabdddc2ee434b7134054c',:target => :_blank do
+                  %li.foursquare
+                  
+          %section.categories= render :partial => 'shared/categories'
+    %footer
+      .row.footer_menu
+        .large-2.columns &nbsp;
+        .large-8.columns
+          .row
+            .large-5.columns
+              .row
+                .large-4.columns
+                  %ul
+                    %li= link_to 'Admin sign-in', '/admin'
+                .large-8.columns
+                  %ul
+                    %li= link_to 'Home & News', '/'
+                    %li= link_to 'Stock', inventories_path
+                    %li= link_to 'Calendar', '/calendar'
+                    %li= link_to 'Podcast', podcasts_path
+            .large-7.columns
+              .row
+                .large-6.columns
+                  %ul
+                    %li= link_to 'Facebook', ''
+                    %li= link_to 'Twitter (News)', ''
+                    %li= link_to 'Twitter (New stock)', ''
+                    %li= link_to 'Find us on Google maps', ''
+                .large-6.columns
+                  %ul
+                    %li= link_to "We'll buy your books!", ''
+                    %li= link_to "Volunteering at Slothrop's", ''
+                    %li= link_to 'Ordering books from the UK', ''
+        .large-2.columns &nbsp;
+      .row
+        .large-8.small-centered.columns.contact_deets
+          = image_tag 'footer_S.png'
+          %p Slothrop's English Language Bookshop
+          %p
+            Pikk 34, Tallinn, Estonia
+            |
+            = link_to 'info@slothrops.ee', 'mailto:info@slothrops.ee'
+          %p Proudly owned by Conglomeron Chemical.
+            
+          
+    :javascript
+      $(document).foundation();
+      

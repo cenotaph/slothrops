@@ -1,47 +1,68 @@
-- latest.each do |book|
-  .latest_in.clearfix
-    - if book.class == Inventory
-      .latest_image= link_to image_tag(book.edition.image.url(:thumbnail)), book
-    - elsif book.class == ConsignmentItem
-      - if book.edition.nil?
-        - if book.record.nil?
-          - if book.item_image
-            .latest_image= link_to image_tag(book.item_image.url(:thumbnail)), book
+.stock
+  - latest.in_groups_of(4).each do |group|
+    .row
+      - group.map{|x| x.item}.each do |book|
+        .small-3.columns
+          - if book.class == Inventory
+            .latest_image
+              - if !book.edition.image_width.nil? && book.edition.image_width < 225
+                = link_to image_tag(book.edition.image.url.gsub(/development/, 'production')), book
+              - else
+                = link_to image_tag(book.edition.image.url(:midsize).gsub(/development/, 'production')), book
+                
+          - elsif book.class == ConsignmentItem
+            - if book.edition.nil?
+              - if book.record.nil?
+                - if book.item_image
+                  .latest_image
+                    - if !book.item_image_width.nil? &&  book.item_image_width < 225
+                      = link_to image_tag(book.item_image.url), book
+                    - else
+                      = link_to image_tag(book.item_image.url(:midsize)), book
+                - else
+                  .latest_image= link_to image_tag('/graphics/missing225.png'), book
+              - else
+                .latest_image
+                  - if !book.record.image_width.nil? && book.record.image_width < 225
+                    = link_to image_tag(book.record.image.url), book.record
+                  - else
+                    = link_to image_tag(book.record.image.url(:midsize)), book.record
+            - else
+              .latest_image
+                - if !book.edition.image_width.nil? && book.edition.image_width < 225
+                  = link_to image_tag(book.edition.image.url), book
+                - else
+                  = link_to image_tag(book.edition.image.url(:midsize)), book
           - else
-            .latest_image= link_to image_tag('/graphics/missing70-02.png'), book
-        - else
-          .latest_image= link_to image_tag(book.record.image.url(:thumbnail)), book.record
-      - else
-        .latest_image= link_to image_tag(book.edition.image.url(:thumbnail)), book
-    - else
 
-      .latest_image= link_to image_tag('/graphics/missing70-02.png'), book
-    .latest_info
-      - if !book.respond_to?('record')
-        .latest_title= link_to raw(book.full_title), book.book
-      - else
-        - if book.record.nil?
-          .latest_title= link_to raw(book.full_title), book
-        - else 
-          .latest_title= link_to raw(book.full_title), book.record
-      .book_price= number_to_currency(book.price, :unit => "&euro;", :format => "%n%u")
-      .order_now=  paypal(book)
-      .metadata
-        - if !book.book.nil?
-          %ul
-            - unless book.category.blank?
-              %li= link_to book.category.name, book.category
-            - unless book.book.collections.blank?
-              - book.book.collections.each do |collection|
-                %li= link_to collection.name.humanize, '/collections/' + collection.slug
-        - elsif !book.record.nil?
-          %ul
-            %li= link_to book.record.musiccategory.name, book.record.musiccategory
-            - unless book.record.collections.blank?
-              - book.record.collections.each do |collection|
-                %li= link_to collection.name.humanize, '/collections/' + collection.slug
-        - else
-          - unless book.collections.blank?
-            %ul
-              - book.collections.each do |collection|
-                %li= link_to collection.name.humanize, '/collections/' + collection.slug
+            .latest_image= link_to image_tag('/graphics/missing225.png'), book
+          .latest_info
+            - if !book.respond_to?('record')
+              .latest_title= link_to raw(book.full_title), book.book
+            - else
+              - if book.record.nil?
+                .latest_title= link_to raw(book.full_title), book
+              - else 
+                .latest_title= link_to raw(book.full_title), book.record
+            .format= book.format.to_s.downcase
+            .book_price= number_to_currency(book.price, :unit => "&euro;", :format => "%n%u")
+            .order_now=  paypal(book)
+            .metadata
+              - if !book.book.nil?
+                %ul
+                  - unless book.category.blank?
+                    %li= link_to book.category.name, book.category
+                  - unless book.book.collections.blank?
+                    - book.book.collections.each do |collection|
+                      %li= link_to collection.name.humanize, '/collections/' + collection.slug
+              - elsif !book.record.nil?
+                %ul
+                  %li= link_to book.record.musiccategory.name, book.record.musiccategory
+                  - unless book.record.collections.blank?
+                    - book.record.collections.each do |collection|
+                      %li= link_to collection.name.humanize, '/collections/' + collection.slug
+              - else
+                - unless book.collections.blank?
+                  %ul
+                    - book.collections.each do |collection|
+                      %li= link_to collection.name.humanize, '/collections/' + collection.slug

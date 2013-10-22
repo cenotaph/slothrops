@@ -11,7 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131018120046) do
+
+
+ActiveRecord::Schema.define(:version => 20131021094605) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -115,6 +117,10 @@ ActiveRecord::Schema.define(:version => 20131018120046) do
     t.string   "name"
     t.text     "item_description"
     t.string   "invoice_number"
+    t.integer  "item_image_size",         :limit => 8
+    t.string   "item_image_content_type"
+    t.integer  "item_image_height"
+    t.integer  "item_image_width"
   end
 
   add_index "consignment_items", ["consigner_id"], :name => "index_consignment_items_on_consigner_id"
@@ -148,6 +154,10 @@ ActiveRecord::Schema.define(:version => 20131018120046) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "barcode"
+    t.integer  "image_size",          :limit => 8
+    t.string   "image_content_type"
+    t.integer  "image_height"
+    t.integer  "image_width"
   end
 
   add_index "editions", ["book_id"], :name => "index_editions_on_book_id"
@@ -162,7 +172,15 @@ ActiveRecord::Schema.define(:version => 20131018120046) do
     t.datetime "updated_at"
     t.string   "slug"
     t.string   "facebook"
+    t.integer  "fb_id",              :limit => 8
+    t.string   "image"
+    t.integer  "image_width"
+    t.integer  "image_height"
+    t.string   "image_content_type"
+    t.integer  "image_size",         :limit => 8
   end
+
+  add_index "events", ["fb_id"], :name => "index_events_on_fb_id", :unique => true
 
   create_table "expenses", :force => true do |t|
     t.date     "expense_date"
@@ -187,13 +205,17 @@ ActiveRecord::Schema.define(:version => 20131018120046) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "featured",     :default => false, :null => false
+    t.boolean  "featured",                        :default => false, :null => false
     t.date     "acquired"
-    t.boolean  "sold",         :default => false, :null => false
+    t.boolean  "sold",                            :default => false, :null => false
     t.string   "initialed"
     t.integer  "sale_id"
     t.integer  "bookbuy_id"
     t.boolean  "jan2013audit"
+    t.integer  "image_size",         :limit => 8
+    t.string   "image_content_type"
+    t.integer  "image_height"
+    t.integer  "image_width"
   end
 
   add_index "inventories", ["edition_id"], :name => "index_inventories_on_edition_id"
@@ -261,9 +283,17 @@ ActiveRecord::Schema.define(:version => 20131018120046) do
     t.datetime "updated_at"
     t.boolean  "published"
     t.boolean  "sticky"
+    t.integer  "fb_id",              :limit => 8
+    t.string   "fb_link"
+    t.integer  "image_size",         :limit => 8
+    t.string   "image_content_type"
+    t.integer  "image_height"
+    t.integer  "image_width"
+    t.integer  "event_id"
   end
 
   add_index "posts", ["book_id"], :name => "index_posts_on_book_id"
+  add_index "posts", ["fb_id"], :name => "index_posts_on_fb_id", :unique => true
   add_index "posts", ["slug"], :name => "index_posts_on_slug", :unique => true
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
 
@@ -287,6 +317,10 @@ ActiveRecord::Schema.define(:version => 20131018120046) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "discogs_id"
+    t.integer  "image_size",         :limit => 8
+    t.string   "image_content_type"
+    t.integer  "image_height"
+    t.integer  "image_width"
   end
 
   add_index "records", ["slug"], :name => "index_records_on_slug", :unique => true
@@ -345,6 +379,16 @@ ActiveRecord::Schema.define(:version => 20131018120046) do
   end
 
   add_index "staticpages", ["slug"], :name => "index_staticpages_on_slug", :unique => true
+
+  create_table "storeitems", :force => true do |t|
+    t.string   "title"
+    t.string   "item_type"
+    t.integer  "item_id"
+    t.date     "acquisition_date"
+    t.float    "price"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

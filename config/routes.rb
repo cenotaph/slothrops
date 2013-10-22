@@ -1,4 +1,6 @@
 Slothrop::Application.routes.draw do
+  match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+
   mount Ckeditor::Engine => '/ckeditor'
 
   resources :consignment_items
@@ -46,8 +48,9 @@ Slothrop::Application.routes.draw do
 
   resources :creators
   resources :users
+  match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 
-  root :to => 'inventories#index' 
+  root :to => 'posts#index' 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -83,11 +83,11 @@ class Admin::SalesController < Admin::BaseController
     @sale = Sale.find(params[:id])
     @sale.inventories.each do |si|
       si.sale_id = nil
-      si.sold = nil
+      si.sold = false
       si.save!
     end
     @sale.destroy
-    redirect_to admin_sales_path(:show => :opened)
+    redirect_to admin_sales_path(:show => :today)
   end
   
   

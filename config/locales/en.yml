@@ -11,3 +11,10 @@ en:
             separator: "."
             delimiter: ","
             precision: 2
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "< Previous / "
+      next: " / Next > "
+      truncate: "..."            

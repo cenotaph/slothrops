@@ -30,6 +30,14 @@ class Admin::ConsignmentItemsController <  Admin::BaseController
     @consignment_item = ConsignmentItem.new(:consigner_id => params[:consigner_id])
   end
   
+  def remove_from_cart_consignment
+    @sale = Sale.find(params[:sale_id])
+    @inventory = ConsignmentItem.find(params[:consignment_item_id]) if params[:consignment_item_id]
+    @sale.consignment_items.delete(@inventory)
+    @sale.save
+    render :template => 'admin/sales/cart'
+  end
+  
   def start_from_consignment
     @sale = Sale.new(:user => current_user)
     @inventory = ConsignmentItem.find(params[:consignment_item_id])
