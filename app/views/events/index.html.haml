@@ -1,13 +1,15 @@
-= content_for :left_column do
-  = render :partial => 'shared/left_static_posts', :locals => {:feed => @feed }
-  
-    
-
-.clearfix
-  %h3.lined Events at Slothrop's
-  - if @events.empty?
-    .event_full
-      %p There are no events currently. Please check back later.
-  - else
+.row
+  %ul{"data-orbit" => ""}
     - @events.each do |event|
-      .event_full.clearfix= render :partial => 'event', :locals => {:event => event}
+      - next if event.image.blank?
+      /- next if event.image_width < 900
+      %li
+        = image_tag event.image.url(:standard)
+        .orbit-caption= link_to event.name, event
+
+  %h1 Upcoming events
+  - @events.each do |event|
+    .post= render :partial => 'event', :locals => {:event => event}
+    
+  .row
+    .large-9.columns= paginate @events

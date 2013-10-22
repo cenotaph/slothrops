@@ -3,6 +3,6 @@
     .date_posted Event on
     .date= event.start_at.strftime("%d/%m")
     .post_body
-      .event_name= link_to raw(event.title), event.facebook
-      .body= raw event.description
+      .event_title= link_to raw(event.title), event.facebook
+      .body= output event.description
   .small-1.column.right_link= link_to image_tag('FB_post_link.png'), event.facebook
