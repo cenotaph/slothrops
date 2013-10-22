@@ -27,7 +27,9 @@ class ConsignmentItem < ActiveRecord::Base
       self.item_image_content_type = item_image.file.content_type
       self.item_image_size = item_image.file.size
       self.item_image_width, self.item_image_height = `identify -format "%wx%h" #{item_image.file.path}`.split(/x/)
-
+    end
+  end
+  
   def our_cost
     consigner.legit == true ? wholesale : 0
   end
