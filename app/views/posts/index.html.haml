@@ -4,8 +4,9 @@
       - next if post.image.blank?
       - next if post.image_width < 900
       %li
-        = image_tag post.image.url(:standard)
-        .orbit-caption= link_to post.subject, post
+        = link_to "javascript:$('html, body').animate({ scrollTop: $('#post_index_#{post.id.to_s}').offset().top }, 1000);" do
+          = image_tag post.image.url(:standard)
+          .orbit-caption= link_to post.subject, post
 
   %h1 Recent news
   - @posts.each do |post|

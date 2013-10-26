@@ -1,48 +1,22 @@
-= content_for :left_column do
-  .four.columns.alpha= render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
-
-          
-.twelve.columns.omega.inventory_item
-  .book_content
-    %h3= @book.full_title
-    .book_image
-      = image_tag @book.any_image
-      .read_more= link_to 'Enlarge Image', @book.any_image(:standard)
-      - unless @book.collections.blank?
-        = render :partial => "shared/collection_others", :locals => {:book => @book }
-
-
-      
-    .book_metadata
-      - unless @book.category.nil?
-        %p
-          Category:
-          = link_to @book.category.name, @book.category
-      - if @book.editions_in_stock.size == 0
-        %p Sorry, Slothrop's does not currently have this title in stock.
-      - else
-        %p
-          = pluralize(@book.editions_in_stock.size, 'edition')
-          in stock at Slothrop's:          
+.book_content.row
+  .large-12.columns
+    %h3= raw @book.full_title
+  .book_image.small-3.columns
+    = link_to image_tag(@book.any_image.gsub(/development/, 'production')), @book.any_image
+    - if @book.editions_in_stock.size == 0
+      %p Sorry, Slothrop's does not currently have this title in stock.    
+    - else
       - @book.editions.each do |ed|
         = render :partial => "shared/edition", :locals => {:inventory => ed}
-      - unless @book.reviews.blank?
-        .description_title Slothrop's Sez...
-      - @book.reviews.each do |post|
-        .description_body= raw post.body
-        .description_metadata= "posted by #{post.reviewer_name}, #{time_ago_in_words(post.created_at)} ago"
-      - unless @book.any_description.blank?
-        .description_title Publisher's Description
-        .description_body
-          %p=raw  @book.any_description.gsub(/&lt;/, '<').gsub(/&gt;/, '>').gsub(/&#x2019;/, '\'')        
     
-  #fb-root
-  .fb-comments{"data-href" => 'http://' + request.host + (request.port.to_s == "80" ? '' : ":" + request.port.to_s) + url_for(@book), "data-num-posts" => "5", "data-width" => "630"} 
-  :javascript
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=172132482884497";
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));      
+  .book_metadata.small-9.columns
+    - unless @book.reviews.blank?
+      .description_title Slothrop's Sez...
+    - @book.reviews.each do |post|
+      .description_body= raw post.body
+      .description_metadata= "posted by #{post.reviewer_name}, #{time_ago_in_words(post.created_at)} ago"
+    - unless @book.any_description.blank?
+      .description_title Publisher's Description
+      .description_body
+        %p=raw  @book.any_description.gsub(/&lt;/, '<').gsub(/&gt;/, '>').gsub(/&#x2019;/, '\'')        
+  

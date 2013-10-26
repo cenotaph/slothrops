@@ -38,25 +38,29 @@
         .row
           .large-3.columns
             %ul.title-area
-              %li.name= image_tag 'sg.png'
+              %li.name= link_to image_tag('sg.png'), '/'
           .large-9.top-bar-section.columns
             %ul.left
               %li.divider
               %li{:class => ( request.path == '/' ? :active : false)}= link_to 'Home', '/'
               %li{:class => ( ['calendar', 'events'].include?(controller.controller_name) ? :active : false)}= link_to 'Calendar', '/calendar'
-              %li{:class => ( ['inventories', 'books', 'editions', 'consigment_items', 'collections', 'categories', 'records', 'searches', 'reviews'].include?(controller.controller_name) ? :active : false)}= link_to 'Stock', inventories_path
+              %li{:class => ( ['inventories', 'books', 'editions', 'consigment_items', 'collections', 'categories',  'searches', 'reviews'].include?(controller.controller_name) ? :active : false)}= link_to 'Stock', inventories_path
+              %li{:class => ( request.path =~ /^\/records/ ? :active : false)}= link_to 'Records', '/records'
               %li{:class => ( ['podcasts'].include?(controller.controller_name) ? :active : false)}= link_to 'Podcast', podcasts_path
               - if current_user
                 %li= link_to 'Admin side', '/admin'
                 %li= link_to "Sign out", destroy_user_session_path, :method => :delete 
     %section.search
       .row
-        .large-9.push-3.columns.search_box
-          %h4 Search
-          = form_tag '/search' do
-            = text_field_tag :searchterm
-            = submit_tag ''
-        .large-3.pull-9.columns &nbsp;
+        .search_box
+          .large-3.pull-9.columns &nbsp;
+          .large-1.columns
+            %h4 Search
+          .large-8.columns
+            = form_tag '/search' do
+              = text_field_tag :searchterm
+              %span= submit_tag ''
+
     %section.main
       .row
         .large-9.push-3.columns= yield
@@ -124,7 +128,7 @@
             = link_to 'info@slothrops.ee', 'mailto:info@slothrops.ee'
           %p Proudly owned by Conglomeron Chemical.
             
-          
+    = yield :before_body
     :javascript
       $(document).foundation();
       

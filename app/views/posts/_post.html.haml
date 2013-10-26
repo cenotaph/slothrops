@@ -1,10 +1,11 @@
-.row
+.row{:id => "post_index_#{post.id.to_s}"}
   .small-10.columns
     .date_posted Date Posted
     .date= post.created_at.strftime("%d/%m")
     .post_lead
-      - if post.event.nil?
-        .post_title= raw post.subject + " : "
+      - if post.event.nil? 
+        - if post.subject != post.body
+          .post_title= raw post.subject + " : "
       - else
         .event_title= link_to "Event - " + post.subject, post.event
       = truncate_html(output(post.body), :length => 600)

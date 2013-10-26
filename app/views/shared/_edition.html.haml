@@ -2,10 +2,15 @@
   - if inventory.image.midsize.url != inventory.book.any_image
     - unless inventory.image.midsize.url.blank?
       = image_tag inventory.image.midsize.url
-  .format= inventory.format
   - inventory.items.delete_if{|x| x.sold? }.each do |stock|
-    .price= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
-    .order_now= link_to 'IN STOCK NOW', '#'      
+    .book_price= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+    .order_now IN STOCK NOW! 
+    - unless stock.book.category.blank?
+      .category
+        Category:
+        = link_to stock.book.category.name, stock.book.category
+    .format= stock.format.humanize
+    
     - if current_user
       - if can? :update, stock
         = link_to '[edit record]', edit_admin_inventory_path(stock)  

@@ -1,5 +1,5 @@
 
 %h1= "Search results for \"#{@searchterm}\""
-.searches
+.searches.row
   - @hits.each do |hit|
     = render :partial => 'shared/search_hit', :locals => {:item => hit}

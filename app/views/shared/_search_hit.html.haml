@@ -1,14 +1,15 @@
-.search_hit.clearfix
+
+.search_hit.columns
   - if item.respond_to?(:editions)
-    - image = item.editions.delete_if{|x| x.image.nil? }.first.image.url(:thumbnail)
+    - image = item.editions.delete_if{|x| x.image.nil? }.first.image.url(:midsize)
   - elsif item.respond_to?(:item_image)
-    - image = item.item_image.url(:thumbnail)
+    - image = item.item_image.url(:midsize)
   - if image.blank?
-    .search_image= link_to image_tag('/graphics/missing70-02.png'), item
+    .search_image.small-2.columns= link_to image_tag('/graphics/missing70-02.png'), item
   - else
-    .search_image= link_to image_tag(image), item
-  .search_info.latest_in
-    .latest_title= link_to item.full_title, item
+    .search_image.small-2.columns= link_to image_tag(image), item
+  .search_info.latest_in.small-9.columns
+    .latest_title= link_to raw(item.full_title), item
     - if item.respond_to?(:editions)
       - unless item.editions.map{|x| x.product_description}.compact.blank?
         .item_description
@@ -18,7 +19,6 @@
       .item_description= raw item.item_description
     - if item.respond_to?(:editions)
       - if item.editions
-        .in_stock Editions in stock:
         - item.editions.each do |edition|
           - next unless edition.in_stock?
           - edition.items.each do |inv|

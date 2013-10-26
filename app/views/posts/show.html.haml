@@ -1,6 +1,27 @@
-= content_for :left_column do
-  = render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
-  
-.column-9
-  .post_full.clearfix= render :partial => 'post', :locals => {:post => @post}
-  .read_more= link_to 'see all news', posts_path
+- if @post.image? 
+  - if @post.image_width < 900
+    = image_tag @post.image.url
+  - else
+    = image_tag @post.image.url(:standard)
+.post
+  .row
+    .small-10.columns
+      .post_title
+        - if @post.event.nil? 
+          - if @post.subject != @post.body
+            .post_title= raw @post.subject
+        - else
+          = link_to "Event - " + @post.subject, @post.event
+
+      .date_posted Date Posted
+      .date= @post.created_at.strftime("%d/%m")
+      .post_body
+        = output(@post.body)
+    .small-1.column.right_link
+      - if @post.event.nil?
+        - if @post.fb_link.nil?
+          = link_to "Permalink", post
+        - else
+          = link_to image_tag('FB_post_link.png'), @post.fb_link, :target => :_blank
+      - else
+        = link_to 'Read more', @post.event

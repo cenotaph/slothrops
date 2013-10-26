@@ -1,53 +1,28 @@
-= content_for :left_column do
-  .column-3= render :partial => 'shared/right_rec_featured', :locals => {:featured => @featured, :reviews => @reviews }
+.book_content.row
+  .large-12.columns
+    %h3= raw @record.full_title
+  .small-3.columns.book_image
+    = image_tag @record.image.url(:midsize)
+    - if !@record.in_stock?
+      %p Sorry, Slothrop's does not currently have this title in stock.
+    - else
+   
+      - @record.consignment_items.each do |ci|
+        - next unless ci.in_stock?
+        .book_price= number_to_currency(ci.price, :unit => "&euro;", :format => "%n%u")
+        .order_now IN STOCK NOW!
+        - unless @record.musiccategory.blank?
+          .category
+            Category:
+            = link_to @record.musiccategory.name, @record.musiccategory
 
-          
-.column-9.inventory_item
-  .book_content
-    %h3= @record.full_title
-    .book_image
-      = image_tag @record.image.url(:midsize)
-      .read_more= link_to 'Enlarge Image', @record.image.url(:standard)
-      - unless @record.collections.blank?
-        = render :partial => "shared/collection_others", :locals => {:book => @record }
+  .book_metadata.small-9.columns
+    %p= "Artist: #{@record.artist}"
+    %p= "Title: #{@record.title}"
+    %p= "Label: #{@record.label} #{@record.catalog}" 
+    %p= "Format: #{@record.format}"
+    %p
 
+    %p
+      = link_to 'See on discogs.com', "http://www.discogs.com/release/#{@record.discogs_id}"
 
-      
-    .book_metadata
-      %p= "Artist: #{@record.artist}"
-      %p= "Title: #{@record.title}"
-      %p= "Label: #{@record.label} #{@record.catalog}" 
-      %p= "Format: #{@record.format}"
-      %p
-        Category:
-        = link_to @record.musiccategory.name, @record.musiccategory
-      %p
-        = link_to 'See on discogs.com', "http://www.discogs.com/release/#{@record.discogs_id}"
-
-      - if !@record.in_stock?
-        %p Sorry, Slothrop's does not currently have this title in stock.
-      - else
-        %p
-          in stock at Slothrop's:          
-          - @record.consignment_items.each do |ci|
-            - next unless ci.in_stock?
-            .price= number_to_currency(ci.price, :unit => "&euro;", :format => "%n%u")
-            .order_now= link_to 'IN STOCK NOW', '#'      
- 
-      / - unless @record.reviews.blank?
-      /   .description_title Slothrop's Sez...
-      / - @record.reviews.each do |post|
-      /   .description_body= raw post.body
-      /   .description_metadata= "posted by #{post.reviewer_name}, #{time_ago_in_words(post.created_at)} ago"
-
-    
-  #fb-root
-  .fb-comments{"data-href" => 'http://' + request.host + (request.port.to_s == "80" ? '' : ":" + request.port.to_s) + url_for(@record), "data-num-posts" => "5", "data-width" => "630"} 
-  :javascript
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=172132482884497";
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));      

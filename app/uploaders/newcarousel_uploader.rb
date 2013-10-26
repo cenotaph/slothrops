@@ -28,7 +28,10 @@ class NewcarouselUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [900, 386]
   end
   
-
+  version :standard_with_aspect do
+    process :resize_to_fit => [900, 900]
+  end
+  
   version :small do
     process :resize_to_fill => [168, 168]
   end

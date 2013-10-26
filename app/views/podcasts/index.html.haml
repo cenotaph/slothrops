@@ -13,3 +13,25 @@
     
   - @podcasts.each do |podcast|
     .podcast= render :partial => 'podcast', :locals => {:podcast => podcast}
+    
+= content_for :before_body do
+  - @podcasts.each do |podcast|
+    .podcast_links_header.reveal-modal.large{:id => "podcast_#{podcast.id.to_s}"}
+      %h2 
+        Footnotes for 
+        %em
+          = @podcast.name
+  
+      - podcast.podcastlinks.sort_by{|link| link.sortorder.to_f }.each do |link|
+        .podcast_link.clearfix
+  
+          - if link.image?
+            .podcast_link_image= image_tag link.image.midsize.url
+
+          .podcast_link_metadata
+            .podcast_link_title
+              *
+              = link_to_if link.url?, link.name, link.url, :target => :_blank
+            - unless link.description.blank?
+              .podcast_link_description= raw link.description        
+      %a.close-reveal-modal &#215;    

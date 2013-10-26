@@ -43,9 +43,19 @@ h2 {
   }
 }
 
+.filter {
+  select {
+    width: inherit !important;
+  }
+}
 section.search {
   padding: 0px;
   background-color: #FFF;
+  .search_box > span {
+      display: block;
+      overflow: hidden;
+     
+  }
   .search_box {
 
     h4 {
@@ -56,10 +66,10 @@ section.search {
     }
     input[type="text"] {
       float: left;
-      width: 70%;
-      margin: 0px 15px 0px 15px;
+      width:  calc(100% - 75px);
+      margin: 0px 15px 0px 0px;
       padding-top: 25px;
-      border-bottom: 3px dotted #999;
+      border-bottom: 1px dotted #999;
       border-top: none !important;
       border-left: none !important; border-right: none !important;
       font-size: 22px;
@@ -73,7 +83,7 @@ section.search {
         }
       }
     input[type="submit"] {
-      float: left;
+      float: right;
       background: url(image_path('Searchbutton.png')) no-repeat;
       width: 60px;
       height: 57px;
@@ -167,6 +177,8 @@ footer {
     p {
       margin: 0px 0px 0px 0px;
       color: #f4f1e9;
+      font-size: 10px;
+      font-family: $lucida;
       a, a:visited {
         color: #f4f1e9;
         &:hover {

@@ -21,6 +21,25 @@ ol.orbit-bullets {
   padding-bottom: 5px;
   margin-bottom: 10px;
   position: relative;
+  .post_alone_title, .post_alone_title a {
+    margin-top: 15px;
+    font-family: $helvetica;
+    font-size: 23px;
+    font-weight: bold;
+    color: #000;
+  }
+  .post_title {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 5px;
+    font-family: $helvetica;
+  }  
+  .post_body {
+    font-family: $lucida;
+    font-size: 11px;
+    line-height: 13px;
+    color: black;
+  }
   .date_posted {
     margin-top: 5px;
     text-transform: uppercase;
@@ -33,6 +52,7 @@ ol.orbit-bullets {
     font-family: $helvetica;
     color: $slothrops-orange;
     font-size: 18px;
+    font-weight: bold;
     margin-bottom: 15px;
   }
   .post_body {
@@ -47,11 +67,7 @@ ol.orbit-bullets {
     
     
   }
-  .post_title {
-    font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 5px;
-  }
+
   .event_title {
     a {
       color: $slothrops-orange;

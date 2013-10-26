@@ -8,6 +8,7 @@ class PostsController < InheritedResources::Base
     params[:page] ||= "1"
     if params[:page] == "1"
       @graph = Koala::Facebook::API.new(@access_token)
+      fetch_updated_events
       fetch_updated_posts
     end
     @posts = Post.published.order('created_at DESC').page(params[:page]).per(10)

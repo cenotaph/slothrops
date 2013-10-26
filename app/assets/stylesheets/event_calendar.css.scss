@@ -27,22 +27,26 @@
 .ec-calendar-header {
   padding: 5px 0;
   width: 100%;
+  margin-bottom: 0px;
   table-layout: fixed;
 }
 
 .ec-month-name {
   font-size: 16px;
   font-weight: bold;
+  text-align: center;
 }
 
-.ec-month-nav {
-
+.ec-next-month {
+  text-align: right;
 }
+
+
 
 /* Containers */
 .ec-body {
   position: relative;
-  border-right: 1px solid #303030;
+
   white-space: nowrap;
 }
 

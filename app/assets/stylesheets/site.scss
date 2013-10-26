@@ -8,7 +8,7 @@
  margin:0 auto; /* for the rest */
 }
 p, ol, ul, td {
-  font-family: Helvetica, arial, sans-serif;
+  font-family: $lucida;
   font-size: 13px;
   line-height: 18px; }
 
@@ -427,8 +427,10 @@ h2 {
 }
 
 .pagination {
+  font-family: $lucida;
   margin-top: 5px;
-  a { 
+  font-size: 14px;
+  a , a:visited { 
     color: #333;
     &:hover { color: $slothrops-orange; 
     }
