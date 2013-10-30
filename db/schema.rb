@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131021094605) do
+ActiveRecord::Schema.define(:version => 20131030095325) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -374,6 +374,11 @@ ActiveRecord::Schema.define(:version => 20131021094605) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "abstract"
+    t.string   "image"
+    t.integer  "image_width"
+    t.integer  "image_size",         :limit => 8
+    t.integer  "image_height"
+    t.string   "image_content_type"
   end
 
   add_index "staticpages", ["slug"], :name => "index_staticpages_on_slug", :unique => true

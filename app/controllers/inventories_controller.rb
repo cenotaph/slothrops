@@ -19,14 +19,15 @@ class InventoriesController < InheritedResources::Base
   
   def show
     @inventory = Inventory.find(params[:id])
-    set_meta_tags :open_graph => {
-      :title => @inventory.full_title,
-      :description => @inventory.description,
-      :image => 'http://' + request.host + @inventory.edition.image.box.url
-    }, :title => @inventory.full_title
-    super
-    rescue ActiveRecord::RecordNotFound
-      redirect_to '/books/' + params[:id]
+    redirect_to '/books/' + params[:id]
+    # set_meta_tags :open_graph => {
+    #   :title => @inventory.full_title,
+    #   :description => @inventory.description,
+    #   :image => 'http://' + request.host + @inventory.edition.image.box.url
+    # }, :title => @inventory.full_title
+    # super
+    # rescue ActiveRecord::RecordNotFound
+    #   redirect_to '/books/' + params[:id]
   end
   
 end

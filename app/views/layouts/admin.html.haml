@@ -19,16 +19,16 @@
           .row
             .large-3.columns
               %ul.title-area
-                %li.name= image_tag 'sg.png'
+                %li.name= link_to image_tag('sg.png'), '/'
             .large-9.columns.side_stuff
 
               #corner_search.row
-                .small-3.columns.small-offset-8
+                .small-4.columns.small-offset-8
                   = form_tag('/admin/books', :method => :get)  do
                     %label.small-5.columns Search stock:
                     .small-7.columns= text_field_tag :book_title,  @searchterm, :size => 30
 
-                .small-3.columns.small-offset-8
+                .small-4.columns.small-offset-8
                   = form_tag query_admin_books_path, :method => :get do 
                     %label.small-5.columns New inventory item:
                     .small-7.columns= text_field_tag :query

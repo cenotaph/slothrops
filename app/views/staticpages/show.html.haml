@@ -1,2 +1,9 @@
+- if @staticpage.image.present?
+  .static_image
+    - if @staticpage.image_width < 900
+      = image_tag @staticpage.image.url
+    - else
+      = image_tag @staticpage.image.url(:standard_with_aspect)
+      
 %h3= raw @staticpage.title
 = raw @staticpage.body

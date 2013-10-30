@@ -48,6 +48,10 @@ h2 {
     width: inherit !important;
   }
 }
+
+.static_image {
+  margin-bottom: 20px;
+}
 section.search {
   padding: 0px;
   background-color: #FFF;
@@ -164,11 +168,29 @@ section.categories {
 
 
 footer {
-  padding: 20px 0px;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;   
+  padding: 20px 0px 10px 0px;
+  color: #FFF;
+  font-size: 11px;
   background-color: #000;
+  .row {
+    max-width: 100% !important;
+  }
   .footer_menu {
-    padding-bottom: 15px;
-    
+    padding-bottom: 5px;
+    p {
+      font-size: 11px;
+      padding-top: 4px;
+      clear: left;
+      margin-bottom: 0px;
+    }
+  }
+  .logo_footer {
+    font-size: 30px;
+    font-family: Plantin;
   }
   .contact_deets {
     border-top: 1px solid #FFF;
@@ -189,9 +211,16 @@ footer {
   }
   ul {
     li {
+      float: left;
+      padding-right: 5px;
+      margin-right: 5px;
+      border-right: 1px solid $slothrops-orange;
       list-style-type: none;
       font-family: $lucida;
-      font-size: 10px;
+      font-size: 11px;
+      &.last {
+        border-right: none;
+      }
       a, a:visited {
         color: #fff;
         &:hover {

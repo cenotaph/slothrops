@@ -44,8 +44,8 @@
               %li.divider
               %li{:class => ( request.path == '/' ? :active : false)}= link_to 'Home', '/'
               %li{:class => ( ['calendar', 'events'].include?(controller.controller_name) ? :active : false)}= link_to 'Calendar', '/calendar'
-              %li{:class => ( ['inventories', 'books', 'editions', 'consigment_items', 'collections', 'categories',  'searches', 'reviews'].include?(controller.controller_name) ? :active : false)}= link_to 'Stock', inventories_path
-              %li{:class => ( request.path =~ /^\/records/ ? :active : false)}= link_to 'Records', '/records'
+              %li{:class => ( ['inventories', 'books', 'editions', 'consigment_items', 'collections', 'categories',  'searches', 'reviews'].include?(controller.controller_name) ? :active : false)}= link_to 'Books', inventories_path
+              %li{:class => ( request.path =~ /^\/records/ ? :active : false)}= link_to 'Music', '/records'
               %li{:class => ( ['podcasts'].include?(controller.controller_name) ? :active : false)}= link_to 'Podcast', podcasts_path
               - if current_user
                 %li= link_to 'Admin side', '/admin'
@@ -89,44 +89,16 @@
                   
           %section.categories= render :partial => 'shared/categories'
     %footer
-      .row.footer_menu
-        .large-2.columns &nbsp;
-        .large-8.columns
-          .row
-            .large-5.columns
-              .row
-                .large-4.columns
-                  %ul
-                    %li= link_to 'Admin sign-in', '/admin'
-                .large-8.columns
-                  %ul
-                    %li= link_to 'Home & News', '/'
-                    %li= link_to 'Stock', inventories_path
-                    %li= link_to 'Calendar', '/calendar'
-                    %li= link_to 'Podcast', podcasts_path
-            .large-7.columns
-              .row
-                .large-6.columns
-                  %ul
-                    %li= link_to 'Facebook', ''
-                    %li= link_to 'Twitter (News)', ''
-                    %li= link_to 'Twitter (New stock)', ''
-                    %li= link_to 'Find us on Google maps', ''
-                .large-6.columns
-                  %ul
-                    %li= link_to "We'll buy your books!", ''
-                    %li= link_to "Volunteering at Slothrop's", ''
-                    %li= link_to 'Ordering books from the UK', ''
-        .large-2.columns &nbsp;
       .row
-        .large-8.small-centered.columns.contact_deets
-          = image_tag 'footer_S.png'
-          %p Slothrop's English Language Bookshop
-          %p
-            Pikk 34, Tallinn, Estonia
-            |
-            = link_to 'info@slothrops.ee', 'mailto:info@slothrops.ee'
-          %p Proudly owned by Conglomeron Chemical.
+        .small-10.columns.footer_menu
+          %ul
+            %li= link_to 'Staff sign-in', '/admin'
+            %li= link_to "We'll buy your books!", ''
+            %li= link_to "Volunteering at Slothrop's", ''
+            %li.last= link_to 'Ordering books from the UK', ''
+          %p Slothrop's English Language Bookshop is proudly owned by Conglomeron Chemical OÜ.
+        .large-2.columns.logo_footer
+          SLOTHROP'S
             
     = yield :before_body
     :javascript

@@ -5,7 +5,7 @@
     .post_lead
       - if post.event.nil? 
         - if post.subject != post.body
-          .post_title= raw post.subject + " : "
+          .post_title= raw post.subject + ": "
       - else
         .event_title= link_to "Event - " + post.subject, post.event
       = truncate_html(output(post.body), :length => 600)
@@ -14,7 +14,7 @@
     .post_body.reveal-modal{:id => "post_#{post.id.to_s}"}
       
       - if post.event.nil?
-        .post_title= raw post.subject + " : "
+        .post_title= raw post.subject + ": "
       - else
         .event_title= link_to post.subject, post.event
       = output(post.body)
