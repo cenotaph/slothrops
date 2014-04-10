@@ -104,7 +104,7 @@ class ApplicationController < ActionController::Base
   end
   
   def get_token
-    @oauth = Koala::Facebook::OAuth.new(FACEBOOK_APP_ID, FACEBOOK_SECRET, FACEBOOK_CALLBACK)
+    @oauth = Koala::Facebook::OAuth.new(ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_SECRET'], ENV['FACEBOOK_CALLBACK'])
     @access_token = @oauth.get_app_access_token
   end
 end
