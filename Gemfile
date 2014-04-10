@@ -21,6 +21,10 @@ gem 'best_in_place'
 gem 'better_errors', :group => :development
 gem 'binding_of_caller', :group => :development
 gem 'cancan', '1.6.7'
+gem 'capistrano', '~> 3.1.0'
+gem 'capistrano-rails', '~> 1.1.0'
+gem 'capistrano-rvm'
+gem 'capistrano-bundler'
 gem 'capybara', :group => [:development, :test]
 gem 'carrierwave'
 gem 'chronic' #, :git => 'git://github.com/AaronH/chronic'
