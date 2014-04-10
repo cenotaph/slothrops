@@ -32,7 +32,7 @@ ActionMailer::Base.smtp_settings = {
     :port => 587,
     :domain => "slothrops.ee",
     :authentication => :plain,
-    :user_name => ENV['ACTIONMAILER_LOGIN']
+    :user_name => ENV['ACTIONMAILER_LOGIN'],
     :password => ENV['ACTIONMAILER_PASSWoRD']
   }
   
