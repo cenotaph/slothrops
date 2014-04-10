@@ -9,6 +9,5 @@
 //= require jquery.ui.core
 //= require jquery.validate
 //= require foundation
-//= require soundmanager
 //= require ckeditor/init
 $(document).foundation();

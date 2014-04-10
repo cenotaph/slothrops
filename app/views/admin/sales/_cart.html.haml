@@ -16,7 +16,7 @@
           %td= item.full_title
           %td
             %span.price
-              = number_to_currency(item.price, :unit => "&euro;", :format => "%n%u")
+              = number_to_currency(item.price, :unit => raw("&euro;"), :format => "%n%u")
 
           - if item.class == ConsignmentItem
             %td= button_to 'Remove', admin_sale_consignment_item_remove_from_cart_consignment_path(:consignment_item_id => item.id, :sale_id => sale.id), :method => :get, :class => [:button, :red_button, :radius] unless sale.balance_due == 0
@@ -29,8 +29,8 @@
     .system_options
       = button_to 'Delete this sale', [:admin, sale],  :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => "red_button button radius"
       = button_to 'Add a gift voucher', new_admin_sale_voucher_path(:sale_id => sale.id), :method => :get, :class => "button radius"
-      %span.has-tip{"data-tooltip" => "", :title => "This sale will be left open!"}
-        = button_to 'Start new sale', new_admin_sale_path, :class => "button radius"
+      %span.has-tip{"data-tooltip" => "", :title => (@sale.completed? ? 'Start a new sale!' : "This sale will be left open!")}
+        = button_to 'Start new sale', new_admin_sale_path, :class => "button radius", :method => :get
   .large-6.columns
     - if sale.balance_due > 0    
       = form_tag query_admin_sale_path(sale), :method => :get do |f|
@@ -39,16 +39,17 @@
 
 
     - if !sale.discount.blank?
-      %h4= raw "Total before discount: #{number_to_currency(sale.items.map(&:price).sum, :unit => "&euro;", :format => "%n%u")} "
+      %h4= raw "Total before discount: #{number_to_currency(sale.items.map(&:price).sum, :unit => raw("&euro;"), :format => "%n%u")} "
       %h4
-        = raw "Discount: " + number_to_currency(sale.discount, :unit => "&euro;", :format => "%n%u") 
+        = raw "Discount: " + number_to_currency(sale.discount, :unit => raw("&euro;"), :format => "%n%u") 
         - if sale.discount_reason
           %em= "(\"#{sale.discount_reason}\")"
-    %h3= raw "Total: #{number_to_currency(sale.total_due, :unit => "&euro;", :format => "%n%u")}"
+    %h3= raw "Total: #{number_to_currency(sale.total_due, :unit => raw("&euro;"), :format => "%n%u")}"
     %h3.payments
-      = raw "Paid: #{number_to_currency(sale.payments_made.to_f, :unit => "&euro;", :format => "%n%u")}"  
-    = button_to 'Edit payments', admin_sale_payments_path(:sale_id => sale.id), :method => :get, :class => [:button, :radius]
-    %h3= raw "Balance due: #{number_to_currency(sale.balance_due, :unit => "&euro;", :format => "%n%u")}" 
+      = raw "Paid: #{number_to_currency(sale.payments_made.to_f, :unit => raw("&euro;"), :format => "%n%u")}"  
+    = button_to 'Edit payments', admin_sale_payments_path(:sale_id => sale.id), :method => :get, :class => [:button, :radius, :tiny]
+    .balance
+      %h3= raw "Balance due: #{number_to_currency(sale.balance_due, :unit => raw("&euro;"), :format => "%n%u")}" 
     - if sale.balance_due > 0 
       = button_to 'Add payments', new_admin_sale_payment_path(:sale_id => sale.id), :method => :get, :class => [:button, :radius ], :method => :get
 

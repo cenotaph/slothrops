@@ -8,7 +8,7 @@
               - if !book.edition.image_width.nil? && book.edition.image_width < 225
                 = link_to image_tag(book.edition.image.url.gsub(/development/, 'production')), book
               - else
-                = link_to image_tag(book.edition.image.url(:midsize).gsub(/development/, 'production')), book
+                = link_to image_tag(book.edition.image.url(:midsize).gsub(/development/, 'production'), :height => 300), book
                 
           - elsif book.class == ConsignmentItem
             - if book.edition.nil?
@@ -45,7 +45,7 @@
               - else 
                 .latest_title= link_to raw(book.full_title), book.record
             .format= book.format.to_s.downcase
-            .book_price= number_to_currency(book.price, :unit => "&euro;", :format => "%n%u")
+            .book_price= raw number_to_currency(book.price, :unit => raw("&euro;"), :format => "%n%u").html_safe
             .order_now=  paypal(book)
             .metadata
               - if !book.book.nil?

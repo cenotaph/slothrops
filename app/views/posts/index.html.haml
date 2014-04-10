@@ -2,7 +2,8 @@
   %ul{"data-orbit" => ""}
     - @posts.each do |post|
       - next if post.image.blank?
-      - next if post.image_width < 900
+      - if post.image_width
+        - next if post.image_width < 900
       %li
         = link_to "javascript:$('html, body').animate({ scrollTop: $('#post_index_#{post.id.to_s}').offset().top }, 1000);" do
           = image_tag post.image.url(:standard)

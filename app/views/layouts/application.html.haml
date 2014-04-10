@@ -6,9 +6,12 @@
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = csrf_meta_tags 
+
     = javascript_include_tag "vendor/custom.modernizr"
     %meta{:property => "og:locale", :content => "en_GB"}    
     %meta{:property => "og:type", :content => "article"}
+    %link{ href: '/graphics/favicon.ico', rel: 'shortcut icon', type: 'image/png' }/
+    
     %meta{:property => "og:site_name", :content => "Slothrop's"}
     %meta{:property => "fb:app_id", :content => (Rails.env == 'development' ? "274357239251162" : "172132482884497")}   
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
@@ -88,19 +91,23 @@
                   %li.foursquare
                   
           %section.categories= render :partial => 'shared/categories'
-    %footer
+    %section.footer
+
       .row
         .small-10.columns.footer_menu
           %ul
             %li= link_to 'Staff sign-in', '/admin'
-            %li= link_to "We'll buy your books!", ''
-            %li= link_to "Volunteering at Slothrop's", ''
-            %li.last= link_to 'Ordering books from the UK', ''
+            %li= link_to "We'll buy your books!", '/page/we-ll-buy-your-books'
+            %li= link_to "Volunteering at Slothrop's", '/page/volunteering-at-slothrop-s'
+            %li.last= link_to 'Ordering books from the UK', '/page/ordering-books-from-the-uk'
           %p Slothrop's English Language Bookshop is proudly owned by Conglomeron Chemical OÜ.
-        .large-2.columns.logo_footer
+        .small-2.columns.logo_footer
           SLOTHROP'S
             
-    = yield :before_body
-    :javascript
+  = yield :before_body
+  :javascript
+    $(document).ready(function() {
       $(document).foundation();
-      
+      #{yield :jquery}
+    });
+    

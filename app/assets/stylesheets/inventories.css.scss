@@ -181,10 +181,48 @@ h3 {
   }
 }
 
+@media only screen and (min-width: 960px)  {
+  
+  .latest_image {
+    min-height: 300px;
+    img {
+      max-width: 170px;
+      max-height: 275px;
+    }
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  
+  .latest_image {
+    min-height: 250px;
+    img {
+      max-width: 150px;
+      max-height: 250px;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px)  {
+  
+  .latest_image {
+    min-height: 180px;
+    img {
+      max-width: 120px;
+      max-height: 175px;
+    }
+  }
+} 
+
   .latest_image  {
-    float: left;
-    width: 80px;
+
     margin-right: 10px;
+    position: relative;
+    img {
+      position: absolute;
+      bottom: 0;
+      overflow: hidden;
+
+    }
   }
 
   .latest_info {
@@ -459,6 +497,12 @@ h3 {
 .book_metadata {
   float: left;
   width: 450px;
+}
+.block_150 {
+  margin-bottom: 18px;
+  &.latest_info {
+    margin-right: 35px;
+  }
 }
 
 .record_grid {

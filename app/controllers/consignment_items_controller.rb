@@ -10,7 +10,13 @@ class ConsignmentItemsController < InheritedResources::Base
     rescue ActiveRecord::RecordNotFound
         redirect_to '/books/' + params[:id]
     end
-    render :template => 'inventories/show'
+    if @inventory.edition
+      render :template => 'books/show'
+    elsif @inventory.record
+      render :template => 'records/show'
+    else
+      render :template => 'inventories/show'
+    end
   end
   
 end

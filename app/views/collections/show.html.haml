@@ -44,7 +44,7 @@
               - next if inv.sold?
               .block_150.latest_info
                 .condition= inv.format
-                .book_price= number_to_currency(inv.price, :unit => "&euro;", :format => "%n%u")
+                .book_price= number_to_currency(inv.price, :unit => raw("&euro;"), :format => "%n%u")
                 .order_now= paypal(inv)
                 .metadata
                   %ul

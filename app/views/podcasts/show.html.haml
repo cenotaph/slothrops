@@ -9,15 +9,30 @@
     = image_tag @podcast.image.standard.url
   
   - unless @podcast.url.blank?
-    #mediaplayer This will be replaced.
-    :javascript
-      mySound = soundManager.createSound({
-          id: 'mediaplayer',
-          serverURL: 'rtmp://media.slothops.ee/cfx/st', 
-          url: 'mp4:#{File.basename(@podcast.url)}'
-
- 
-      });
+    #mediaplayer
+      %audio{:controls => "true", :src => "http://d1kxrz7d4juvwn.cloudfront.net/#{File.basename(@podcast.url)}"}
+        Your browser does not support the audio element.
+    / 
+    / = content_for :jquery do 
+    /   :plain
+    /     jwplayer('mediaplayer').setup({
+    /         'id': 'playerID',
+    /         'width': '100%',
+    /         'height': '24',
+    /         'controlbar': 'bottom',
+    /         'provider': 'rtmp',
+    /         'streamer': 'rtmp:///s3yikp7p8kliq.cloudfront.net/cfx/st/',
+    /         // .mp4 files: use the following format:
+    /         //   'file': 'mp4:VIDEO-FILE-NAME
+    /         // .flv files: use the following format:
+    /         //   'file': 'VIDEO-FILE-NAME',
+    /         'file': 'mp4:#{File.basename(@podcast.url)}',
+    /         'autostart' : 'false',
+    /         'modes': [
+    /            {type: 'flash', src: 'https://d1jtgz7tgxn38u.cloudfront.net/player.swf'},
+    /           ]
+    /        });      
+      
       
     .download_link.read_more
       = link_to 'Subscribe in iTunes!', 'http://itunes.apple.com/us/podcast/slothrops-screaming-sky/id517693587'

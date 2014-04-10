@@ -16,6 +16,10 @@ class Bookbuy < ActiveRecord::Base
     end
   end
   
+  def cost_per_book
+    (amount / inventories.count ).to_f
+  end
+  
   def conversion_rate 
     if inventories.blank?
       0

@@ -3,7 +3,7 @@
     - unless inventory.image.midsize.url.blank?
       = image_tag inventory.image.midsize.url
   - inventory.items.delete_if{|x| x.sold? }.each do |stock|
-    .book_price= number_to_currency(stock.price, :unit => "&euro;", :format => "%n%u")
+    .book_price= number_to_currency(stock.price, :unit => raw("&euro;"), :format => "%n%u")
     .order_now IN STOCK NOW! 
     - unless stock.book.category.blank?
       .category

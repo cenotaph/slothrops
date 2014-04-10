@@ -2,7 +2,7 @@ class ConsignmentItem < ActiveRecord::Base
   mount_uploader :item_image, ImageUploader 
   belongs_to :edition
   belongs_to :record
-  has_many :storeitems, as: :item
+  has_many :storeitems, as: :item, :dependent => :destroy
   has_one :book, :through => :edition
   has_one :creator, :through => :book
   has_one :category, :through => :book

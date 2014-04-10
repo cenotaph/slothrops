@@ -8,28 +8,30 @@
     = paginate @inventories
   .searches
     - @inventories.each do |item|
-      .search_hit.clearfix
-        - image = item.editions.delete_if{|x| x.image.nil? }.first.image.url(:thumbnail)
-        - if image.blank?
-          .search_image= link_to image_tag('/graphics/missing70-02.png'), item
-        - else
-          .search_image= link_to image_tag(image), item
-        .search_info
+      .search_hit.row
+        .search_image.small-3.columns
+          - image = item.editions.delete_if{|x| x.image.nil? }.first.image.url(:midsize)
+          - if image.blank?
+            = link_to image_tag('/graphics/missing225.png'), item
+          - else  
+            = link_to image_tag(image), item            
+          - if item.editions
+            - item.editions.each do |edition|
+              - next unless edition.in_stock?
+              - edition.inventories.each do |inv|
+                - next if inv.sold == true
+                .block_150
+                  .format= inv.edition.format.blank? ? '' : inv.edition.format.humanize
+                  .book_price= number_to_currency(inv.price, :unit => raw("&euro;"), :format => "%n%u")
+                  .order_now= paypal(inv)
+
+        .search_info.small-9.columns
           .latest_title= link_to item.full_title, item
           - unless item.editions.map{|x| x.product_description}.compact.blank?
             .item_description
               = raw truncate_words(sanitize(item.editions.delete_if{|x| x.product_description.nil? }.first.product_description.gsub(/&#x2019;/, '\'').gsub(/&lt;/, '<').gsub(/&gt;/, '>'), :tags => %W(em i)), 50) + raw("</I>")
               .read_more= link_to 'read more', book_path(item)
-          - if item.editions
-            .in_stock Editions in stock:
-            - item.editions.each do |edition|
-              - next unless edition.in_stock?
-              - edition.inventories.each do |inv|
-                - next if inv.sold == true
-                .copy
-                  .book_format= inv.edition.format
-                  .book_price= number_to_currency(inv.price, :unit => "&euro;", :format => "%n%u")
-                  .order_now= paypal(inv)
+
 
           - unless item.collections.blank?
             .collections
@@ -37,4 +39,4 @@
                 - item.collections.each do |collection|
                   %li= link_to collection.name.humanize, '/collections/' + collection.slug
             
-  = paginate @inventories
+    = paginate @inventories

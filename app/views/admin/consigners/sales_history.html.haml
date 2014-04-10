@@ -8,7 +8,7 @@
     %th Item
     %th Amount
     %th Sale closed?
-    %th Payment collected?
+    %th Supplier paid?
   %tbody
     - @consigner.consignment_sales.sort_by{|x| x.sale.created_at }.each do |cs|
       %tr

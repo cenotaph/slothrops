@@ -37,9 +37,9 @@ class ApplicationController < ActionController::Base
     events.each do |event|
       next if Event.exists?(:fb_id => event['id'])
       e = Event.create(:fb_id => event['id'], :title => event['name'], 
-                      :start_at => event['start_time'].to_datetime, :facebook => event['link'], 
-                      :end_at => ( event['end_time'].blank? ? (event['start_time'].to_datetime) : event['end_time'].to_datetime + 8.hours), :description => event['description'],
-                      :remote_image_url => event['cover']['source'], :published => true
+                      :start_at => event['start_time'].to_datetime + 7.hours, :facebook => event['link'], 
+                      :end_at => ( event['end_time'].blank? ? (event['start_time'].to_datetime + 7.hours) : event['end_time'].to_datetime + 7.hours), :description => event['description'],
+                      :remote_image_url => event['cover'].nil? ? false : event['cover']['source'], :published => true
                       )
     end
     
@@ -81,8 +81,8 @@ class ApplicationController < ActionController::Base
       end
       next if body.blank?
       if post['name'].blank?
-        subject = body.split(/\.\s/, 2).first
-        body = body.split(/\.\s/, 2).last
+        subject = body.split(/[\.\!\r]\s/, 2).first.strip
+        body = body.split(/\.\s/, 2).last.strip
       else
         subject = post['name']
       end

@@ -20,6 +20,7 @@ class Inventory < ActiveRecord::Base
 
   before_create :set_acquired
   before_save :update_image_attributes
+  validates_presence_of :bookbuy_id
   
   def update_image_attributes
     if image.present?

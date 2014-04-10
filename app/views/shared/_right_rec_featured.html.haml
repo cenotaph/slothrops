@@ -35,7 +35,7 @@
       - if featured.edition.image.url
         .featured_image= image_tag featured.edition.image.thumbnail.url
       .featured_title= link_to featured.full_title, featured
-      .featured_price= link_to number_to_currency(featured.price, :unit => "&euro;", :format => "%n%u"), featured
+      .featured_price= link_to number_to_currency(featured.price, :unit => raw("&euro;"), :format => "%n%u"), featured
       .featured_order= link_to 'IN STOCK NOW!', featured
       - unless featured.edition.product_description.blank?
         .featured_description

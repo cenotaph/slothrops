@@ -9,6 +9,10 @@ h2 {
   font: bold 16px/20px Helvetica, Arial, sans-serif;
 }
 
+body {
+  background-color: #f4f1e9;
+}
+
 .top-bar-slothrops {
   background: url(image_path('top_orange.png')) repeat-x top;
   background-color: black;
@@ -28,7 +32,7 @@ h2 {
         display: none;
       }
       a {
-        font-family: Plantin;
+        font-family: Sexualisedfood;
         font-size: 18px;
         line-height: 35px;
         text-transform: uppercase;
@@ -63,7 +67,7 @@ section.search {
   .search_box {
 
     h4 {
-      padding-top: 21px;
+      padding-top: 3px;
       font-size: 18px;
       margin-bottom: 0px;
       float: left;
@@ -71,15 +75,16 @@ section.search {
     input[type="text"] {
       float: left;
       width:  calc(100% - 75px);
-      margin: 0px 15px 0px 0px;
-      padding-top: 25px;
+      margin: 3px 15px 0px 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
       border-bottom: 1px dotted #999;
       border-top: none !important;
       border-left: none !important; border-right: none !important;
-      font-size: 22px;
+      font-size: 16px;
       -webkit-box-shadow: none;
       box-shadow: none;
-
+      height: 29px;
       float: left;
         &:focus {
           outline: 0;
@@ -88,9 +93,9 @@ section.search {
       }
     input[type="submit"] {
       float: right;
-      background: url(image_path('Searchbutton.png')) no-repeat;
-      width: 60px;
-      height: 57px;
+      background: url(image_path('Searchbutton.jpg')) no-repeat;
+      width: 38px;
+      height: 36px;
       padding-bottom: 0px;
       margin-bottom: 0px;
       border: none;
@@ -108,7 +113,7 @@ section.search {
 }
 section.main {
   padding: 25px 0px 30px 0px;
-  background-color: #f4f1e9;
+  margin-bottom: 60px;
 }
 
 section.info {
@@ -167,18 +172,16 @@ section.categories {
 
 
 
-footer {
+section.footer {
   position: fixed;
   bottom: 0px;
   left: 0px;
   width: 100%;   
-  padding: 20px 0px 10px 0px;
+  padding: 10px 0px 0px 0px;
   color: #FFF;
-  font-size: 11px;
+  font-size: inherit;
   background-color: #000;
-  .row {
-    max-width: 100% !important;
-  }
+
   .footer_menu {
     padding-bottom: 5px;
     p {
@@ -190,7 +193,7 @@ footer {
   }
   .logo_footer {
     font-size: 30px;
-    font-family: Plantin;
+    font-family: Sexualisedfood;
   }
   .contact_deets {
     border-top: 1px solid #FFF;

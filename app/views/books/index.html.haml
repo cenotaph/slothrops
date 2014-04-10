@@ -44,7 +44,7 @@
                   %td
                     = link_to book.title, stock
                     = stock.condition
-                    = number_to_currency(stock.price, :unit => "&euro;")
+                    = number_to_currency(stock.price, :unit => raw("&euro;"))
                     .notes= stock.notes
             
   %br

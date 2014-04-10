@@ -44,13 +44,21 @@
                 = content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String)
     %section.main
       .row
-        - unless @sale || @hits
+        - if @sale
+          - unless !@sale.completed?
+            .new_sale.columns
+              %h1 New sale
+              = form_tag '/admin/sales/query' do |f|
+                = text_field_tag :sales_lookup
+              :javascript
+                $("#sales_lookup").select();
+        - else
           .new_sale.columns
             %h1 New sale
             = form_tag '/admin/sales/query' do |f|
               = text_field_tag :sales_lookup
             :javascript
-              $("#sales_lookup").select();          
+              $("#sales_lookup").select();        
       .row.admin_content= yield
       .row
         .large-6.columns

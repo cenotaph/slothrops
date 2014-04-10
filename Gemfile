@@ -1,11 +1,11 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.13'
-
+gem 'rails', '3.2.17'
+ruby '2.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 # gem 'mysql2', :group => :development
-gem 'mysql2' ,          '0.3.12b4',  :group => :production
+gem 'mysql2' 
 # gem 'mysql2', :group => [:development]
 # gem 'oa-oauth', '~> 0.3.2', :require => 'omniauth/oauth'
 # gem 'bullet', :group => 'development'
@@ -24,16 +24,17 @@ gem 'cancan', '1.6.7'
 gem 'capybara', :group => [:development, :test]
 gem 'carrierwave'
 gem 'chronic' #, :git => 'git://github.com/AaronH/chronic'
-gem 'ckeditor', '~> 3.7.3'
+gem 'ckeditor'
 gem 'devise'
 gem 'discogs'
 gem 'discogs-wrapper'
 gem 'event-calendar', :require => 'event_calendar'
+gem 'figaro'
 gem 'fog', '~> 1.3.1'
-gem 'formtastic', '2.0.2'
+gem 'formtastic'
 gem 'friendly_id'
 gem 'globalize3'
-gem 'haml', '>= 3.0.0'
+gem 'haml'
 gem 'haml-rails'
 gem 'has_scope'
 gem 'inherited_resources'
@@ -42,7 +43,7 @@ gem 'jquery-ui-rails'
 gem 'json'
 gem 'kaminari'
 
-gem "koala", "~> 1.7.0rc1"
+gem "koala"
 gem 'letter_opener', :group => :development
 
 gem 'meta-tags', :require => 'meta_tags'
@@ -55,7 +56,7 @@ gem 'railroady', :group => [:development]
 gem 'rails3-jquery-autocomplete'
 gem 'randumb'#, :git => 'git://github.com/spilliton/randumb.git' 
 gem 'rspec-rails', '>= 2.0.1', :group => [:development, :test]
-gem 'soundmanager-rails'
+# gem 'soundmanager-rails'
 gem 'thin'
 gem 'tlsmail'
 gem 'truncate_html'
@@ -78,8 +79,7 @@ group :assets do
 end
 group :production do
   gem 'therubyracer'
-  
-
+  gem 'execjs'
 end
 
 

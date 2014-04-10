@@ -1,11 +1,13 @@
 .date
-%h2= "##{podcast.number} #{podcast.name}"
+%h2= link_to "##{podcast.number} #{podcast.name}", podcast
 
 .row
   .columns.small-2
     .podcast_image= image_tag podcast.image.box.url
   .small-6.columns
     .podcast_description= raw podcast.description
+    %audio{:controls => "true", :src => "http://d1kxrz7d4juvwn.cloudfront.net/#{File.basename(podcast.url)}"}
+      Your browser does not support the audio element.
     - unless podcast.podcastlinks.blank?
       .footnote_link= link_to 'See footnotes, references, and other marginalia', '#', "data-reveal-id" => "podcast_#{podcast.id.to_s}"
 

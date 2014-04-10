@@ -3,11 +3,11 @@
   - if item.respond_to?(:editions)
     - image = item.editions.delete_if{|x| x.image.nil? }.first.image.url(:midsize)
   - elsif item.respond_to?(:item_image)
-    - image = item.item_image.url(:midsize)
+    - image = item.item_image.url(:midsize).gsub(/development/, 'production')
   - if image.blank?
     .search_image.small-2.columns= link_to image_tag('/graphics/missing70-02.png'), item
   - else
-    .search_image.small-2.columns= link_to image_tag(image), item
+    .search_image.small-2.columns= link_to image_tag(image.gsub(/development/, 'production')), item
   .search_info.latest_in.small-9.columns
     .latest_title= link_to raw(item.full_title), item
     - if item.respond_to?(:editions)
@@ -24,8 +24,8 @@
           - edition.items.each do |inv|
             - next if inv.sold == true
             .block_150.latest_info
-              .format= inv.edition.format
-              .book_price= number_to_currency(inv.price, :unit => "&euro;", :format => "%n%u")
+              .format= inv.edition.format.blank? ? raw("&nbsp;") : inv.edition.format
+              .book_price= number_to_currency(inv.price, :unit => raw("&euro;"), :format => "%n%u")
               .order_now= paypal(inv)
               .metadata
                 %ul
