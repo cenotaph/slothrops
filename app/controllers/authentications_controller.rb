@@ -19,8 +19,7 @@ class AuthenticationsController < ApplicationController
       current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
       flash[:notice] = "Authentication successful."
       redirect_to '/'
-    elsif omniauth['provider'] == 'twitter' && user = User.find_by_username(omniauth['user_info']['nickname'])
-      logger.warn('got here')
+    elsif omniauth['provider'] == 'twitter' && user = User.find_by_username(omniauth['info']['nickname'])
       user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
       sign_in_and_redirect(:user, user)
     else

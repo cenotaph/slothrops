@@ -20,8 +20,9 @@
             .large-3.columns
               %ul.title-area
                 %li.name= link_to image_tag('sg.png'), '/'
+              
             .large-9.columns.side_stuff
-
+            
               #corner_search.row
                 .small-4.columns.small-offset-8
                   = form_tag('/admin/books', :method => :get)  do
@@ -40,6 +41,10 @@
                   .small-3.columns.small-offset-9
                     %span.radius.alert.label
                       = link_to pluralize(Sale.opened.size, 'open sale') + '!', '/admin/sales?show=opened'
+              - if user_signed_in?
+                .row
+                  .small-3.columns.small-offset-9
+                    = link_to 'Sign out', destroy_user_session_path, :method => :delete
               - flash.each do |name, msg| 
                 = content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String)
     %section.main

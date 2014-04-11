@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :image, :username
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :image, :username, :real_name, :location, :website, :about_me, :role_ids
   mount_uploader :image, ImageUploader
   has_and_belongs_to_many :roles
   extend FriendlyId
@@ -19,12 +19,13 @@ class User < ActiveRecord::Base
   def apply_omniauth(omniauth)
     logger.warn(omniauth.inspect)
     if omniauth['provider'] == 'twitter'
-      self.username = omniauth['user_info']['nickname']
-      self.real_name = omniauth['user_info']['name']
+      self.username = omniauth['info']['nickname']
+      self.real_name = omniauth['info']['name']
       self.real_name.strip!
-      self.location = omniauth['user_info']['location']
-      self.about_me = omniauth['user_info']['description']
-      self.website = omniauth['user_info']['urls']['Website'] if website.blank?
+      self.location = omniauth['info']['location']
+      self.about_me = omniauth['info']['description']
+      self.website = omniauth['info']['urls']['Website'] if website.blank?
+      self.email = omniauth['info']['nickname'] + "@twitter.null"
     elsif omniauth['provider'] == 'facebook'
       self.email = omniauth['info']['email'] if email.blank?
       self.username = omniauth['info']['nickname']
