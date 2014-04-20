@@ -16,7 +16,7 @@
       .history
         - e.inventories.each do |inv|
           .line
-            .price= number_to_currency inv.price
+            .price= number_to_currency inv.price, :unit => "&euro;".html_safe
             - if inv.sold?
               .sold_at
                 sold on

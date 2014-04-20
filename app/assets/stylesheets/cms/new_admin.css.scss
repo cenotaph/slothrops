@@ -130,6 +130,28 @@ h3.payments {
   }
 }
 
+table#consigners {
+
+  td {
+    .generate_report {
+      float: right;
+      text-align: right;
+    }
+    .report_dates { 
+      display: none; 
+    }
+    .report_dates input[type=text] {
+      width: 75px;
+    }
+  }
+}
+
+.consigner_wholesale {
+  font-size: 0.85em;
+  color: #888;
+}
+
+
 .balance {
   clear: left;
 }

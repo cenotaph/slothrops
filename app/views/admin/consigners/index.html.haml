@@ -42,7 +42,7 @@
         .history
           = link_to 'detailed sales history', sales_history_admin_consigner_path(consigner)
       %td
-        = number_to_currency consigner.owed
+        = number_to_currency consigner.owed, :unit => "&euro;".html_safe
         - if consigner.owed > 0
           = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(consigner)
       %td= link_to 'Details', [:admin, consigner]

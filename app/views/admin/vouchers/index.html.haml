@@ -15,7 +15,7 @@
     %tr
       %td= voucher.sold_at
       %td= voucher.number
-      %td= number_to_currency(voucher.amount, :unit => "&euro;", :format => "%n%u")
+      %td= number_to_currency(voucher.amount, :unit => "&euro;".html_safe, :format => "%n%u")
       %td= voucher.used == 0 ? '' : number_to_currency(voucher.used)
       %td= number_to_currency voucher.left
       %td= link_to 'Show', [:admin, voucher]

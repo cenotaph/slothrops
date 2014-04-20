@@ -27,8 +27,8 @@
               = cs.sale.sold_at.strftime("%d %B %Y %H:%M")
         %td= cs.consignment_item.title
         %td
-          = number_to_currency(cs.consignment_item.price)
-          = raw "(wholesale: #{number_to_currency(cs.consignment_item.wholesale)} )"
+          = number_to_currency cs.consignment_item.price, :unit => "&euro;".html_safe
+          .consigner_wholesale= raw "wholesale: #{number_to_currency(cs.consignment_item.wholesale, :unit => "&euro;".html_safe)} "
         %td
           - if cs.sale.sold_at.blank?
             %strong
@@ -40,3 +40,17 @@
             %strong NO!
           - else
             = cs.payment_collected_at.strftime("%d %B %Y %H:%M")
+    %tr
+      %td{:colspan => 2} &nbsp;
+      %td
+        %b Total amount:
+        = number_to_currency @consigner.consignment_sales.map{|x| x.consignment_item.price}.sum, :unit => "&euro;".html_safe
+        .consigner_wholesale= raw "wholesale, to consigner: #{number_to_currency(@consigner.consignment_sales.map{|x| x.consignment_item.wholesale}.sum, :unit => "&euro;".html_safe)} "
+      %td
+        %b Open sales:
+        = @consigner.consignment_sales.map(&:sale).delete_if{|x| !x.sold_at.blank? }.count.to_s
+      %td
+        %b Uncollected:
+        = pluralize(@consigner.consignment_sales.map(&:payment_collected_at).delete_if{|x| !x.nil? }.count.to_s, 'sale')
+        = number_to_currency @consigner.owed, :unit => "&euro;".html_safe
+      

@@ -44,12 +44,12 @@
         = raw "Discount: " + number_to_currency(sale.discount, :unit => raw("&euro;"), :format => "%n%u") 
         - if sale.discount_reason
           %em= "(\"#{sale.discount_reason}\")"
-    %h3= raw "Total: #{number_to_currency(sale.total_due, :unit => raw("&euro;"), :format => "%n%u")}"
+    %h3= raw "Total: #{number_to_currency(sale.total_due, :unit => "&euro;".html_safe, :format => "%n%u")}"
     %h3.payments
-      = raw "Paid: #{number_to_currency(sale.payments_made.to_f, :unit => raw("&euro;"), :format => "%n%u")}"  
+      = raw "Paid: #{number_to_currency(sale.payments_made.to_f, :unit => "&euro;".html_safe, :format => "%n%u")}"  
     = button_to 'Edit payments', admin_sale_payments_path(:sale_id => sale.id), :method => :get, :class => [:button, :radius, :tiny]
     .balance
-      %h3= raw "Balance due: #{number_to_currency(sale.balance_due, :unit => raw("&euro;"), :format => "%n%u")}" 
+      %h3= raw "Balance due: #{number_to_currency(sale.balance_due, :unit => "&euro;".html_safe, :format => "%n%u")}" 
     - if sale.balance_due > 0 
       = button_to 'Add payments', new_admin_sale_payment_path(:sale_id => sale.id), :method => :get, :class => [:button, :radius ], :method => :get
 
@@ -62,7 +62,7 @@
         %h3 Consignment money due:
         - sale.consignment_items.group_by{|x| x.consigner }.each do |consigner|
           %p
-            = number_to_currency consigner.last.map(&:wholesale).sum
+            = number_to_currency consigner.last.map(&:wholesale).sum, :unit => "&euro;".html_safe
             owed to 
             = consigner.first.name
         %h3 Put in Slothrop's till:
