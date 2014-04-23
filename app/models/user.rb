@@ -27,13 +27,13 @@ class User < ActiveRecord::Base
       self.website = omniauth['info']['urls']['Website'] if website.blank?
       self.email = omniauth['info']['nickname'] + "@twitter.null"
     elsif omniauth['provider'] == 'facebook'
-      self.email = omniauth['info']['email'] if email.blank?
+      self.email = omniauth['info']['nickname'] + "@facebook.com" if email.blank?
       self.username = omniauth['info']['nickname']
       self.real_name = omniauth['info']['first_name'] + ' ' + omniauth['info']['last_name']
       self.real_name.strip!
       # self.location = omniauth['extra']['user_hash']['location']['name'] if location.blank?
     end
-    self.email = omniauth['user_info']['email'] if email.blank?
+    # self.email = omniauth['user_info']['email'] if email.blank?
     authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
   end
 
