@@ -21,6 +21,7 @@ class BooksController < InheritedResources::Base
     else
       index!
     end
+    set_meta_tags :title => 'Latest books'
   end
   
   def show

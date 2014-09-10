@@ -17,6 +17,7 @@ class CategoriesController < InheritedResources::Base
     # .includes([:edition, :book]).where("sold = 0 and sale_id is null and books.category_id = ?", @cat.id).page params[:page]
     # inventories.each{|x| @inventories.push(x.book)}
     # @inventories =  Kaminari.paginate_array(@inventories).page(params[:page])
+    set_meta_tags :title => @cat.name
     render :template => 'inventories/browse'
   end
   

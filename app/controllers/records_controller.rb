@@ -7,7 +7,11 @@ class RecordsController < InheritedResources::Base
 
   def index
     @records = Record.all.delete_if{|x| !x.in_stock? }
+    set_meta_tags :title => 'Music'
   end
 
-  
+  def show
+    @record = Record.find(params[:id])
+    set_meta_tags :title => @record.full_title
+  end
 end

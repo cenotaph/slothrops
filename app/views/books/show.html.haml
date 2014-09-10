@@ -18,5 +18,5 @@
     - unless @book.any_description.blank?
       .description_title Publisher's Description
       .description_body
-        %p=raw  @book.any_description.gsub(/&lt;/, '<').gsub(/&gt;/, '>').gsub(/&#x2019;/, '\'')        
+        %p=auto_html(@book.any_description.gsub(/&lt;/, '<').gsub(/&gt;/, '>').gsub(/&#x2019;/, '\'') )  { simple_format; link(:target => 'blank') }
   

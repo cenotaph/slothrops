@@ -4,6 +4,7 @@ class PodcastsController < InheritedResources::Base
   before_filter :get_recommended, :get_feed
   
   def index
+    set_meta_tags :title => "Slothrop's podcast"
     @podcasts = Podcast.published
   end
   
