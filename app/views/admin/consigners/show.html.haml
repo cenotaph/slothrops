@@ -13,114 +13,25 @@
 %p
   %b Comments:
   = @consigner.comments
-
-= link_to 'Add book', new_book_admin_consigner_path(@consigner)
-\|
-= link_to 'Add vinyl', new_record_admin_consigner_path(@consigner)
-\|
-= link_to 'Add other item', new_admin_consigner_consignment_item_path(@consigner)
-\|
-= link_to 'Edit person details', edit_admin_consigner_path(@consigner)
-\|
-= link_to 'Destroy', [:admin, @consigner], :confirm => 'Are you sure?', :method => :delete
-\|
-= link_to 'Back', admin_consigners_path
+%ul.button-group.round
+  %li= link_to 'Add book', new_book_admin_consigner_path(@consigner), :class => "button"
+  %li= link_to 'Add vinyl', new_record_admin_consigner_path(@consigner), :class => "button "
+  %li= link_to 'Add other item', new_admin_consigner_consignment_item_path(@consigner), :class => "button "
+  %li= link_to 'Edit person details', edit_admin_consigner_path(@consigner), :class => "button "
+  %li= link_to 'Delete consigner', [:admin, @consigner], :confirm => 'Are you sure?', :method => :delete, :class => "button alert"
+  %li= link_to 'Back to list', admin_consigners_path, :class => "button "
+  
+%ul.button-group.round
+  - unless @consigner.consignment_items.reject{|x| !x.in_stock? }.empty?
+    %li= link_to 'In stock', '#in_stock', :class => "button success"
+  - unless @consigner.consignment_items.reject{|x| x.in_stock? }.empty?
+    %li= link_to 'Sold items', '#sold', :class => "button success"
+    
 - unless @consigner.consignment_items.empty?
-  %h3 Items on consignment
-  %p To re-stock, edit and add the number of new copies to the original stock count.
-  %table
-    %thead
-      %th Type
-      %th Item
-      %th Sold
-      %th Finances
-      %th Slothrop's commission (potential)
-      %th Slothrop's commission actual
-      %th
-      %th
-    - @consigner.consignment_items.sort{|a,b| [a.copies_sold,b.created_at] <=> [b.copies_sold, a.created_at]}.each do |ci|
-      - if !ci.edition.nil?
-        %tr
-          %td
-            Book
-            - if ci.edition.image
-              = image_tag ci.edition.image.url(:box)
-          %td
-            = ci.author
-            = ' / '
-            = ci.title
-            .sale_comment.sale_list_comment= "#{pluralize(ci.remaining, 'copy')} left"
-          %td
-            = ci.copies_sold
-            = ' / '
-            = ci.stock_count
-          %td
-            = number_to_currency ci.paid_and_collected_by_item
-            paid, 
-            = number_to_currency ci.owed_by_item
-            owed
-            - if ci.owed_by_item > 0
-              = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(@consigner)
-          %td= number_to_currency ci.potential_commission
-          %td= number_to_currency ci.our_comission
-          %td= link_to 'Details', admin_book_path(ci.edition.book)
-          %td= link_to 'Edit / Restock', edit_admin_consignment_item_path(ci)
-          %td= link_to 'Destroy', [:admin, ci], :confirm => 'Are you sure?', :method => :delete
-      - elsif !ci.record.nil?
-        %tr
-          %td
-            Record
-            = image_tag ci.record.image.url(:box)
-          %td
-            = ci.record.artist
-            = ' / '
-            %em= ci.record.title
-            .price
-              retails for 
-              = number_to_currency ci.price
-          %td
-            = ci.copies_sold
-            = ' / '
-            = ci.stock_count
-          %td
-            = number_to_currency ci.paid_and_collected_by_item
-            paid, 
-            = number_to_currency ci.owed_by_item
-            owed
-            - if ci.owed_by_item > 0
-              = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(@consigner)
-          %td= number_to_currency ci.potential_commission
-          %td= number_to_currency ci.our_comission
-          %td= link_to 'Details', admin_record_path(ci.record)
-          %td= link_to 'Edit / Restock', edit_admin_consignment_item_path(ci)
-          %td= link_to 'Destroy', [:admin, ci], :confirm => 'Are you sure?', :method => :delete
-      - else
-        %tr
-          %td
-            Other item
-            - if ci.item_image
-              = image_tag ci.item_image.url(:box)
-          %td
-            = ci.full_title
-            .price
-              retails for
-              = number_to_currency ci.price
-          %td
-            = ci.copies_sold
-            = ' / '
-            = ci.stock_count
-          %td
-            = number_to_currency ci.paid_and_collected_by_item
-            paid, 
-            = number_to_currency ci.owed_by_item
-            owed
-            - if ci.owed_by_item > 0
-              = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(@consigner)
-          %td= number_to_currency ci.potential_commission
-          %td= number_to_currency ci.our_comission
-          %td= link_to 'Details', admin_record_path(ci)
-          %td= link_to 'Edit / Restock', edit_admin_consignment_item_path(ci)
-          %td= link_to 'Destroy', [:admin, ci], :confirm => 'Are you sure?', :method => :delete
+  - unless @consigner.consignment_items.reject{|x| !x.in_stock? }.empty?
+    #in_stock= render :partial => 'consigner_table', :locals => {:title => 'Items, in-stock', :consignment_items  => @consigner.consignment_items.reject{|x| !x.in_stock? } }
+  - unless @consigner.consignment_items.reject{|x| x.in_stock? }.empty?
+    #sold= render :partial => 'consigner_table', :locals => {:title => 'Sold items, no longer in-stock', :consignment_items  => @consigner.consignment_items.reject{|x| x.in_stock? } }
 = link_to 'Add book', new_book_admin_consigner_path(@consigner)
 \|
 = link_to 'Add vinyl', new_record_admin_consigner_path(@consigner)

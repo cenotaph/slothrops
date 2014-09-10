@@ -114,6 +114,12 @@ h3.payments {
 .admin_content {
   padding-bottom: 20px;
   border-bottom: 1px solid black;
+  td {
+    span.red {
+      color: red;
+      font-weight: bold;
+    }
+  }
 }
 
 .payments {

@@ -1,0 +1,98 @@
+%h3= title
+%p To re-stock, edit and add the number of new copies to the original stock count.
+%table
+  %thead
+    %th Type
+    %th Item
+    %th Sold
+    %th Finances
+    %th Slothrop's commission (potential)
+    %th Slothrop's commission actual
+    %th
+    %th
+  - consignment_items.sort{|a,b| [a.copies_sold,b.created_at] <=> [b.copies_sold, a.created_at]}.each do |ci|
+    - if !ci.edition.nil?
+      %tr
+        %td
+          Book
+          - if ci.edition.image
+            = image_tag ci.edition.image.url(:box)
+        %td
+          = ci.author
+          = ' / '
+          = ci.title
+          .sale_comment.sale_list_comment= "#{pluralize(ci.remaining, 'copy')} left"
+          .price
+            retails for 
+            = number_to_currency ci.price, :unit => "&euro;".html_safe
+        %td
+          = ci.copies_sold
+          = ' / '
+          = ci.stock_count
+        %td
+          = raw(number_to_currency(ci.paid_and_collected_by_item, :unit => "&euro;".html_safe))
+          paid, 
+          %span{:class => ci.owed_by_item > 0 ? :red : false}= raw(number_to_currency(ci.owed_by_item, :unit => "&euro;".html_safe))
+          owed
+          - if ci.owed_by_item > 0
+            = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(@consigner)
+        %td= number_to_currency ci.potential_commission, :unit => "&euro;".html_safe
+        %td= number_to_currency ci.our_comission, :unit => "&euro;".html_safe
+        %td= link_to 'Details', admin_book_path(ci.edition.book)
+        %td= link_to 'Edit / Restock', edit_admin_consignment_item_path(ci)
+        %td= link_to 'Destroy', [:admin, ci], :data => {:confirm => 'Are you sure?'}, :method => :delete
+    - elsif !ci.record.nil?
+      %tr
+        %td
+          Record
+          = image_tag ci.record.image.url(:box)
+        %td
+          = ci.record.artist
+          = ' / '
+          %em= ci.record.title
+          .price
+            retails for 
+            = number_to_currency ci.price, :unit => "&euro;".html_safe
+        %td
+          = ci.copies_sold
+          = ' / '
+          = ci.stock_count
+        %td
+          = number_to_currency ci.paid_and_collected_by_item, :unit => "&euro;".html_safe
+          paid, 
+          = number_to_currency ci.owed_by_item, :unit => "&euro;".html_safe
+          owed
+          - if ci.owed_by_item > 0
+            = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(@consigner)
+        %td= number_to_currency ci.potential_commission, :unit => "&euro;".html_safe
+        %td= number_to_currency ci.our_comission, :unit => "&euro;".html_safe
+        %td= link_to 'Details', admin_record_path(ci.record)
+        %td= link_to 'Edit / Restock', edit_admin_consignment_item_path(ci)
+        %td= link_to 'Destroy', [:admin, ci], :confirm => 'Are you sure?', :method => :delete
+    - else
+      %tr
+        %td
+          Other item
+          - if ci.item_image
+            = image_tag ci.item_image.url(:box)
+        %td
+          = ci.full_title
+          .price
+            retails for
+            = number_to_currency ci.price, :unit => "&euro;".html_safe
+        %td
+          = ci.copies_sold
+          = ' / '
+          = ci.stock_count
+        %td
+          = number_to_currency ci.paid_and_collected_by_item, :unit => "&euro;".html_safe
+          paid, 
+          = number_to_currency ci.owed_by_item, :unit => "&euro;".html_safe
+          owed
+          - if ci.owed_by_item > 0
+            = link_to '[mark payment as collected]', collect_payments_admin_consigner_path(@consigner)
+        %td= number_to_currency ci.potential_commission, :unit => "&euro;".html_safe
+        %td= number_to_currency ci.our_comission, :unit => "&euro;".html_safe
+        %td= link_to 'Details', admin_record_path(ci)
+        %td= link_to 'Edit / Restock', edit_admin_consignment_item_path(ci)
+        %td= link_to 'Destroy', [:admin, ci], :confirm => 'Are you sure?', :method => :delete
