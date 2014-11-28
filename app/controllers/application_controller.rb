@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
       end
       
       if post['type'] == 'photo'
-        ph = @graph.get_object(post['object_id'])
+        ph = @graph.get_object(post['object_id']) rescue next
         Post.create(:subject => subject, :body => body,
                     :fb_id => pid, :fb_link => post['link'],
                     :remote_image_url => ph['images'].first['source'], :published => true,
