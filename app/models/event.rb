@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
   
   def happens_on?(day)
     return true if day.to_date >= start_at.to_date && day.to_date <= end_at.to_date
-    end
+  end
   
   def sortdate
     end_at.blank? ? start_at : end_at
